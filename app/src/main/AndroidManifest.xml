@@ -12,6 +12,33 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LocationAds">
         <activity
+            android:name=".ViewAds"
+            android:exported="false" />
+        <activity
+            android:name=".AddAds"
+            android:exported="false" />
+        <activity
+            android:name=".ListMenu"
+            android:exported="false" />
+        <activity
+            android:name=".AboutApp"
+            android:exported="false" />
+        <activity
+            android:name=".EditPerfilAccount"
+            android:exported="false" />
+        <activity
+            android:name=".PerfilAccount"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RecoveryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

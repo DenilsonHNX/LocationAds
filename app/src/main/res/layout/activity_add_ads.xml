@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/btnVoltar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Criar Anúncio"
+            android:textAlignment="center"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/bg_placeholder"
+            android:gravity="center"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:id="@+id/imgPreview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/btnEscolherImagem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ Selecionar imagem"
+                android:textColor="#0066FF"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+
+        <EditText
+            android:id="@+id/inputTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Título do anúncio"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/inputPreco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Preço (Kz)"
+            android:inputType="number"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="12dp"/>
+
+        <EditText
+            android:id="@+id/inputDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:hint="Descrição do anúncio"
+            android:gravity="top"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/btnPublicar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Publicar"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="#0D59EC"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
+</ScrollView>
