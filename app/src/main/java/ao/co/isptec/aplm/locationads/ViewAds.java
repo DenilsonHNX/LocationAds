@@ -1,6 +1,9 @@
 package ao.co.isptec.aplm.locationads;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +22,12 @@ public class ViewAds extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        ImageView btnVoltar = findViewById(R.id.btnVoltar);
+        btnVoltar.setOnClickListener(v -> {
+            Intent i = new Intent(this, MainActivity.class);
+            startActivity(i);
         });
     }
 }

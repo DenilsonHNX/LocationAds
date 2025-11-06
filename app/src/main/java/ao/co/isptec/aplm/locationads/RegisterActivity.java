@@ -1,6 +1,8 @@
 package ao.co.isptec.aplm.locationads;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,12 @@ public class RegisterActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        TextView toLogin_btn = findViewById(R.id.toLogin_btn);
+        toLogin_btn.setOnClickListener(v -> {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
         });
     }
 }

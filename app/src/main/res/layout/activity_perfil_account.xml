@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PerfilAccount"
-    android:padding="20dp"
+    android:padding="40dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -59,6 +59,7 @@
                 android:text="Informações sobre a conta"/>
 
             <ImageView
+                android:id="@+id/toEditPerfil"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/ic_edit"/>
@@ -214,15 +215,14 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:id="@+id/btn_Logoff"
-        android:gravity="end"
-        android:layout_marginTop="50dp"
-        android:textColor="#FF0C0C"
-        android:textSize="20sp"
-        android:text="Sair da conta"/>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/btnLogOut"
+        android:layout_gravity="end"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/ic_logout" />
 
 
 

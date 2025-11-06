@@ -13,6 +13,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -28,13 +29,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.map);
-
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         ImageView btnToPerfil = findViewById(R.id.btnToPerfil);
         btnToPerfil.setOnClickListener(v -> {
@@ -59,15 +56,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent i = new Intent(this, AddAds.class);
             startActivity(i);
         });
+
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // exemplo: mostrar Luanda
-        LatLng luanda = new LatLng(-8.838333, 13.234444);
-
-        mMap.addMarker(new MarkerOptions().position(luanda).title("Luanda"));
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12));
     }
 }

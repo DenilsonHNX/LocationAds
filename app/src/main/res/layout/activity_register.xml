@@ -47,21 +47,34 @@
         android:textColor="#000"
         android:drawablePadding="10dp" />
 
+    <EditText
+        android:id="@+id/input_email"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="EMAIL"
+        android:layout_marginTop="20dp"
+        android:padding="15dp"
+        android:background="@drawable/edittext_background"
+        android:inputType="textEmailAddress"
+        android:textColorHint="#999"
+        android:textColor="#000"
+        android:drawablePadding="10dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/email_input"
+            android:id="@+id/email_otp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="55dp"
-            android:hint="Email"
+            android:hint="OTP"
             android:layout_marginTop="20dp"
             android:padding="15dp"
             android:background="@drawable/edittext_background"
-            android:inputType="textEmailAddress"
+            android:inputType="number"
             android:textColorHint="#999"
             android:textColor="#000"
             android:drawablePadding="10dp" />
@@ -78,20 +91,6 @@
             android:textSize="14sp"
             android:background="@drawable/button_background" />
     </LinearLayout>
-
-
-    <EditText
-        android:id="@+id/verify_email"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:hint="OTP"
-        android:layout_marginTop="20dp"
-        android:padding="15dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="number"
-        android:textColorHint="#999"
-        android:textColor="#000"
-        android:drawablePadding="10dp" />
 
     <EditText
         android:id="@+id/firstPassword_input"
@@ -124,7 +123,7 @@
         android:layout_height="55dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
         android:textSize="20sp"
         android:text="Criar conta"
@@ -135,8 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="40dp">
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
