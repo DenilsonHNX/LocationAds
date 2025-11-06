@@ -15,13 +15,7 @@
         android:gravity="center_vertical"
         android:padding="8dp">
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:src="@drawable/ic_account"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter" />
+
 
         <TextView
             android:layout_width="0dp"
@@ -45,13 +39,12 @@
         android:background="#F3F3F3"
         android:orientation="vertical">
 
-        <TextView
+
+        <fragment
+            android:id="@+id/map"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MAPA"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -93,73 +86,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/bg_card"
-                android:padding="8dp"
-                android:layout_marginBottom="10dp">
-
-                <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:scaleType="centerCrop"
-                    android:layout_marginEnd="10dp"/>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Anuncio 1"
-                        android:textStyle="bold"
-                        android:textSize="18sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Informação sobre o anuncio"
-                        android:textSize="14sp"
-                        android:textColor="#555"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="48dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center">
-
-                    <ImageButton
-                        android:id="@+id/btnGuardar1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_save"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Guardar"
-                        android:layout_marginBottom="6dp"/>
-
-                    <ImageButton
-                        android:id="@+id/btnPartilhar1"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_share"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="Partilhar"/>
-                </LinearLayout>
-            </LinearLayout>
-
             <include layout="@layout/item_anuncio" />
-
-            <ImageView
-                android:layout_width="107dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:src="@drawable/ic_add" />
 
         </LinearLayout>
 
@@ -184,7 +111,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"/>
 
         <ImageButton
-            android:id="@+id/btnLista"
+            android:id="@+id/btnToList"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -192,8 +119,14 @@
             android:contentDescription="Lista"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
+        <ImageView
+            android:id="@+id/btnToAddAds"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_add" />
+
         <ImageButton
-            android:id="@+id/btnIdeia"
+            android:id="@+id/btnToIdea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -201,6 +134,14 @@
             android:contentDescription="Ideia"
             android:background="?attr/selectableItemBackgroundBorderless" />
 
+        <ImageView
+            android:id="@+id/btnToPerfil"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_account"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
 
     </LinearLayout>
 
