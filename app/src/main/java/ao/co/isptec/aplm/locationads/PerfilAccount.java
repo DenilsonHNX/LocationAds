@@ -76,14 +76,22 @@ public class PerfilAccount extends AppCompatActivity {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Limpa dados de sessão, marcando isLoggedIn como false
+                SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putBoolean("isLoggedIn", false);  // Ajustado para false na saída
+                editor.remove("email"); // Opcional: remove email salvo
+                editor.apply();
+
                 // Lógica de logout, limpar sessão, etc.
-                // Depois voltar para tela de login
+                // Depois voltar para tela de login, limpando o histórico para não voltar atrás
                 Intent intent = new Intent(PerfilAccount.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // limpa histórico
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
             }
         });
+
 
         // Intent para voltar - precisa do id no XML para funcionar
         if (btnBack != null) {

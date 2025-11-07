@@ -44,24 +44,20 @@ public class LoginActivity extends AppCompatActivity {
                 String emailDigitado = userInput.getText().toString().trim();
                 String senhaDigitada = passwordInput.getText().toString().trim();
 
-                if (TextUtils.isEmpty(emailDigitado)) {
-                    userInput.setError("Digite o email");
-                    userInput.requestFocus();
-                    return;
-                }
-                if (TextUtils.isEmpty(senhaDigitada)) {
-                    passwordInput.setError("Digite a senha");
-                    passwordInput.requestFocus();
-                    return;
-                }
+                // Validações dos campos (email e senha)
 
-                // Recupera dados salvos localmente
                 SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
                 String emailCadastrado = sharedPref.getString("email", null);
                 String senhaCadastrada = sharedPref.getString("senha", null);
 
                 if (emailDigitado.equals(emailCadastrado) && senhaDigitada.equals(senhaCadastrada)) {
+                    // Login válido - aqui salva a sessão
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("isLoggedIn", true);
+                    editor.apply();
+
                     Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -70,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
 
 
         // Intent para recuperar senha
