@@ -1,9 +1,11 @@
 package ao.co.isptec.aplm.locationads;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,9 +28,33 @@ public class PerfilAccount extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-
-
         });
+
+        TextView tvNome = findViewById(R.id.perfilName); // Adicione esse id no XML, ou adapte
+        TextView tvEmail = findViewById(R.id.info_email);
+        TextView tvTelefone = findViewById(R.id.info_);
+        TextView tvDataCriacao = findViewById(R.id.info_dataCriancaoDaConta);
+
+        // Obtendo SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
+
+        String nome = sharedPref.getString("nomeCompleto", "Nome não definido");
+        String email = sharedPref.getString("email", "Email não definido");
+        String telefone = sharedPref.getString("telefone", "Telefone não definido");
+        String dataCriacao = sharedPref.getString("dataCriacao", "Data não definida");
+
+        // Setando os valores nos TextViews
+        // Se não tem TextView para nome no XML, será necessário adicionar um com id para mostrar.
+        if (tvNome != null) {
+            tvNome.setText(nome);
+        } else {
+            // Se não tem, pode usar o TextView equivalente:
+            // No seu XML, o TextView "NOME DO USUÁRIO" não tem id, então pode adicionar android:id="@+id/nome_usuario_textview"
+        }
+
+        tvEmail.setText(email);
+        tvTelefone.setText(telefone);
+        tvDataCriacao.setText(dataCriacao);
 
         toEditPerfil = findViewById(R.id.toEditPerfil);
         btnLogOut = findViewById(R.id.btnLogOut);

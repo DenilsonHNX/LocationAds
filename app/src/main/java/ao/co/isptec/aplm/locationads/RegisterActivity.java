@@ -11,6 +11,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -87,16 +93,28 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
 
-                SharedPreferences sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
+                String dataAtual = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
-                // Salva os dados do usuário
-                editor.putString("nomeCompleto", name);
-                editor.putString("telefone", phone);
-                editor.putString("email", email);
-                editor.putString("senha", password);  // Armazene senha com cuidado, ideal usar hash para segurança
-                // OTP pode ser ignorado aqui ou tratado separadamente, já que é para verificação
-                editor.apply();
+
+                SharedPreferences sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+                String emailExistente = sharedPref.getString("email", null);
+
+                if (emailExistente != null && emailExistente.equals(email)) {
+                    Toast.makeText(RegisterActivity.this, "Este email já está registrado.", Toast.LENGTH_LONG).show();
+                    // Não salve novamente
+                } else {
+
+                    SharedPreferences.Editor editor = sharedPref.edit();
+
+                    // Salva os dados do usuário
+                    editor.putString("nomeCompleto", name);
+                    editor.putString("telefone", phone);
+                    editor.putString("email", email);
+                    editor.putString("senha", password);  // Armazene senha com cuidado, ideal usar hash para segurança
+                    // OTP pode ser ignorado aqui ou tratado separadamente, já que é para verificação
+                    editor.putString("dataCriacao", dataAtual);
+                    editor.apply();
+                }
                 Toast.makeText(RegisterActivity.this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show();
 
 
