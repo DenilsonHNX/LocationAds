@@ -8,7 +8,8 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/btnVoltar"
@@ -26,45 +27,66 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"/>
 
-        <TextView
+        <!-- Container horizontal para os dois botões -->
+        <LinearLayout
+            android:id="@+id/selectorContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Anúncios Guardados"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp"/>
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/btnAnunciosGuardados"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="Anúncios Guardados"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/btnAnunciosCriados"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="12dp"
+                android:text="Anúncios Criados"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
 
         <include
             layout="@layout/item_anuncio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <!-- RecyclerViews para as duas listas de anúncios -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listGuardados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false" />
 
-        <TextView
-            android:layout_marginTop="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Anúncios Criados"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="12dp"/>
-
-        <include
-            layout="@layout/item_anuncio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listCriados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone" />
 
     </LinearLayout>
+
 
 </ScrollView>

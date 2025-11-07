@@ -1,6 +1,7 @@
 package ao.co.isptec.aplm.locationads;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             startActivity(i);
         });
 
-        ImageButton btnToList = findViewById(R.id.btnToList);
+        ImageView btnToList = findViewById(R.id.btnToList);
         btnToList.setOnClickListener(v -> {
             Intent i = new Intent(this, ListMenu.class);
             startActivity(i);
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Intent i = new Intent(this, AddAds.class);
             startActivity(i);
         });
-
 
     }
 

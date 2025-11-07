@@ -13,6 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class ViewAds extends AppCompatActivity {
 
+    private ImageView btnVoltar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +26,7 @@ public class ViewAds extends AppCompatActivity {
             return insets;
         });
 
-        ImageView btnVoltar = findViewById(R.id.btnVoltar);
+        btnVoltar = findViewById(R.id.btnVoltar);
         btnVoltar.setOnClickListener(v -> {
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);

@@ -19,9 +19,6 @@
             android:value="AIzaSyAqTh-pQJZZgGp-raNhdqgVsb8VV3rM-t4" />
 
         <activity
-            android:name=".MapsActivity"
-            android:exported="false" />
-        <activity
             android:name=".ViewAds"
             android:exported="false" />
         <activity

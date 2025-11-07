@@ -1,6 +1,10 @@
 package ao.co.isptec.aplm.locationads;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +23,27 @@ public class EditPerfilAccount extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        ImageView btnVoltar = findViewById(R.id.btnVoltar);
+        btnVoltar.setOnClickListener(v -> {
+            Intent i = new Intent(EditPerfilAccount.this, PerfilAccount.class);
+            startActivity(i);
+            finish();
+        });
+
+        // editar foto -> outra activity
+        TextView btnTrocarFoto = findViewById(R.id.btnTrocarFoto);
+        btnTrocarFoto.setOnClickListener(v -> {
+            // Futuramente codigo aqui
+        });
+
+        // guardar alterações
+        Button btnGuardar = findViewById(R.id.btnGuardar);
+        btnGuardar.setOnClickListener(v -> {
+            Intent i = new Intent(EditPerfilAccount.this, PerfilAccount.class);
+            startActivity(i);
+            finish();
         });
     }
 }

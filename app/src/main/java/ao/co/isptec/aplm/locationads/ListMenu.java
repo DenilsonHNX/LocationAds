@@ -30,17 +30,5 @@ public class ListMenu extends AppCompatActivity {
             startActivity(intent);
         });
 
-        ImageView toEditPerfil = findViewById(R.id.toEditPerfil);
-        toEditPerfil.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EditPerfilAccount.class);
-            startActivity(intent);
-        });
-
-        ImageView btnLogOut = findViewById(R.id.btnLogOut);
-        btnLogOut.setOnClickListener(v -> {
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);
-        });
-
     }
 }
