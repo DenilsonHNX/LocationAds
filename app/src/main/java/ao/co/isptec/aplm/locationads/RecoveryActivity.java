@@ -17,7 +17,6 @@ public class RecoveryActivity extends AppCompatActivity {
 
     private EditText userInput;
     private Button recoveryBtn;
-    private TextView toLoginBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,8 @@ public class RecoveryActivity extends AppCompatActivity {
             return insets;
         });
 
-        toLoginBtn.setOnClickListener(new View.OnClickListener() {
+        TextView toLogin_btn = findViewById(R.id.toLogin_btn);
+        toLogin_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(RecoveryActivity.this, LoginActivity.class);
