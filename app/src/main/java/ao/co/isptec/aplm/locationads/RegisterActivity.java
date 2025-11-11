@@ -95,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 String dataAtual = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
 
-
                 SharedPreferences sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                 String emailExistente = sharedPref.getString("email", null);
 
