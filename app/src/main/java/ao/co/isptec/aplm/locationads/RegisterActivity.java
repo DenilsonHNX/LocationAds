@@ -2,6 +2,7 @@ package ao.co.isptec.aplm.locationads;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,7 +96,8 @@ public class RegisterActivity extends AppCompatActivity {
                             verifyToCreateAccount = true;
                             Toast.makeText(RegisterActivity.this, "OTP enviado ao seu email!", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(RegisterActivity.this, "Erro ao enviar o cógiho OTP: " + response.message(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Erro ao enviar o código OTP: " + response.message(), Toast.LENGTH_LONG).show();
+                            Log.i("Erro: ",response.message());
                         }
                     }
                     @Override
@@ -153,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                     Toast.makeText(RegisterActivity.this, "Erro na verificação do OTP: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.i("Erro reg: ", t.getMessage());
                 }
             });
         });

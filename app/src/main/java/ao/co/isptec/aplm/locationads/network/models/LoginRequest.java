@@ -1,12 +1,10 @@
 package ao.co.isptec.aplm.locationads.network.models;
 
-public class RegisterRequest {
-    private String name;
+public class LoginRequest {
     private String email;
     private String password;
 
-    public RegisterRequest(String name, String email, String password) {
-        this.name = name;
+    public LoginRequest(String email,String password){
         this.email = email;
         this.password = password;
     }

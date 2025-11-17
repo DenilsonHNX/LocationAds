@@ -14,6 +14,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.util.Base64;
+import org.json.JSONObject;
+
 public class SplashActivity extends AppCompatActivity {
 
     private static final long SPLASH_DELAY = 1500;
@@ -23,23 +26,28 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        // Animação da logo, opcional
         ImageView logo = findViewById(R.id.logoSplash);
         Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         logo.startAnimation(fadeIn);
 
-        new Handler().postDelayed(() -> {
-            SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
-            boolean isLoggedIn = sharedPref.getBoolean("isLoggedIn", false);
+        SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String token = sharedPref.getString("token", null);
+        long expiry = sharedPref.getLong("expiry", 0);
+        long now = System.currentTimeMillis();
 
-            Intent intent;
-            if (isLoggedIn) {
-                intent = new Intent(SplashActivity.this, MainActivity.class);
-            } else {
-                intent = new Intent(SplashActivity.this, LoginActivity.class);
-            }
-            startActivity(intent);
-            finish();
-
-        }, SPLASH_DELAY);
+        Intent intent;
+        if (token != null && !token.isEmpty() && now < expiry) {
+            // Sessão válida: vai para Main
+            intent = new Intent(this, MainActivity.class);
+        } else {
+            // Sessão expirada ou sem token: vai para Login
+            intent = new Intent(this, LoginActivity.class);
+        }
+        startActivity(intent);
+        finish();
     }
+
 }
+
+

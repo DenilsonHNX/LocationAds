@@ -5,7 +5,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://backend-aplm.onrender.com/api/";
+    private static final String BASE_URL = "https://backend-aplm.onrender.com/api/docs/";
+
     private static ApiClient instance;
     private Retrofit retrofit;
 
