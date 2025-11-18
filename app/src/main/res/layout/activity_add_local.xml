@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="50dp"
+    android:padding="20dp"
+    tools:context=".AddLocal">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_back"
+        android:id="@+id/btnBack"
+        android:layout_marginBottom="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/inputNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome do Local"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card" />
+
+        <EditText
+            android:id="@+id/inputTipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tipo"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card" />
+
+        <EditText
+            android:id="@+id/inputLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Latitude"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card" />
+
+        <EditText
+            android:id="@+id/inputLongitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Longitude"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card" />
+
+        <EditText
+            android:id="@+id/inputRaio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Raio"
+            android:inputType="number"
+            android:layout_marginBottom="12dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card" />
+
+        <EditText
+            android:id="@+id/inputWifiIds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="WiFi IDs (separados por vírgula)"
+            android:layout_marginBottom="20dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Criar Local"
+            android:background="@drawable/bg_button"
+            android:id="@+id/btnAddLocal"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>

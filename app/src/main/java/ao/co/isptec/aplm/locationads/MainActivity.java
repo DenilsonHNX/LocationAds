@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         ImageView btnToAddAds = findViewById(R.id.btnToAddAds);
         btnToAddAds.setOnClickListener(v -> {
-            Intent i = new Intent(this, AddAds.class);
+            Intent i = new Intent(this, AddOpctions.class);
             startActivity(i);
         });
     }

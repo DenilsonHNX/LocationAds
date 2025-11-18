@@ -12,7 +12,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+
 public class AddAds extends AppCompatActivity {
+
+    private String inputNome, inputTipo, inputLatitude, inputLongitude, inputRaio, inputWifiIds;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +30,8 @@ public class AddAds extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        apiService = ApiClient.getInstance().getApiService();
 
         Button btnPublicar = findViewById(R.id.btnPublicar);
         btnPublicar.setOnClickListener(v -> {

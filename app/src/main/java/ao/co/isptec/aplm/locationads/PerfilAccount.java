@@ -91,7 +91,6 @@ public class PerfilAccount extends AppCompatActivity {
             }
         });
 
-
         // Intent para voltar - precisa do id no XML para funcionar
         if (btnBack != null) {
             btnBack.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +101,5 @@ public class PerfilAccount extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 }
