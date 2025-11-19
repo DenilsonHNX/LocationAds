@@ -79,8 +79,7 @@ public class PerfilAccount extends AppCompatActivity {
                 // Limpa dados de sessão, marcando isLoggedIn como false
                 SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putBoolean("isLoggedIn", false);  // Ajustado para false na saída
-                editor.remove("email"); // Opcional: remove email salvo
+                editor.clear();
                 editor.apply();
 
                 // Lógica de logout, limpar sessão, etc.
@@ -92,7 +91,6 @@ public class PerfilAccount extends AppCompatActivity {
             }
         });
 
-
         // Intent para voltar - precisa do id no XML para funcionar
         if (btnBack != null) {
             btnBack.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +101,5 @@ public class PerfilAccount extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 }

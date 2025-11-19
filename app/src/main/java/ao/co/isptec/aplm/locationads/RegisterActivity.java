@@ -2,6 +2,7 @@ package ao.co.isptec.aplm.locationads;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.RegisterRequest;
+import ao.co.isptec.aplm.locationads.network.models.VerifyEmailRequest;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,10 +33,12 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class RegisterActivity extends AppCompatActivity {
 
-
+    ApiService apiService = ApiClient.getInstance().getApiService();
     private EditText nameInput, numberInput, emailInput, emailOtpInput, firstPasswordInput, confirmPasswordInput;
     private Button btnSendCode, btnCreateAccount;
     private TextView toLoginBtn;
+
+    boolean verifyToCreateAccount = false;
 
 
     @Override
@@ -55,75 +65,101 @@ public class RegisterActivity extends AppCompatActivity {
 
         TextView toLogin_btn = findViewById(R.id.toLogin_btn);
 
-        // Enviar código OTP por email
+        // Criar conta ao clicar no botão
         btnSendCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailInput.getText().toString().trim();
-                if (!email.isEmpty()) {
-                    // Aqui adiciona lógica para enviar código OTP para o email
-                    // Pode mostrar mensagem ou bloqueios temporários dependendo da sua lógica
-                }
-            }
-        });
-
-        // Criar conta ao clicar no botão
-        btnCreateAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                // Aqui pode-se validar campos, confirmar OTP, validar senha, etc.
                 String name = nameInput.getText().toString().trim();
                 String phone = numberInput.getText().toString().trim();
                 String email = emailInput.getText().toString().trim();
-                String otp = emailOtpInput.getText().toString().trim();
                 String password = firstPasswordInput.getText().toString();
                 String confirmPassword = confirmPasswordInput.getText().toString();
 
-                // Validações básicas, depois processo de cadastro
+                // Valide os campos como já faz
 
-                if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || otp.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    // Mostrar erro
+                if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Preencha todos os campos obrigatórios.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 if (!password.equals(confirmPassword)) {
-                    // Mostrar erro de senha não confere
+                    Toast.makeText(RegisterActivity.this, "Senhas não coincidem.", Toast.LENGTH_LONG).show();
                     return;
                 }
 
-                String dataAtual = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+                RegisterRequest request = new RegisterRequest(name, email, password);
 
-                SharedPreferences sharedPref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-                String emailExistente = sharedPref.getString("email", null);
-
-                if (emailExistente != null && emailExistente.equals(email)) {
-                    Toast.makeText(RegisterActivity.this, "Este email já está registrado.", Toast.LENGTH_LONG).show();
-                    // Não salve novamente
-                } else {
-
-                    SharedPreferences.Editor editor = sharedPref.edit();
-
-                    // Salva os dados do usuário
-                    editor.putString("nomeCompleto", name);
-                    editor.putString("telefone", phone);
-                    editor.putString("email", email);
-                    editor.putString("senha", password);  // Armazene senha com cuidado, ideal usar hash para segurança
-                    // OTP pode ser ignorado aqui ou tratado separadamente, já que é para verificação
-                    editor.putString("dataCriacao", dataAtual);
-                    editor.apply();
-                }
-                Toast.makeText(RegisterActivity.this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show();
-
-
-
-                // Se tudo válido, realizar cadastro e prosseguir (exemplo: abrir LoginActivity)
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                apiService.register(request).enqueue(new retrofit2.Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            verifyToCreateAccount = true;
+                            Toast.makeText(RegisterActivity.this, "OTP enviado ao seu email!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "Erro ao enviar o código OTP: " + response.message(), Toast.LENGTH_LONG).show();
+                            Log.i("Erro: ",response.message());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(RegisterActivity.this, "Falha na conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
+
+        btnCreateAccount.setOnClickListener(v -> {
+            String name = nameInput.getText().toString().trim();
+            String phone = numberInput.getText().toString().trim();
+            String email = emailInput.getText().toString().trim();
+            String otp = emailOtpInput.getText().toString().trim();
+            String password = firstPasswordInput.getText().toString();
+            String confirmPassword = confirmPasswordInput.getText().toString();
+
+            if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || otp.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                Toast.makeText(this, "Preencha todos os campos.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(this, "Senhas não coincidem.", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
+            apiService.verifyEmail(new VerifyEmailRequest(email, otp)).enqueue(new retrofit2.Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                    if (response.isSuccessful()) {
+
+                        RegisterRequest registerRequest = new RegisterRequest(name, email, password);
+                        apiService.register(registerRequest).enqueue(new retrofit2.Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(RegisterActivity.this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(RegisterActivity.this, "Erro no registro: " + response.message(), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(RegisterActivity.this, "Erro de conexão no registro: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(RegisterActivity.this, "Código OTP inválido.", Toast.LENGTH_LONG).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(RegisterActivity.this, "Erro na verificação do OTP: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.i("Erro reg: ", t.getMessage());
+                }
+            });
+        });
+
 
         toLogin_btn.setOnClickListener(v -> {
             Intent i = new Intent(this, LoginActivity.class);

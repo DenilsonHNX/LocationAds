@@ -1,7 +1,9 @@
 package ao.co.isptec.aplm.locationads;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +11,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -23,6 +28,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import android.location.Location;
+
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -30,8 +39,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap mMap;
     private LinearLayout containerAnuncios;
     private Map<String, String> perfilUsuario = new HashMap<>();
@@ -42,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.home_activity);
+
+        // inicialize fusedLocationClient
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         containerAnuncios = findViewById(R.id.containerAnuncios);
 
@@ -85,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         ImageView btnToAddAds = findViewById(R.id.btnToAddAds);
         btnToAddAds.setOnClickListener(v -> {
-            Intent i = new Intent(this, AddAds.class);
+            Intent i = new Intent(this, AddOpctions.class);
             startActivity(i);
         });
     }
@@ -137,8 +151,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Aqui você pode pedir permissão ao usuário se ainda não tiver
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            return;
+        }
+
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(currentLocation).title("Minha localização"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+                    } else {
+                        // Localização não disponível, pode usar fallback (ex: um local fixo)
+                    }
+                });
+
+
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permissão dada, pode tentar obter localização novamente
+                if (mMap != null) {
+                    onMapReady(mMap);
+                }
+            } else {
+                Toast.makeText(this, "Permissão de localização é necessária para mostrar sua posição no mapa", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }
