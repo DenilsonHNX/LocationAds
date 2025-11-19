@@ -81,53 +81,7 @@
             android:background="@drawable/bg_card"
             android:layout_marginBottom="20dp"/>
 
-        <EditText
-            android:id="@+id/inputTipo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tipo"
-            android:layout_marginBottom="12dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card" />
 
-        <EditText
-            android:id="@+id/inputLatitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Latitude"
-            android:inputType="numberDecimal"
-            android:layout_marginBottom="12dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card" />
-
-        <EditText
-            android:id="@+id/inputLongitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Longitude"
-            android:inputType="numberDecimal"
-            android:layout_marginBottom="12dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card" />
-
-        <EditText
-            android:id="@+id/inputRaio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Raio"
-            android:inputType="number"
-            android:layout_marginBottom="12dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card" />
-
-        <EditText
-            android:id="@+id/inputWifiIds"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="WiFi IDs (separados por vírgula)"
-            android:layout_marginBottom="20dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card" />
 
 
         <Button
@@ -137,7 +91,7 @@
             android:text="Publicar"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:background="#0D59EC"
+            android:background="@drawable/bg_button"
             android:textColor="#FFFFFF"
             android:layout_marginTop="10dp"/>
 
