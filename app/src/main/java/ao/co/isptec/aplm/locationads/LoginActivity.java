@@ -77,10 +77,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
 
-
-
-
-
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -91,7 +87,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    Toast.makeText(LoginActivity.this, "Erro na conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Log.i("API_ERROR", "Erro na conexão: " + t.getLocalizedMessage());
+                    Toast.makeText(LoginActivity.this, "Erro: " + t.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         });
