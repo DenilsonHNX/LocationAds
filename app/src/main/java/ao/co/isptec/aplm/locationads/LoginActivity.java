@@ -66,11 +66,11 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("LOGIN", "Token recebido: " + token);        // Mostra o token que veio da API
                         Log.d("LOGIN", "Mensagem recebida: " + mensagem);  // Mostra qualquer mensagem recebida
 
-                        // Salve o token na SharedPreferences para sessões futuras
+                        // Salve o token usando TokenManager (centralizado)
+                        ao.co.isptec.aplm.locationads.network.singleton.TokenManager.saveToken(token, expiry);
+                        // também pode salvar email se quiser manter
                         SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putString("token", token);
-                        editor.putLong("expiry", expiry);
                         editor.putBoolean("isLoggedIn", true);
                         editor.putString("email", emailDigitado);
                         editor.apply();
