@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -34,10 +36,18 @@ import android.location.Location;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import ao.co.isptec.aplm.locationads.adapter.LocaisAdapter;
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.Local;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import retrofit2.Call;
+import retrofit2.Response;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -46,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private LinearLayout containerAnuncios;
     private Map<String, String> perfilUsuario = new HashMap<>();
+    private LocaisAdapter locaisAdapter;
+    private RecyclerView listaLocais;
+
+    ApiService apiService = ApiClient.getInstance().getApiService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         containerAnuncios = findViewById(R.id.containerAnuncios);
+
+        listaLocais = findViewById(R.id.listaLocais);
+
 
         // Recuperar perfil do usuário
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
@@ -113,6 +130,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             });
             dialog.show(getSupportFragmentManager(), "AddOptionsDialog");
+        });
+        View map = findViewById(R.id.map);
+
+        Button btnMapa = findViewById(R.id.btnMapa);
+        Button btnLocais = findViewById(R.id.btnLocais);
+        View mapView = getSupportFragmentManager().findFragmentById(R.id.map).getView();
+        RecyclerView listaLocais = findViewById(R.id.listaLocais);
+
+        btnMapa.setOnClickListener(v -> {
+            if (mapView != null) mapView.setVisibility(View.VISIBLE);
+            listaLocais.setVisibility(View.GONE);
+        });
+
+        btnLocais.setOnClickListener(v -> {
+            if (mapView != null) mapView.setVisibility(View.GONE);
+            listaLocais.setVisibility(View.VISIBLE);
+            buscarTodosLocais();
         });
     }
 
@@ -198,5 +232,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     }
+
+    private void buscarTodosLocais() {
+        apiService.getAllLocals()
+                .enqueue(new retrofit2.Callback<List<Local>>() {
+                    @Override
+                    public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            locaisAdapter.updateData(response.body());
+                        } else {
+                            Toast.makeText(MainActivity.this, "Nenhum local encontrado", Toast.LENGTH_SHORT).show();
+                            locaisAdapter.updateData(new ArrayList<>());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Local>> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "Erro ao buscar locais", Toast.LENGTH_SHORT).show();
+                        locaisAdapter.updateData(new ArrayList<>());
+                    }
+                });
+    }
+
+
+
+    private void atualizarListaLocais(List<Local> locais) {
+        if (locaisAdapter == null) {
+            locaisAdapter = new LocaisAdapter(locais);
+            listaLocais.setAdapter(locaisAdapter);
+            listaLocais.setLayoutManager(new LinearLayoutManager(this));
+        } else {
+            locaisAdapter = new LocaisAdapter(locais);
+            listaLocais.setAdapter(locaisAdapter);
+        }
+    }
+
+
 
 }

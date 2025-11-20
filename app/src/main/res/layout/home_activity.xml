@@ -28,32 +28,68 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <!-- Barra de escolha entre Mapa e Lista -->
     <LinearLayout
-        android:id="@+id/mapSection"
+        android:id="@+id/barraEscolha"
         android:layout_below="@id/header"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:background="#F3F3F3"
-        android:orientation="vertical">
+        android:layout_marginTop="16dp"
+        android:background="#EEE">
 
+        <Button
+            android:id="@+id/btnMapa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Mapa"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnLocais"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Locais Próximos"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- Barra de escolha entre Mapa e Lista já existente -->
+
+    <!-- Container para alternar entre mapa e lista -->
+    <FrameLayout
+        android:id="@+id/mapaOuListaContainer"
+        android:layout_below="@id/barraEscolha"
+        android:layout_width="match_parent"
+        android:layout_height="184dp"
+        android:layout_marginTop="15dp"
+        android:background="#F3F3F3">
+
+        <!-- MAPA: Fragment Google Maps -->
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="473dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:visibility="visible" />
 
-    </LinearLayout>
+        <!-- LISTA: RecyclerView para mostrar os locais, inicialmente oculto -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listaLocais"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
 
     <LinearLayout
         android:id="@+id/localizacao"
-        android:layout_below="@id/mapSection"
+        android:layout_below="@id/mapaOuListaContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

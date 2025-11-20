@@ -1,158 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:layout_margin="30dp">
+    android:fillViewport="true"
+    android:background="@color/background">
 
-    <TextView
-        android:id="@+id/titulo"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:gravity="center"
-        android:text="LocationAds"
-        android:textColor="@android:color/black"
-        android:textSize="38sp"
-        android:textStyle="bold" />
+        android:padding="32dp"
+        tools:context=".RegisterActivity">
 
-    <EditText
-        android:id="@+id/name_input"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:hint="Nome completo"
-        android:padding="15dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="text"
-        android:textColorHint="#999"
-        android:textColor="#000"
-        android:drawablePadding="10dp" />
+        <!-- Botão Voltar -->
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrow_back"
+            android:tint="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/number_input"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:hint="Número de telefone"
-        android:layout_marginTop="20dp"
-        android:padding="15dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="phone"
-        android:textColorHint="#999"
-        android:textColor="#000"
-        android:drawablePadding="10dp" />
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/appLogo"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/app_logo_description"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/backButton" />
 
-    <EditText
-        android:id="@+id/input_email"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:hint="EMAIL"
-        android:layout_marginTop="20dp"
-        android:padding="15dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="textEmailAddress"
-        android:textColorHint="#999"
-        android:textColor="#000"
-        android:drawablePadding="10dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/email_otp"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="55dp"
-            android:hint="OTP"
-            android:layout_marginTop="20dp"
-            android:padding="15dp"
-            android:background="@drawable/edittext_background"
-            android:inputType="number"
-            android:textColorHint="#999"
-            android:textColor="#000"
-            android:drawablePadding="10dp" />
-
-        <Button
-            android:id="@+id/btnSendCode"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="6dp"
-            android:layout_height="55dp"
-            android:text="Enviar Código"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:background="@drawable/button_background" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/firstPassword_input"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="20dp"
-        android:hint="Senha"
-        android:padding="15dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="textPassword"
-        android:textColorHint="#999"
-        android:textColor="#000"
-        android:drawableEnd="@drawable/ic_eye" />
-
-    <EditText
-        android:id="@+id/confirmFirstPassword_input"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginTop="20dp"
-        android:hint="Confirmar Senha"
-        android:padding="16dp"
-        android:background="@drawable/edittext_background"
-        android:inputType="textPassword"
-        android:textColorHint="#999"
-        android:textColor="#000"
-        android:drawableEnd="@drawable/ic_eye" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="20sp"
-        android:id="@+id/btnCreateAccount"
-        android:text="Criar conta"
-        android:textAllCaps="false"
-        android:background="@drawable/button_background" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
+        <!-- Título -->
         <TextView
+            android:id="@+id/registerTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Já tem uma conta?"
-            android:textColor="#000"
-            android:textSize="14sp" />
+            android:layout_marginTop="16dp"
+            android:text="Criação de conta"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appLogo" />
 
+        <!-- Subtítulo -->
         <TextView
-            android:id="@+id/toLogin_btn"
+            android:id="@+id/registerSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="Insira os dados para que seja criado a sua conta"
+            android:textColor="@color/textSecondary"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerTitle" />
+
+        <!-- Card de Registro -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/registerCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerSubtitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <!-- Campo Nome Completo -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Digite seu nome completo"
+                    app:errorEnabled="true"
+                    app:startIconTint="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName|textCapWords"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo Telefone -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/phoneInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Digite o número de telefone"
+                    app:errorEnabled="true"
+                    app:prefixText="+244 "
+                    app:startIconTint="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/number_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone"
+                        android:maxLength="9"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo Email -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/hint_email"
+                    app:errorEnabled="true"
+                    app:startIconTint="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo OTP e Botão -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/otpInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:hint="OTP"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="6"
+                        app:errorEnabled="true"
+                        app:startIconTint="@color/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/email_otp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="16sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSendCode"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:text="Receber Código"
+                        android:textAllCaps="false"
+                        android:textSize="13sp"
+                        app:cornerRadius="12dp"
+                        android:layout_marginBottom="5dp"
+                        app:strokeColor="@color/colorPrimary"
+                        app:strokeWidth="2dp" />
+                </LinearLayout>
+
+                <!-- Campo Senha -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Senha"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="20"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    app:helperText="Minino 6 digitos"
+                    app:helperTextEnabled="true"
+                    app:startIconTint="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/firstPassword_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLength="20"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo Confirmar Senha -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/confirmPasswordInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Confirmar a senha"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="@color/colorPrimary"
+                    app:errorEnabled="true"
+                    app:startIconTint="@color/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/confirmFirstPassword_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:maxLength="20"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="16sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <!-- Botão Criar Conta -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCreateAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/create_account"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    app:cornerRadius="12dp" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Link para Login -->
+        <LinearLayout
+            android:id="@+id/loginSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Entrar"
-            android:textColor="#ACACAC"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerCard">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Já tem uma conta?"
+                android:textColor="@color/textSecondary"
+                android:textSize="14sp" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/toLogin_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="8dp"
+                android:text="Entrar"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
