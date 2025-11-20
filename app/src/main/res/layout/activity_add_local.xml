@@ -41,26 +41,6 @@
             android:background="@drawable/bg_card" />
 
         <EditText
-            android:id="@+id/inputLatitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Latitude"
-            android:inputType="numberDecimal"
-            android:layout_marginBottom="12dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card" />
-
-        <EditText
-            android:id="@+id/inputLongitude"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Longitude"
-            android:inputType="numberDecimal"
-            android:layout_marginBottom="12dp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card" />
-
-        <EditText
             android:id="@+id/inputRaio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

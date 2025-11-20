@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
     android:padding="20dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <!-- Botão de voltar -->
         <ImageView
             android:id="@+id/btnVoltar"
             android:layout_width="32dp"
@@ -26,6 +27,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"/>
 
+        <!-- Área da Imagem -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="180dp"
@@ -37,7 +39,7 @@
                 android:id="@+id/imgPreview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/btnEscolherImagem"
@@ -48,7 +50,7 @@
                 android:textStyle="bold" />
         </FrameLayout>
 
-
+        <!-- Título -->
         <EditText
             android:id="@+id/inputTitulo"
             android:layout_width="match_parent"
@@ -57,43 +59,109 @@
             android:textSize="16sp"
             android:padding="10dp"
             android:background="@drawable/bg_card"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp" />
 
+        <!-- Conteúdo -->
         <EditText
-            android:id="@+id/inputPreco"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Preço (Kz)"
-            android:inputType="number"
-            android:textSize="16sp"
-            android:padding="10dp"
-            android:background="@drawable/bg_card"
-            android:layout_marginBottom="12dp"/>
-
-        <EditText
-            android:id="@+id/inputDescricao"
+            android:id="@+id/inputConteudo"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:hint="Descrição do anúncio"
+            android:hint="Descrição completa do anúncio"
             android:gravity="top"
             android:textSize="16sp"
             android:padding="10dp"
             android:background="@drawable/bg_card"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="12dp" />
 
+        <!-- Política: Spinner para WHITELIST/BLACKLIST -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Política"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
 
+        <Spinner
+            android:id="@+id/spinnerPolicy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
 
+        <!-- Hora início e fim -->
+        <EditText
+            android:id="@+id/inputHoraInicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora Início (ex: 2024-01-15T10:00:00.000Z)"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="12dp" />
 
+        <EditText
+            android:id="@+id/inputHoraFim"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora Fim (ex: 2024-01-15T18:00:00.000Z)"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Localidade: Spinner para locais próximos -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Localidade"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerLocais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_card"
+            android:padding="10dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnAtualizarLocais"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Buscar Locais Próximos"
+            android:background="@drawable/bg_button"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Restrições: Idade mínima (Exemplo, pode adicionar outros dinamicamente) -->
+        <EditText
+            android:id="@+id/inputIdadeMinima"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Idade mínima (ex: 18)"
+            android:inputType="number"
+            android:textSize="16sp"
+            android:padding="10dp"
+            android:background="@drawable/bg_card"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Botão de publicar -->
         <Button
             android:id="@+id/btnPublicar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:background="@drawable/bg_button"
             android:text="Publicar"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:background="@drawable/bg_button"
-            android:textColor="#FFFFFF"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 </ScrollView>

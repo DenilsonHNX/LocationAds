@@ -1,5 +1,7 @@
 package ao.co.isptec.aplm.locationads.network.models;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 public class Local {
@@ -26,4 +28,9 @@ public class Local {
         this.raio = raio;
         this.wifiIds = wifiIds;
     }
+
+    public String getNome(){
+        return this.nome;
+    }
+
 }

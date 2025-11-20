@@ -1,5 +1,7 @@
 package ao.co.isptec.aplm.locationads.network.singleton;
 
+import android.content.SharedPreferences;
+
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -8,8 +10,7 @@ import java.util.concurrent.TimeUnit;
 import ao.co.isptec.aplm.locationads.network.singleton.TokenInterceptor;
 
 public class ApiClient {
-    private static final String BASE_URL = "https://backend-aplm.onrender.com/api/docs/";
-
+    private static final String BASE_URL = "http://localhost:3001/api/";
     private static ApiClient instance;
     private Retrofit retrofit;
 

@@ -3,12 +3,14 @@ package ao.co.isptec.aplm.locationads;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresPermission;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -18,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.gson.Gson;
 
 import java.util.Arrays;
 import java.util.List;
@@ -92,7 +95,7 @@ public class AddLocal extends AppCompatActivity {
             List<String> wifiIds = wifiIdsStr.isEmpty() ? null : Arrays.asList(wifiIdsStr.split(",\\s*"));
 
             Local novoLocal = new Local(nome, tipo, currentLatitude, currentLongitude, raio, wifiIds);
-
+            Log.d("DEBUG_LOCAL", new Gson().toJson(novoLocal));
             apiService.addLocal(novoLocal).enqueue(new Callback<Local>() {
                 @Override
                 public void onResponse(Call<Local> call, Response<Local> response) {
@@ -100,6 +103,7 @@ public class AddLocal extends AppCompatActivity {
                         Toast.makeText(AddLocal.this, "Local adicionado com sucesso!", Toast.LENGTH_SHORT).show();
                         finish();
                     } else {
+                        Log.e("API_ERROR", "Erro ao adicionar local: " + response.code() + " - " + response.message());
                         Toast.makeText(AddLocal.this, "Falha ao adicionar local", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -124,6 +128,7 @@ public class AddLocal extends AppCompatActivity {
         }
     }
 
+    @RequiresPermission(allOf = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION})
     private void fetchLocation() {
         fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
             if (location != null) {
@@ -145,6 +150,16 @@ public class AddLocal extends AppCompatActivity {
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_LOCATION) {
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
                 fetchLocation();
             } else {
                 Toast.makeText(this, "Permissão de localização negada", Toast.LENGTH_SHORT).show();

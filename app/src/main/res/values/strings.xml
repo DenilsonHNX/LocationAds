@@ -1,3 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
     <string name="app_name">LocationAds</string>
+    <string name="app_logo_description">Logo do aplicativo</string>
+
+    <!-- Login -->
+    <string name="login_subtitle">Faça login para continuar</string>
+    <string name="hint_username">Usuário</string>
+    <string name="hint_password">Senha</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="login_button">Entrar</string>
+    <string name="or">OU</string>
+    <string name="no_account">Não tem uma conta?</string>
+    <string name="create_account">Criar conta</string>
+
+    <!-- Recuperação de Senha -->
+    <string name="forgot_password_title">Esqueceu a senha?</string>
+    <string name="forgot_password_description">Insira seu e-mail no campo abaixo para receber o código de recuperação e alterar sua senha</string>
+    <string name="hint_email">Digite seu e-mail</string>
+    <string name="send_recovery_code">Enviar código</string>
+    <string name="recovery_info">Você receberá um e-mail com instruções para redefinir sua senha</string>
+    <string name="remember_password">Lembrou sua senha?</string>
+    <string name="back_to_login">Entrar</string>
+    <string name="back">Voltar</string>
+    <string name="email_icon_description">Ícone de e-mail</string>
+    <string name="info">Informação</string>
+
+    <!-- Register -->
+    <string name="create_account_title">Criar Conta</string>
+    <string name="register_subtitle">Preencha os dados abaixo para começar</string>
+    <string name="hint_full_name">Nome completo</string>
+    <string name="hint_phone">Número de telefone</string>
+    <string name="hint_otp">Código OTP</string>
+    <string name="send_code">Enviar Código</string>
+    <string name="hint_confirm_password">Confirmar senha</string>
+    <string name="password_requirements">Mínimo 6 caracteres</string>
+    <string name="accept_terms">Aceito os termos e condições</string>
+    <string name="already_have_account">Já tem uma conta?</string>
+    <string name="login">Entrar</string>
+
+    <!-- Validações Gerais -->
+    <string name="error_empty_username">Por favor, insira seu e-mail</string>
+    <string name="error_empty_password">Por favor, insira sua senha</string>
+    <string name="error_empty_email">Por favor, insira seu e-mail</string>
+    <string name="error_invalid_email">E-mail inválido</string>
+    <string name="error_invalid_credentials">E-mail ou senha incorretos</string>
+    <string name="error_password_too_short">A senha deve ter no mínimo 6 caracteres</string>
+
+    <!-- Validações Register -->
+    <string name="error_empty_name">Por favor, insira seu nome completo</string>
+    <string name="error_empty_phone">Por favor, insira seu telefone</string>
+    <string name="error_invalid_phone">Número de telefone inválido</string>
+    <string name="error_empty_otp">Por favor, insira o código OTP</string>
+    <string name="error_invalid_otp">Código OTP deve ter 6 dígitos</string>
+    <string name="error_passwords_dont_match">As senhas não coincidem</string>
+    <string name="error_accept_terms">Você deve aceitar os termos e condições</string>
+    <string name="error_email_already_exists">Este e-mail já está cadastrado</string>
+
+    <!-- Mensagens de Sucesso -->
+    <string name="otp_sent_success">Código enviado para seu e-mail!</string>
+    <string name="register_success">Conta criada com sucesso!</string>
+    <string name="recovery_email_sent">E-mail de recuperação enviado com sucesso!</string>
+
+    <!-- Mensagens de Erro -->
+    <string name="error_register_failed">Erro ao criar conta. Tente novamente.</string>
+    <string name="error_sending_email">Erro ao enviar e-mail. Tente novamente.</string>
 </resources>
