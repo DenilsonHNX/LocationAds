@@ -46,8 +46,11 @@ public interface ApiService {
     Call<Ads> addAd(@Body Ads ad);
 
     @Multipart
-    @POST("/upload/image")  // Ajuste a URL conforme seu endpoint real
+    @POST("messages/upload-image")  // Ajuste conforme o endpoint que você criar
     Call<UploadResponse> uploadImage(@Part MultipartBody.Part image);
+
+    @GET("locais/user/{userId}")
+    Call<List<Local>> getLocaisByUser(@Path("userId") int userId);
 
 
 
