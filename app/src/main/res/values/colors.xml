@@ -21,4 +21,6 @@
     <!-- Cores de status -->
     <color name="error">#D32F2F</color>
     <color name="success">#388E3C</color>
+    <color name="warning">#F57C00</color>
+    <color name="info">#1976D2</color>
 </resources>

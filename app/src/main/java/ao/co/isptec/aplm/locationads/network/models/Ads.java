@@ -1,30 +1,85 @@
 package ao.co.isptec.aplm.locationads.network.models;
 
+import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 public class Ads {
+    @SerializedName("titulo")
     private String titulo;
+
+    @SerializedName("conteudo")
     private String conteudo;
+
+    @SerializedName("autorId")
     private int autorId;
-    private String localNome;
+
+    @SerializedName("localId")  // ← MUDOU de localNome para localId
+    private int localId;
+
+    @SerializedName("policy")
     private String policy;
+
+    @SerializedName("imagem")
     private String imagem;
-    private Map<String, Object> restricoes;  // para permitir propriedades dinâmicas variadas
-    private String horaInicio;  // ISO 8601 UTC
+
+    @SerializedName("restricoes")
+    private Map<String, Object> restricoes;
+
+    @SerializedName("horaInicio")
+    private String horaInicio;
+
+    @SerializedName("horaFim")
     private String horaFim;
 
-    public Ads(String titulo, String conteudo, int autorId, String localNome, String policy,
-               Map<String, Object> restricoes, String horaInicio, String horaFim, String imagem) {
+    // Construtor corrigido com a ordem correta dos parâmetros
+    public Ads(String titulo, String conteudo, int autorId, int localId,
+               String policy, Map<String, Object> restricoes, String imagem,
+               String horaInicio, String horaFim) {
         this.titulo = titulo;
         this.conteudo = conteudo;
         this.autorId = autorId;
-        this.localNome = localNome;
+        this.localId = localId;
         this.policy = policy;
         this.restricoes = restricoes;
+        this.imagem = imagem;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
-        this.imagem = imagem;
     }
 
+    // Getters
+    public String getTitulo() {
+        return titulo;
+    }
 
+    public String getConteudo() {
+        return conteudo;
+    }
+
+    public int getAutorId() {
+        return autorId;
+    }
+
+    public int getLocalId() {
+        return localId;
+    }
+
+    public String getPolicy() {
+        return policy;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public Map<String, Object> getRestricoes() {
+        return restricoes;
+    }
+
+    public String getHoraInicio() {
+        return horaInicio;
+    }
+
+    public String getHoraFim() {
+        return horaFim;
+    }
 }
