@@ -20,16 +20,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
     private static final String TAG = "ApiClient";
-
-    // IMPORTANTE: A URL DEVE terminar com /
-    // Se seus endpoints são /api/login use /api/
     private static final String BASE_URL = "https://backend-aplm.onrender.com/api/";
 
     private static ApiClient instance;
     private Retrofit retrofit;
 
     private ApiClient() {
-        // Interceptor personalizado para logging (substitui HttpLoggingInterceptor)
+
         Interceptor loggingInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
