@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         containerAnuncios = findViewById(R.id.containerAnuncios);
         listaLocais = findViewById(R.id.listaLocais);
-
+        //Recuperar abaixo
         // Recuperar perfil do usuário
         SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
         String perfilJson = prefs.getString("perfil_usuario", "{}");
