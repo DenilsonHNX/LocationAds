@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -13,11 +13,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 public class PerfilAccount extends AppCompatActivity {
 
-    private ImageView toEditPerfil;
-    private ImageView btnLogOut;
-    private ImageView btnBack;
+    private FloatingActionButton toEditPerfil;
+    private ImageButton btnLogOut;
+    private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,10 @@ public class PerfilAccount extends AppCompatActivity {
             return insets;
         });
 
-        TextView tvNome = findViewById(R.id.perfilName); // Adicione esse id no XML, ou adapte
+        // Obter referências das views
+        TextView tvNome = findViewById(R.id.perfilName);
         TextView tvEmail = findViewById(R.id.info_email);
-        TextView tvTelefone = findViewById(R.id.info_);
+        TextView tvTelefone = findViewById(R.id.info_phone);  // ✅ CORRIGIDO!
         TextView tvDataCriacao = findViewById(R.id.info_dataCriancaoDaConta);
 
         // Obtendo SharedPreferences
@@ -44,61 +47,57 @@ public class PerfilAccount extends AppCompatActivity {
         String dataCriacao = sharedPref.getString("dataCriacao", "Data não definida");
 
         // Setando os valores nos TextViews
-        // Se não tem TextView para nome no XML, será necessário adicionar um com id para mostrar.
         if (tvNome != null) {
             tvNome.setText(nome);
-        } else {
-            // Se não tem, pode usar o TextView equivalente:
-            // No seu XML, o TextView "NOME DO USUÁRIO" não tem id, então pode adicionar android:id="@+id/nome_usuario_textview"
         }
 
-        tvEmail.setText(email);
-        tvTelefone.setText(telefone);
-        tvDataCriacao.setText(dataCriacao);
+        if (tvEmail != null) {
+            tvEmail.setText(email);
+        }
 
+        if (tvTelefone != null) {
+            tvTelefone.setText(telefone);
+        }
+
+        if (tvDataCriacao != null) {
+            tvDataCriacao.setText(dataCriacao);
+        }
+
+        // Botões
         toEditPerfil = findViewById(R.id.toEditPerfil);
         btnLogOut = findViewById(R.id.btnLogOut);
-        // Não há id no ImageView com ic_back, precisaria adicionar para detectar clique, caso queira
-        // Exemplo: android:id="@+id/btnBack"
-        // Aqui supondo que você adicionou esse id no XML
         btnBack = findViewById(R.id.btnBack);
 
         // Intent para editar perfil
-        toEditPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (toEditPerfil != null) {
+            toEditPerfil.setOnClickListener(v -> {
                 Intent intent = new Intent(PerfilAccount.this, EditPerfilAccount.class);
                 startActivity(intent);
-            }
-        });
+            });
+        }
 
         // Intent para logout
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Limpa dados de sessão, marcando isLoggedIn como false
-                SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
+        if (btnLogOut != null) {
+            btnLogOut.setOnClickListener(v -> {
+                // Limpa dados de sessão
+                SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.apply();
 
-                // Lógica de logout, limpar sessão, etc.
-                // Depois voltar para tela de login, limpando o histórico para não voltar atrás
+                // Voltar para tela de login
                 Intent intent = new Intent(PerfilAccount.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
-            }
-        });
+            });
+        }
 
-        // Intent para voltar - precisa do id no XML para funcionar
+        // Intent para voltar
         if (btnBack != null) {
-            btnBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Fecha essa activity para voltar à anterior
-                    finish();
-                }
+            btnBack.setOnClickListener(v -> {
+                // Fecha essa activity para voltar à anterior
+                finish();
             });
         }
     }

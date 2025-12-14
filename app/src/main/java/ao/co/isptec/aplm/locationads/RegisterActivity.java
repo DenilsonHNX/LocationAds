@@ -2,168 +2,301 @@ package ao.co.isptec.aplm.locationads;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.util.Patterns;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.RegisterRequest;
 import ao.co.isptec.aplm.locationads.network.models.VerifyEmailRequest;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    ApiService apiService = ApiClient.getInstance().getApiService();
-    private EditText nameInput, numberInput, emailInput, emailOtpInput, firstPasswordInput, confirmPasswordInput;
-    private Button btnSendCode, btnCreateAccount;
-    private TextView toLoginBtn;
+    private static final String TAG = "RegisterActivity";
 
-    boolean verifyToCreateAccount = false;
+    // API Service
+    private ApiService apiService;
 
+    // Views - EditTexts
+    private TextInputEditText nameInput;
+    private TextInputEditText phoneInput;
+    private TextInputEditText emailInput;
+    private TextInputEditText passwordInput;
+    private TextInputEditText confirmPasswordInput;
+
+    // Views - InputLayouts
+    private TextInputLayout nameInputLayout;
+    private TextInputLayout phoneInputLayout;
+    private TextInputLayout emailInputLayout;
+    private TextInputLayout passwordInputLayout;
+    private TextInputLayout confirmPasswordInputLayout;
+
+    // Views - Buttons
+    private MaterialButton btnCreateAccount;
+    private ImageButton backButton;
+
+    // Estado
+    private boolean isLoading = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
+        initApiService();
+        initViews();
+        setupListeners();
+    }
+
+    private void initApiService() {
+        apiService = ApiClient.getInstance().getApiService();
+    }
+
+    private void initViews() {
+        // EditTexts
         nameInput = findViewById(R.id.name_input);
-        numberInput = findViewById(R.id.number_input);
+        phoneInput = findViewById(R.id.number_input);
         emailInput = findViewById(R.id.input_email);
-        emailOtpInput = findViewById(R.id.email_otp);
-        firstPasswordInput = findViewById(R.id.firstPassword_input);
+        passwordInput = findViewById(R.id.firstPassword_input);
         confirmPasswordInput = findViewById(R.id.confirmFirstPassword_input);
 
-        btnSendCode = findViewById(R.id.btnSendCode);
+        // InputLayouts
+        nameInputLayout = findViewById(R.id.nameInputLayout);
+        phoneInputLayout = findViewById(R.id.phoneInputLayout);
+        emailInputLayout = findViewById(R.id.emailInputLayout);
+        passwordInputLayout = findViewById(R.id.passwordInputLayout);
+        confirmPasswordInputLayout = findViewById(R.id.confirmPasswordInputLayout);
+
+        // Buttons
         btnCreateAccount = findViewById(R.id.btnCreateAccount);
-        toLoginBtn = findViewById(R.id.toLogin_btn);
+        backButton = findViewById(R.id.backButton);
+    }
 
-        TextView toLogin_btn = findViewById(R.id.toLogin_btn);
+    private void setupListeners() {
+        // Botão para criar conta
+        btnCreateAccount.setOnClickListener(v -> handleCreateAccount());
 
-        // Criar conta ao clicar no botão
-        btnSendCode.setOnClickListener(new View.OnClickListener() {
+        // Botão voltar
+        backButton.setOnClickListener(v -> finish());
+
+        // Link para ir ao login
+        findViewById(R.id.toLogin_btn).setOnClickListener(v -> {
+            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        });
+    }
+
+    private void handleCreateAccount() {
+        if (isLoading) return;
+
+        clearErrors();
+
+        // Obter dados
+        String name = nameInput.getText().toString().trim();
+        String phone = phoneInput.getText().toString().trim();
+        String email = emailInput.getText().toString().trim();
+        String password = passwordInput.getText().toString().trim();
+        String confirmPassword = confirmPasswordInput.getText().toString().trim();
+
+        // Validar todos os campos
+        if (!validateAllFields(name, phone, email, password, confirmPassword)) {
+            return;
+        }
+
+        // Criar conta
+        createAccount(name, email, password);
+    }
+
+    private boolean validateAllFields(String name, String phone, String email,
+                                      String password, String confirmPassword) {
+        boolean isValid = true;
+
+        // Validar nome
+        if (TextUtils.isEmpty(name)) {
+            nameInputLayout.setError(getString(R.string.error_empty_name));
+            if (isValid) nameInput.requestFocus();
+            isValid = false;
+        } else if (name.length() < 3) {
+            nameInputLayout.setError("Nome deve ter pelo menos 3 caracteres");
+            if (isValid) nameInput.requestFocus();
+            isValid = false;
+        }
+
+        // Validar telefone
+        if (TextUtils.isEmpty(phone)) {
+            phoneInputLayout.setError(getString(R.string.error_empty_phone));
+            if (isValid) phoneInput.requestFocus();
+            isValid = false;
+        } else if (!isValidPhone(phone)) {
+            phoneInputLayout.setError(getString(R.string.error_invalid_phone));
+            if (isValid) phoneInput.requestFocus();
+            isValid = false;
+        }
+
+        // Validar email
+        if (TextUtils.isEmpty(email)) {
+            emailInputLayout.setError(getString(R.string.error_empty_email));
+            if (isValid) emailInput.requestFocus();
+            isValid = false;
+        } else if (!isValidEmail(email)) {
+            emailInputLayout.setError(getString(R.string.error_invalid_email));
+            if (isValid) emailInput.requestFocus();
+            isValid = false;
+        }
+
+        // Validar senha
+        if (TextUtils.isEmpty(password)) {
+            passwordInputLayout.setError(getString(R.string.error_empty_password));
+            if (isValid) passwordInput.requestFocus();
+            isValid = false;
+        } else if (password.length() < 6) {
+            passwordInputLayout.setError(getString(R.string.error_password_too_short));
+            if (isValid) passwordInput.requestFocus();
+            isValid = false;
+        }
+
+        // Validar confirmação de senha
+        if (TextUtils.isEmpty(confirmPassword)) {
+            confirmPasswordInputLayout.setError("Por favor, confirme sua senha");
+            if (isValid) confirmPasswordInput.requestFocus();
+            isValid = false;
+        } else if (!password.equals(confirmPassword)) {
+            confirmPasswordInputLayout.setError(getString(R.string.error_passwords_dont_match));
+            if (isValid) confirmPasswordInput.requestFocus();
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private void createAccount(String name, String email, String password) {
+        setLoadingState(true);
+
+        RegisterRequest registerRequest = new RegisterRequest(name, email, password);
+
+        Log.d(TAG, "Criando conta para: " + email);
+
+        apiService.register(registerRequest).enqueue(new Callback<Void>() {
             @Override
-            public void onClick(View v) {
-                String name = nameInput.getText().toString().trim();
-                String phone = numberInput.getText().toString().trim();
-                String email = emailInput.getText().toString().trim();
-                String password = firstPasswordInput.getText().toString();
-                String confirmPassword = confirmPasswordInput.getText().toString();
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                setLoadingState(false);
 
-                // Valide os campos como já faz
-
-                if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "Preencha todos os campos obrigatórios.", Toast.LENGTH_LONG).show();
-                    return;
+                if (response.isSuccessful()) {
+                    handleRegistrationSuccess(email);
+                } else {
+                    handleRegistrationError(response.code(), response.message());
                 }
-
-                if (!password.equals(confirmPassword)) {
-                    Toast.makeText(RegisterActivity.this, "Senhas não coincidem.", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                RegisterRequest request = new RegisterRequest(name, email, password);
-
-                apiService.register(request).enqueue(new retrofit2.Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            verifyToCreateAccount = true;
-                            Toast.makeText(RegisterActivity.this, "OTP enviado ao seu email!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Erro ao enviar o código OTP: " + response.message(), Toast.LENGTH_LONG).show();
-                            Log.i("Erro: ",response.message());
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(RegisterActivity.this, "Falha na conexão: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-
-        btnCreateAccount.setOnClickListener(v -> {
-            String name = nameInput.getText().toString().trim();
-            String phone = numberInput.getText().toString().trim();
-            String email = emailInput.getText().toString().trim();
-            String otp = emailOtpInput.getText().toString().trim();
-            String password = firstPasswordInput.getText().toString();
-            String confirmPassword = confirmPasswordInput.getText().toString();
-
-            if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || otp.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(this, "Preencha todos os campos.", Toast.LENGTH_LONG).show();
-                return;
-            }
-            if (!password.equals(confirmPassword)) {
-                Toast.makeText(this, "Senhas não coincidem.", Toast.LENGTH_LONG).show();
-                return;
             }
 
-
-            apiService.verifyEmail(new VerifyEmailRequest(email, otp)).enqueue(new retrofit2.Callback<Void>() {
-                @Override
-                public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                    if (response.isSuccessful()) {
-
-                        RegisterRequest registerRequest = new RegisterRequest(name, email, password);
-                        apiService.register(registerRequest).enqueue(new retrofit2.Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
-                                if (response.isSuccessful()) {
-                                    Toast.makeText(RegisterActivity.this, "Usuário registrado com sucesso!", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                    finish();
-                                } else {
-                                    Toast.makeText(RegisterActivity.this, "Erro no registro: " + response.message(), Toast.LENGTH_LONG).show();
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
-                                Toast.makeText(RegisterActivity.this, "Erro de conexão no registro: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Código OTP inválido.", Toast.LENGTH_LONG).show();
-                    }
-                }
-                @Override
-                public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(RegisterActivity.this, "Erro na verificação do OTP: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.i("Erro reg: ", t.getMessage());
-                }
-            });
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                setLoadingState(false);
+                handleNetworkError(t);
+            }
         });
+    }
 
+    private void handleRegistrationSuccess(String email) {
+        Log.d(TAG, "Usuário registrado com sucesso");
+        Toast.makeText(this, getString(R.string.register_success),
+                Toast.LENGTH_SHORT).show();
 
-        toLogin_btn.setOnClickListener(v -> {
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);
-        });
+        // Navegar para o login com o email preenchido
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+        intent.putExtra("registered_email", email);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
+    private void handleRegistrationError(int statusCode, String message) {
+        String errorMessage;
+
+        switch (statusCode) {
+            case 400:
+                errorMessage = "Dados inválidos. Verifique os campos.";
+                break;
+            case 409:
+                errorMessage = getString(R.string.error_email_already_exists);
+                break;
+            case 500:
+                errorMessage = "Erro no servidor. Tente novamente mais tarde.";
+                break;
+            default:
+                errorMessage = getString(R.string.error_register_failed);
+        }
+
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        Log.e(TAG, "Erro no registro. Status: " + statusCode + ", Message: " + message);
+    }
+
+    private void handleNetworkError(Throwable t) {
+        String errorMessage;
+
+        if (t instanceof java.net.UnknownHostException) {
+            errorMessage = "Sem conexão com a internet";
+        } else if (t instanceof java.net.SocketTimeoutException) {
+            errorMessage = "Tempo de conexão esgotado";
+        } else {
+            errorMessage = "Erro de conexão: " + t.getMessage();
+        }
+
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        Log.e(TAG, "Erro de rede", t);
+    }
+
+    private void clearErrors() {
+        nameInputLayout.setError(null);
+        phoneInputLayout.setError(null);
+        emailInputLayout.setError(null);
+        passwordInputLayout.setError(null);
+        confirmPasswordInputLayout.setError(null);
+    }
+
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidPhone(String phone) {
+        // Validação para números angolanos (9 dígitos começando com 9)
+        return phone.matches("^9[0-9]{8}$");
+    }
+
+    private void setLoadingState(boolean loading) {
+        isLoading = loading;
+
+        btnCreateAccount.setEnabled(!loading);
+        nameInput.setEnabled(!loading);
+        phoneInput.setEnabled(!loading);
+        emailInput.setEnabled(!loading);
+        passwordInput.setEnabled(!loading);
+        confirmPasswordInput.setEnabled(!loading);
+
+        if (loading) {
+            btnCreateAccount.setText("Criando conta...");
+        } else {
+            btnCreateAccount.setText(getString(R.string.create_account));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Limpar referências
+        apiService = null;
     }
 }

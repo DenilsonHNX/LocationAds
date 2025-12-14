@@ -11,17 +11,26 @@ public class TokenInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
+        String path = original.url().encodedPath();
 
-        // Get token (may be null when user is not authenticated yet)
+        if(path.contains("/auth/login") ||
+            path.contains("/auth/register") ||
+            path.contains("/auth/verify-email") ||
+                path.contains("/auth/resend-code") ||
+                path.contains("/auth/forgot-password") ||
+                path.contains("/auth/reset-password")) {
+            return chain.proceed(original);
+        }
+
         String token = TokenManager.getToken();
 
-        // If there is a token, check validity and act if expired
-        if (token != null && !token.isEmpty()) {
+        if(token == null || token.isEmpty()) {
             if (!TokenManager.isTokenValid()) {
-                // token expired: clear and logout, but still proceed the request
                 TokenManager.clearAndLogout();
                 return chain.proceed(original);
             }
+            return chain.proceed(original);
+
         }
 
         Request.Builder builder = original.newBuilder()
@@ -30,12 +39,9 @@ public class TokenInterceptor implements Interceptor {
 
         Request request = builder.build();
         Response response = chain.proceed(request);
-
-        // If server returns 401, clear token and redirect to login
-        if (response.code() == 401) {
-            TokenManager.clearAndLogout();
-        }
-
+        // if (response.code() == 401) {
+        //    TokenManager.clearAndLogout();
+        // }
         return response;
     }
 }

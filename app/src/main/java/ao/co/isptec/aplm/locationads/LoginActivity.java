@@ -24,6 +24,7 @@ import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.LoginRequest;
 import ao.co.isptec.aplm.locationads.network.models.LoginResponse;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,6 +43,13 @@ public class LoginActivity extends AppCompatActivity {
         EditText userInput = findViewById(R.id.user_input);
         EditText passwordInput = findViewById(R.id.password_input);
         Button loginBtn = findViewById(R.id.loginBtn);
+        TextView toRegister = findViewById(R.id.toRegister_btn);
+
+        toRegister.setOnClickListener( v -> {
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
         loginBtn.setOnClickListener(v -> {
             String emailDigitado = userInput.getText().toString().trim();
@@ -61,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
 
                         String token = response.body().getToken();
+                        int userId = response.body().getUser().getId(); // ajuste conforme a resposta real
                         long expiry = getTokenExpiry(token); // Função acima
                         String mensagem = response.body().getMessage();
                         Log.d("LOGIN", "Token recebido: " + token);        // Mostra o token que veio da API
@@ -73,6 +82,9 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putBoolean("isLoggedIn", true);
                         editor.putString("email", emailDigitado);
+                        editor.putString("token", token);
+                        editor.putInt("userId", userId);
+                        TokenManager.saveToken(token, 60*10000);
                         editor.apply();
 
                         Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();

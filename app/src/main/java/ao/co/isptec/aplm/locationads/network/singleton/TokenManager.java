@@ -51,10 +51,6 @@ public class TokenManager {
         return isTokenValid();
     }
 
-    /**
-     * Clear stored token and redirect user to LoginActivity.
-     * Uses application context so it can be called from background threads.
-     */
     public static void clearAndLogout() {
         Context ctx = LocationAdsApp.getContext();
         clear();
