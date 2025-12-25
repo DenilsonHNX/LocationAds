@@ -6,6 +6,8 @@ import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.models.LoginRequest;
 import ao.co.isptec.aplm.locationads.network.models.LoginResponse;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
+import ao.co.isptec.aplm.locationads.network.models.RecoveryRequest;
+import ao.co.isptec.aplm.locationads.network.models.RecoveryResponse;
 import ao.co.isptec.aplm.locationads.network.models.RegisterRequest;
 import ao.co.isptec.aplm.locationads.network.models.UploadResponse;
 import ao.co.isptec.aplm.locationads.network.models.VerifyEmailRequest;
@@ -51,6 +53,9 @@ public interface ApiService {
 
     @GET("locais/user/{userId}")
     Call<List<Local>> getLocaisByUser(@Path("userId") int userId);
+
+    @POST("/auth/forgot-password")
+    Call<RecoveryResponse> sendRecoveryCode(@Body RecoveryRequest request);
 
 
 

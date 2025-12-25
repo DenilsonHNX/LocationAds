@@ -26,6 +26,21 @@
     <string name="email_icon_description">Ícone de e-mail</string>
     <string name="info">Informação</string>
 
+    <!-- ViewAds Activity Strings -->
+    <string name="ad_image">Imagem do anúncio</string>
+    <string name="description_icon">Ícone de descrição</string>
+    <string name="date_icon">Ícone de data</string>
+    <string name="author_icon">Ícone de autor</string>
+    <string name="favorite">Favorito</string>
+
+    <!-- MainActivity Strings -->
+    <string name="ads_icon">Ícone de anúncios</string>
+    <string name="home">Home</string>
+    <string name="list">Lista</string>
+    <string name="ideas">Ideias</string>
+    <string name="profile">Perfil</string>
+    <string name="add">Adicionar</string>
+
     <!-- Register -->
     <string name="create_account_title">Criar Conta</string>
     <string name="register_subtitle">Preencha os dados abaixo para começar</string>
@@ -174,5 +189,11 @@
     <string name="close">Fechar</string>
     <string name="add_icon">Ícone de adicionar</string>
     <string name="arrow_icon">Ícone de seta</string>
+
+    <!-- ListMenu Strings -->
+    <string name="no_saved_ads">Sem anúncios guardados</string>
+    <string name="no_created_ads">Sem anúncios criados</string>
+
+    <string name="no_ads">Sem anúncios</string>
 
 </resources>
