@@ -37,7 +37,7 @@
                     android:contentDescription="@string/back"
                     android:padding="12dp"
                     android:src="@drawable/ic_arrow_back"
-                    android:tint="@color/white" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -104,7 +104,7 @@
                             android:contentDescription="@string/profile_picture"
                             android:padding="20dp"
                             android:src="@drawable/ic_account"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -164,7 +164,7 @@
                             android:layout_height="24dp"
                             android:contentDescription="@string/account_info"
                             android:src="@drawable/ic_info"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -184,7 +184,7 @@
                             android:contentDescription="@string/edit_profile"
                             android:padding="8dp"
                             android:src="@drawable/ic_edit"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                     </LinearLayout>
 
@@ -209,7 +209,7 @@
                             android:layout_marginEnd="12dp"
                             android:contentDescription="@string/email"
                             android:src="@drawable/ic_email"
-                            android:tint="@color/textSecondary" />
+                            app:tint="@color/textSecondary" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -251,7 +251,7 @@
                             android:layout_marginEnd="12dp"
                             android:contentDescription="@string/phone"
                             android:src="@drawable/ic_phone"
-                            android:tint="@color/textSecondary" />
+                            app:tint="@color/textSecondary" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -292,7 +292,7 @@
                             android:layout_marginEnd="12dp"
                             android:contentDescription="@string/date"
                             android:src="@drawable/ic_calendar"
-                            android:tint="@color/textSecondary" />
+                            app:tint="@color/textSecondary" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -355,7 +355,7 @@
                             android:layout_height="24dp"
                             android:contentDescription="@string/activity_icon"
                             android:src="@drawable/ic_activity"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -389,8 +389,7 @@
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:contentDescription="@string/viewed"
-                                android:src="@drawable/ic_visibility"
-                                android:tint="@color/colorPrimary" />
+                                app:tint="@color/colorPrimary" />
 
                             <TextView
                                 android:id="@+id/txtVisualizados"
@@ -428,7 +427,7 @@
                                 android:layout_height="32dp"
                                 android:contentDescription="@string/saved"
                                 android:src="@drawable/ic_favorite_filled"
-                                android:tint="@color/colorPrimary" />
+                                app:tint="@color/colorPrimary" />
 
                             <TextView
                                 android:id="@+id/txtGuardados"
@@ -466,7 +465,7 @@
                                 android:layout_height="32dp"
                                 android:contentDescription="@string/published"
                                 android:src="@drawable/ic_publish"
-                                android:tint="@color/colorPrimary" />
+                                app:tint="@color/colorPrimary" />
 
                             <TextView
                                 android:id="@+id/txtPublicados"

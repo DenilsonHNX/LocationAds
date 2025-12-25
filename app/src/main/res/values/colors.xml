@@ -23,4 +23,9 @@
     <color name="success">#388E3C</color>
     <color name="warning">#F57C00</color>
     <color name="info">#1976D2</color>
+
+    <!-- Cores de Estado -->
+    <color name="colorError">#D32F2F</color>
+    <color name="colorSuccess">#4CAF50</color>
+    <color name="colorWarning">#FF9800</color>
 </resources>
