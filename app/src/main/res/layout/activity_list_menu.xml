@@ -1,92 +1,335 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main"
-    android:padding="20dp">
+    android:background="@color/background"
+    tools:context=".ListMenu">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <!-- AppBar com gradiente -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-        <ImageView
-            android:id="@+id/btnVoltar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_back"/>
-
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Anúncios"
-            android:textAlignment="center"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient_primary">
 
-        <!-- Container horizontal para os dois botões -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btnVoltar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/back"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Meus Anúncios"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- Espaço para balancear -->
+                <View
+                    android:layout_width="48dp"
+                    android:layout_height="48dp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Conteúdo Principal -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
-            android:id="@+id/selectorContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:weightSum="2"
-            android:layout_marginBottom="20dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/btnAnunciosGuardados"
-                android:layout_width="0dp"
+            <!-- Card com TabLayout -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:text="Anúncios Guardados"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
 
-            <TextView
-                android:id="@+id/btnAnunciosCriados"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="12dp"
-                android:text="Anúncios Criados"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"/>
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextColor="@color/textSecondary">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabGuardados"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:icon="@drawable/ic_favorite_filled"
+                        android:text="Guardados" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/tabCriados"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:icon="@drawable/ic_publish"
+                        android:text="Criados" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Container para alternar entre as listas -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Lista de Anúncios Guardados -->
+                <LinearLayout
+                    android:id="@+id/containerGuardados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <!-- Cabeçalho -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_favorite_filled"
+                            app:tint="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Anúncios Guardados"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtTotalGuardados"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/badge_background"
+                            android:paddingStart="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="4dp"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- RecyclerView Guardados -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/listGuardados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_anuncio" />
+
+                    <!-- Empty State Guardados -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/emptyStateGuardados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="40dp">
+
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:alpha="0.5"
+                                android:contentDescription="@string/no_saved_ads"
+                                android:src="@drawable/ic_favorite_border"
+                                app:tint="@color/textSecondary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="Nenhum anúncio guardado"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:text="Você ainda não salvou\nnenhum anúncio"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+                <!-- Lista de Anúncios Criados -->
+                <LinearLayout
+                    android:id="@+id/containerCriados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <!-- Cabeçalho -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginEnd="8dp"
+                            android:src="@drawable/ic_publish"
+                            app:tint="@color/colorPrimary" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Anúncios Criados"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtTotalCriados"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/badge_background"
+                            android:paddingStart="10dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="4dp"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!-- RecyclerView Criados -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/listCriados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_anuncio" />
+
+                    <!-- Empty State Criados -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/emptyStateCriados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="2dp"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="40dp">
+
+                            <ImageView
+                                android:layout_width="80dp"
+                                android:layout_height="80dp"
+                                android:alpha="0.5"
+                                android:contentDescription="@string/no_created_ads"
+                                android:src="@drawable/ic_publish"
+                                app:tint="@color/textSecondary" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:text="Nenhum anúncio criado"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="16sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:gravity="center"
+                                android:text="Você ainda não publicou\nnenhum anúncio"
+                                android:textColor="@color/textSecondary"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
         </LinearLayout>
 
-        <include
-            layout="@layout/item_anuncio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    </androidx.core.widget.NestedScrollView>
 
-        <!-- RecyclerViews para as duas listas de anúncios -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listGuardados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listCriados"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:visibility="gone" />
-
-    </LinearLayout>
-
-
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
