@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
     private static final String TAG = "ApiClient";
-    private static final String BASE_URL = "https://backend-aplm.onrender.com/api/";
+    private static final String BASE_URL = "https://backend-aplm-segq.onrender.com/api/docs/";
 
     private static ApiClient instance;
     private Retrofit retrofit;
@@ -85,7 +85,7 @@ public class ApiClient {
         // Configurar Gson para NÃO serializar campos null
         // Isso resolve o problema do "property id should not exist"
         Gson gson = new GsonBuilder()
-                .serializeNulls()  // NÃO incluir campos null no JSON
+                //.serializeNulls()  // NÃO incluir campos null no JSON
                 .setLenient()           // Permite JSON menos rígido
                 .create();
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -354,25 +355,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        Log.d("MainActivity", "===== MAPA PRONTO =====");
+
         // Verificar permissões de localização
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
+            Log.w("MainActivity", "⚠️ Permissões não concedidas, solicitando...");
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    new String[]{
+                            Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION
+                    },
                     LOCATION_PERMISSION_REQUEST_CODE);
             return;
         }
 
+        Log.d("MainActivity", "✅ Permissões concedidas");
+
         // Habilitar localização no mapa
         mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         // Obter última localização conhecida
+        Log.d("MainActivity", "Obtendo última localização conhecida...");
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, location -> {
                     if (location != null) {
+                        Log.d("MainActivity", "✅ Última localização obtida: Lat=" +
+                                location.getLatitude() + ", Lng=" + location.getLongitude());
+
                         LatLng currentLocation = new LatLng(
                                 location.getLatitude(),
                                 location.getLongitude()
@@ -386,11 +400,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                         locActual.setText("Lat: " + String.format("%.4f", location.getLatitude()) +
                                 ", Lng: " + String.format("%.4f", location.getLongitude()));
+
                     } else {
-                        LatLng defaultLocation = new LatLng(-8.838333, 13.234444);
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 12));
-                        locActual.setText("Localização não disponível");
+                        Log.w("MainActivity", "⚠️ Última localização é null, tentando localização em tempo real...");
+                        // Se getLastLocation retornar null, solicitar atualizações
+                        requestCurrentLocation();
                     }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("MainActivity", "❌ Erro ao obter localização: " + e.getMessage());
+                    useDefaultLocation();
                 });
     }
 
@@ -421,5 +440,91 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onResume();
         // Recarregar anúncios quando voltar para a activity
         loadAds();
+    }
+
+    /**
+     * Solicita a localização atual em tempo real (como no AddLocal)
+     */
+    private void requestCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        Log.d("MainActivity", "Solicitando localização em tempo real...");
+
+        // Criar LocationRequest
+        com.google.android.gms.location.LocationRequest locationRequest =
+                new com.google.android.gms.location.LocationRequest.Builder(
+                        com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY,
+                        5000 // 5 segundos
+                ).build();
+
+        // LocationCallback
+        com.google.android.gms.location.LocationCallback locationCallback =
+                new com.google.android.gms.location.LocationCallback() {
+                    @Override
+                    public void onLocationResult(@NonNull com.google.android.gms.location.LocationResult locationResult) {
+                        super.onLocationResult(locationResult);
+
+                        if (locationResult.getLastLocation() != null) {
+                            android.location.Location location = locationResult.getLastLocation();
+
+                            Log.d("MainActivity", "✅ Localização em tempo real obtida: Lat=" +
+                                    location.getLatitude() + ", Lng=" + location.getLongitude());
+
+                            LatLng currentLocation = new LatLng(
+                                    location.getLatitude(),
+                                    location.getLongitude()
+                            );
+
+                            // Limpar marcadores antigos e adicionar novo
+                            if (mMap != null) {
+                                mMap.clear();
+                                mMap.addMarker(new MarkerOptions()
+                                        .position(currentLocation)
+                                        .title("Minha localização"));
+
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
+
+                                locActual.setText("Lat: " + String.format("%.4f", location.getLatitude()) +
+                                        ", Lng: " + String.format("%.4f", location.getLongitude()));
+                            }
+
+                            // Parar atualizações após obter a primeira localização
+                            fusedLocationClient.removeLocationUpdates(this);
+                        }
+                    }
+                };
+
+        // Solicitar atualizações
+        fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                android.os.Looper.getMainLooper()
+        );
+    }
+
+    /**
+     * Usa localização padrão (Luanda) se não conseguir obter GPS
+     */
+    private void useDefaultLocation() {
+        Log.w("MainActivity", "⚠️ Usando localização padrão (Luanda)");
+
+        LatLng defaultLocation = new LatLng(-8.838333, 13.234444);
+
+        if (mMap != null) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(defaultLocation)
+                    .title("Luanda (localização padrão)"));
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 12));
+        }
+
+        locActual.setText("Localização padrão: Luanda");
+
+        Toast.makeText(this,
+                "Não foi possível obter sua localização. Usando Luanda como padrão.",
+                Toast.LENGTH_LONG).show();
     }
 }
