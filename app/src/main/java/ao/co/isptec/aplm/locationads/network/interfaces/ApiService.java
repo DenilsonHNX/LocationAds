@@ -58,6 +58,9 @@ public interface ApiService {
     @POST("messages")
     Call<Ads> addAd(@Body Ads ads);
 
+    @POST("https://backend-aplm-segq.onrender.com/messages")
+    Call<Ads> addAdAlternative(@Body Ads ads);
+
     /**
      * Buscar mensagens por localId (OBRIGATÓRIO)
      * Endpoint: GET /messages?localId={localId}

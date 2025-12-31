@@ -466,7 +466,7 @@ public class AddAds extends AppCompatActivity {
         Log.d(TAG, "Policy: " + policy);
         Log.d(TAG, "Restrições: " + (restricoes != null ? restricoes.toString() : "nenhuma"));
 
-        apiService.addAd(novoAnuncio).enqueue(new Callback<Ads>() {
+        apiService.addAdAlternative(novoAnuncio).enqueue(new Callback<Ads>() {
             @Override
             public void onResponse(Call<Ads> call, Response<Ads> response) {
                 setLoadingState(false);
