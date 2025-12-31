@@ -1,5 +1,6 @@
 package ao.co.isptec.aplm.locationads.network.singleton;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -24,9 +25,46 @@ public class ApiClient {
 
     private static ApiClient instance;
     private Retrofit retrofit;
+    private ApiService apiService;
+    private Context context; // ✅ ADICIONAR
 
-    private ApiClient() {
+    /**
+     * Construtor privado com Context
+     */
+    private ApiClient(Context context) { // ✅ ADICIONAR PARÂMETRO
+        this.context = context.getApplicationContext(); // ✅ ADICIONAR
+        initializeRetrofit(); // ✅ MOVER LÓGICA PARA MÉTODO SEPARADO
+    }
 
+    /**
+     * Obter instância do ApiClient (COM Context) - PREFERIDO
+     */
+    public static synchronized ApiClient getInstance(Context context) {
+        if (instance == null) {
+            instance = new ApiClient(context.getApplicationContext());
+        }
+        return instance;
+    }
+
+    /**
+     * Obter instância do ApiClient (SEM Context)
+     * Use apenas se já tiver inicializado antes com getInstance(Context)
+     */
+    public static synchronized ApiClient getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException(
+                    "ApiClient não foi inicializado. " +
+                            "Chame ApiClient.getInstance(context) primeiro."
+            );
+        }
+        return instance;
+    }
+
+    /**
+     * Inicializar Retrofit
+     */
+    private void initializeRetrofit() {
+        // Interceptor de logging
         Interceptor loggingInterceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -54,12 +92,12 @@ public class ApiClient {
                 Log.d(TAG, "Time: " + (endTime - startTime) + "ms");
                 Log.d(TAG, "Headers: " + response.headers());
 
-                // Log do corpo da resposta (cuidado: consome o body)
+                // Log do corpo da resposta
                 if (response.body() != null) {
                     String bodyString = response.body().string();
                     Log.d(TAG, "Response Body: " + bodyString);
 
-                    // Recriar o response body porque foi consumido
+                    // Recriar o response body
                     ResponseBody newBody = ResponseBody.create(
                             response.body().contentType(),
                             bodyString
@@ -75,35 +113,29 @@ public class ApiClient {
 
         // Configurar OkHttpClient
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(new TokenInterceptor())  // Seu interceptor de token
-                .addInterceptor(loggingInterceptor)      // Logging personalizado
+                .addInterceptor(new TokenInterceptor(context))  // ✅ PASSAR CONTEXT
+                .addInterceptor(loggingInterceptor)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
                 .build();
 
-        // Configurar Gson para NÃO serializar campos null
-        // Isso resolve o problema do "property id should not exist"
+        // Configurar Gson
         Gson gson = new GsonBuilder()
-                //.serializeNulls()  // NÃO incluir campos null no JSON
-                .setLenient()           // Permite JSON menos rígido
+                .setLenient()
                 .create();
 
         // Configurar Retrofit
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create(gson))  // Usar Gson customizado
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        Log.d(TAG, "ApiClient inicializado com BASE_URL: " + BASE_URL);
-    }
+        // Criar ApiService
+        apiService = retrofit.create(ApiService.class);
 
-    public static synchronized ApiClient getInstance() {
-        if (instance == null) {
-            instance = new ApiClient();
-        }
-        return instance;
+        Log.d(TAG, "ApiClient inicializado com BASE_URL: " + BASE_URL);
     }
 
     public Retrofit getRetrofit() {
@@ -111,6 +143,6 @@ public class ApiClient {
     }
 
     public ApiService getApiService() {
-        return retrofit.create(ApiService.class);
+        return apiService;
     }
 }

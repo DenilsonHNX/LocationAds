@@ -1,14 +1,10 @@
 package ao.co.isptec.aplm.locationads;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,277 +16,321 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
-public class EditPerfilAccount extends AppCompatActivity {
+import ao.co.isptec.aplm.locationads.adapter.PerfilAdapter;
+import ao.co.isptec.aplm.locationads.network.models.PerfilKeyValue;
+import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
 
-    // Views
-    private ImageButton btnVoltar;
-    private MaterialButton btnTrocarFoto;
-    private MaterialButton btnAddKeyValue;
-    private MaterialButton btnGuardar;
+public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapter.OnPropertyActionListener {
 
+    // Views - Campos básicos
     private TextInputEditText editNome;
     private TextInputEditText editEmail;
     private TextInputEditText editTelefone;
 
-    private RecyclerView rvKeyValuePairs;
-    private TextView txtTotalPropriedades;
+    // Views - Campos de propriedades chave-valor
+    private TextInputEditText editKey;
+    private TextInputEditText editValue;
+
+    // Views - Botões
+    private ImageButton btnVoltar;
+    private MaterialButton btnAddProperty;
+    private MaterialButton btnViewPublicKeys;
+    private MaterialButton btnGuardar;
+
+    // Views - RecyclerView e outros
+    private RecyclerView recyclerViewPerfil;
+    private TextView textPropertyCount;
+    private View layoutEmptyState;
 
     // Dados
-    private Map<String, String> perfilMap = new LinkedHashMap<>();
-    private KeyValueAdapter adapter;
+    private PerfilAdapter perfilAdapter;
+    private List<PerfilKeyValue> perfilList;
+    private ProfileManager profileManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_perfil_account);
 
-        // Inicializar views
         initViews();
-
-        // Configurar RecyclerView
+        profileManager = ProfileManager.getInstance(this);
+        loadUserProfile();
         setupRecyclerView();
-
-        // Carregar dados do perfil
-        carregarPerfil();
-
-        // Configurar listeners
         setupListeners();
     }
 
-    /**
-     * Inicializa todas as views
-     */
     private void initViews() {
-        btnVoltar = findViewById(R.id.btnVoltar);
-        btnTrocarFoto = findViewById(R.id.btnTrocarFoto);
-        btnAddKeyValue = findViewById(R.id.btnAddKeyValue);
-        btnGuardar = findViewById(R.id.btnGuardar);
-
+        // Campos básicos
         editNome = findViewById(R.id.editNome);
-        editEmail = findViewById(R.id.editEmail);
         editTelefone = findViewById(R.id.editTelefone);
 
-        rvKeyValuePairs = findViewById(R.id.rvKeyValuePairs);
-        txtTotalPropriedades = findViewById(R.id.txtTotalPropriedades);
+        // Campos de propriedades
+        editKey = findViewById(R.id.editKey);
+        editValue = findViewById(R.id.editValue);
+
+        // Botões
+        btnVoltar = findViewById(R.id.btnVoltar);
+        btnAddProperty = findViewById(R.id.btnAddProperty);
+        btnViewPublicKeys = findViewById(R.id.btnViewPublicKeys);
+        btnGuardar = findViewById(R.id.btnGuardar);
+
+        // RecyclerView e outros
+        recyclerViewPerfil = findViewById(R.id.recyclerViewPerfil);
+        textPropertyCount = findViewById(R.id.textPropertyCount);
+        layoutEmptyState = findViewById(R.id.layoutEmptyState);
     }
 
-    /**
-     * Configura o RecyclerView
-     */
+    private void loadUserProfile() {
+        perfilList = new ArrayList<>();
+        List<PerfilKeyValue> savedProperties = profileManager.getAllProperties();
+        if (savedProperties != null) {
+            perfilList.addAll(savedProperties);
+        }
+        updatePropertyCount();
+        updateEmptyState();
+    }
+
     private void setupRecyclerView() {
-        adapter = new KeyValueAdapter(perfilMap);
-        rvKeyValuePairs.setLayoutManager(new LinearLayoutManager(this));
-        rvKeyValuePairs.setAdapter(adapter);
+        perfilAdapter = new PerfilAdapter(perfilList, this, this);
+        recyclerViewPerfil.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewPerfil.setAdapter(perfilAdapter);
     }
 
-    /**
-     * Configura os listeners
-     */
     private void setupListeners() {
         // Botão voltar
         btnVoltar.setOnClickListener(v -> finish());
 
-        // Botão trocar foto
-        btnTrocarFoto.setOnClickListener(v -> {
-            Toast.makeText(this,
-                    "Funcionalidade de trocar foto será implementada em breve",
-                    Toast.LENGTH_SHORT).show();
-            // TODO: Implementar seleção de foto
-        });
-
         // Botão adicionar propriedade
-        btnAddKeyValue.setOnClickListener(v -> mostrarDialogNovoPar());
+        btnAddProperty.setOnClickListener(v -> addProperty());
+
+        // Botão ver chaves públicas
+        btnViewPublicKeys.setOnClickListener(v -> showPublicKeysDialog());
 
         // Botão guardar
-        btnGuardar.setOnClickListener(v -> {
-            if (validarCampos()) {
-                salvarPerfil();
-                Toast.makeText(this, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-                finish();
+        btnGuardar.setOnClickListener(v -> saveAllChanges());
+    }
+
+    private void addProperty() {
+        String key = editKey.getText().toString().trim();
+        String value = editValue.getText().toString().trim();
+
+        // Validação
+        if (TextUtils.isEmpty(key)) {
+            editKey.setError("Digite a chave");
+            editKey.requestFocus();
+            return;
+        }
+
+        if (TextUtils.isEmpty(value)) {
+            editValue.setError("Digite o valor");
+            editValue.requestFocus();
+            return;
+        }
+
+        // Verificar se chave já existe
+        for (PerfilKeyValue prop : perfilList) {
+            if (prop.getKey().equalsIgnoreCase(key)) {
+                showUpdateDialog(prop, value);
+                return;
+            }
+        }
+
+        // Adicionar nova propriedade
+        profileManager.addProperty(key, value, new ProfileManager.ProfileCallback() {
+            @Override
+            public void onSuccess() {
+                runOnUiThread(() -> {
+                    PerfilKeyValue newProp = new PerfilKeyValue(key, value);
+                    perfilList.add(newProp);
+                    perfilAdapter.notifyItemInserted(perfilList.size() - 1);
+
+                    Toast.makeText(EditPerfilAccount.this,
+                            "Propriedade adicionada", Toast.LENGTH_SHORT).show();
+
+                    // Limpar campos
+                    editKey.setText("");
+                    editValue.setText("");
+                    editKey.requestFocus();
+
+                    updatePropertyCount();
+                    updateEmptyState();
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(EditPerfilAccount.this,
+                            "Erro: " + error, Toast.LENGTH_SHORT).show();
+                });
             }
         });
     }
 
-    /**
-     * Carrega o perfil do SharedPreferences
-     */
-    private void carregarPerfil() {
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        String json = prefs.getString("perfil_usuario", "{}");
-
-        try {
-            JSONObject jsonObject = new JSONObject(json);
-            perfilMap.clear();
-
-            Iterator<String> keys = jsonObject.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                perfilMap.put(key, jsonObject.getString(key));
-            }
-
-            // Preencher campos básicos
-            String nome = prefs.getString("nomeCompleto", "");
-            String email = prefs.getString("email", "");
-            String telefone = prefs.getString("telefone", "");
-
-            editNome.setText(nome);
-            editEmail.setText(email);
-            editTelefone.setText(telefone);
-
-            // Atualizar UI
-            atualizarContador();
-            adapter.notifyDataSetChanged();
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Erro ao carregar perfil", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * Valida os campos obrigatórios
-     */
-    private boolean validarCampos() {
-        String nome = editNome.getText().toString().trim();
-        String email = editEmail.getText().toString().trim();
-        String telefone = editTelefone.getText().toString().trim();
-
-        if (nome.isEmpty()) {
-            editNome.setError("Nome é obrigatório");
-            editNome.requestFocus();
-            return false;
-        }
-
-        if (email.isEmpty()) {
-            editEmail.setError("Email é obrigatório");
-            editEmail.requestFocus();
-            return false;
-        }
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editEmail.setError("Email inválido");
-            editEmail.requestFocus();
-            return false;
-        }
-
-        if (telefone.isEmpty()) {
-            editTelefone.setError("Telefone é obrigatório");
-            editTelefone.requestFocus();
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Salva o perfil no SharedPreferences
-     */
-    private void salvarPerfil() {
-        // Atualizar dados básicos no mapa
-        String nome = editNome.getText().toString().trim();
-        String email = editEmail.getText().toString().trim();
-        String telefone = editTelefone.getText().toString().trim();
-
-        perfilMap.put("nome", nome);
-        perfilMap.put("email", email);
-        perfilMap.put("telefone", telefone);
-
-        // Salvar no SharedPreferences
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        // Salvar campos individuais
-        editor.putString("nomeCompleto", nome);
-        editor.putString("email", email);
-        editor.putString("telefone", telefone);
-
-        // Salvar perfil completo como JSON
-        JSONObject jsonObject = new JSONObject(perfilMap);
-        editor.putString("perfil_usuario", jsonObject.toString());
-
-        editor.apply();
-    }
-
-    /**
-     * Mostra dialog para adicionar nova propriedade
-     */
-    private void mostrarDialogNovoPar() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Inflar layout customizado
-        View dialogView = LayoutInflater.from(this).inflate(
-                R.layout.dialog_add_property,
-                null
-        );
-
-        AutoCompleteTextView inputChave = dialogView.findViewById(R.id.inputChave);
-        EditText inputValor = dialogView.findViewById(R.id.inputValor);
-
-        // Configurar AutoComplete com chaves existentes
-        List<String> chavesExistentes = new ArrayList<>(perfilMap.keySet());
-        ArrayAdapter<String> adapterChaves = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                chavesExistentes
-        );
-        inputChave.setAdapter(adapterChaves);
-
-        builder.setTitle("Adicionar Propriedade")
-                .setView(dialogView)
-                .setPositiveButton("Adicionar", (dialog, which) -> {
-                    String chave = inputChave.getText().toString().trim();
-                    String valor = inputValor.getText().toString().trim();
-
-                    if (chave.isEmpty()) {
-                        Toast.makeText(this,
-                                "A chave não pode estar vazia",
-                                Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-
-                    // Adicionar ou atualizar propriedade
-                    perfilMap.put(chave, valor);
-                    adapter.notifyDataSetChanged();
-                    atualizarContador();
-
-                    Toast.makeText(this,
-                            "Propriedade adicionada",
-                            Toast.LENGTH_SHORT).show();
+    private void showUpdateDialog(PerfilKeyValue existingProp, String newValue) {
+        new AlertDialog.Builder(this)
+                .setTitle("Propriedade Existente")
+                .setMessage("A chave '" + existingProp.getKey() +
+                        "' já existe com o valor '" + existingProp.getValue() +
+                        "'. Deseja atualizar para '" + newValue + "'?")
+                .setPositiveButton("Atualizar", (dialog, which) -> {
+                    updateProperty(existingProp, newValue);
                 })
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
 
-    /**
-     * Atualiza o contador de propriedades
-     */
-    private void atualizarContador() {
-        // Contar apenas propriedades adicionais (excluir nome, email, telefone)
-        int total = perfilMap.size();
-        if (perfilMap.containsKey("nome")) total--;
-        if (perfilMap.containsKey("email")) total--;
-        if (perfilMap.containsKey("telefone")) total--;
+    private void updateProperty(PerfilKeyValue prop, String newValue) {
+        profileManager.removeProperty(prop.getKey(), new ProfileManager.ProfileCallback() {
+            @Override
+            public void onSuccess() {
+                profileManager.addProperty(prop.getKey(), newValue,
+                        new ProfileManager.ProfileCallback() {
+                            @Override
+                            public void onSuccess() {
+                                runOnUiThread(() -> {
+                                    prop.setValue(newValue);
+                                    perfilAdapter.notifyDataSetChanged();
+                                    Toast.makeText(EditPerfilAccount.this,
+                                            "Propriedade atualizada", Toast.LENGTH_SHORT).show();
+                                    editKey.setText("");
+                                    editValue.setText("");
+                                });
+                            }
 
-        txtTotalPropriedades.setText(String.valueOf(Math.max(0, total)));
+                            @Override
+                            public void onError(String error) {
+                                runOnUiThread(() -> {
+                                    Toast.makeText(EditPerfilAccount.this,
+                                            "Erro ao atualizar: " + error, Toast.LENGTH_SHORT).show();
+                                });
+                            }
+                        });
+            }
+
+            @Override
+            public void onError(String error) {
+                onSuccess(); // Continuar mesmo se falhar a remoção
+            }
+        });
     }
 
     @Override
-    public void onBackPressed() {
-        // Perguntar se quer descartar alterações
+    public void onEditProperty(PerfilKeyValue property, int position) {
+        editKey.setText(property.getKey());
+        editValue.setText(property.getValue());
+        editKey.setEnabled(false);
+
+        Toast.makeText(this, "Edite o valor e clique em Adicionar",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteProperty(PerfilKeyValue property, int position) {
         new AlertDialog.Builder(this)
-                .setTitle("Descartar alterações?")
-                .setMessage("As alterações não salvas serão perdidas")
-                .setPositiveButton("Descartar", (dialog, which) -> super.onBackPressed())
-                .setNegativeButton("Continuar editando", null)
+                .setTitle("Remover Propriedade")
+                .setMessage("Deseja remover '" + property.getKey() +
+                        " = " + property.getValue() + "'?")
+                .setPositiveButton("Remover", (dialog, which) -> {
+                    profileManager.removeProperty(property.getKey(),
+                            new ProfileManager.ProfileCallback() {
+                                @Override
+                                public void onSuccess() {
+                                    runOnUiThread(() -> {
+                                        perfilList.remove(position);
+                                        perfilAdapter.notifyItemRemoved(position);
+                                        Toast.makeText(EditPerfilAccount.this,
+                                                "Propriedade removida", Toast.LENGTH_SHORT).show();
+                                        updatePropertyCount();
+                                        updateEmptyState();
+                                    });
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    runOnUiThread(() -> {
+                                        Toast.makeText(EditPerfilAccount.this,
+                                                "Erro: " + error, Toast.LENGTH_SHORT).show();
+                                    });
+                                }
+                            });
+                })
+                .setNegativeButton("Cancelar", null)
                 .show();
+    }
+
+    private void showPublicKeysDialog() {
+        profileManager.getPublicKeys(new ProfileManager.PublicKeysCallback() {
+            @Override
+            public void onSuccess(List<String> keys) {
+                runOnUiThread(() -> {
+                    if (keys == null || keys.isEmpty()) {
+                        Toast.makeText(EditPerfilAccount.this,
+                                "Nenhuma chave pública disponível",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    String[] keysArray = keys.toArray(new String[0]);
+                    new AlertDialog.Builder(EditPerfilAccount.this)
+                            .setTitle("Chaves Públicas Disponíveis")
+                            .setItems(keysArray, (dialog, which) -> {
+                                editKey.setText(keysArray[which]);
+                                editValue.requestFocus();
+                            })
+                            .setNegativeButton("Fechar", null)
+                            .show();
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                runOnUiThread(() -> {
+                    Toast.makeText(EditPerfilAccount.this,
+                            "Erro ao carregar chaves: " + error,
+                            Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    private void saveAllChanges() {
+        // Salvar dados básicos (nome, telefone)
+        String nome = editNome.getText().toString().trim();
+        String telefone = editTelefone.getText().toString().trim();
+
+        // TODO: Implementar salvamento de dados básicos no servidor
+
+        // Salvar perfil
+        profileManager.saveProfile();
+
+        Toast.makeText(this, "Perfil atualizado com sucesso",
+                Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void updatePropertyCount() {
+        String countText = perfilList.size() + "";
+        textPropertyCount.setText(countText);
+    }
+
+    private void updateEmptyState() {
+        if (perfilList.isEmpty()) {
+            recyclerViewPerfil.setVisibility(View.GONE);
+            layoutEmptyState.setVisibility(View.VISIBLE);
+        } else {
+            recyclerViewPerfil.setVisibility(View.VISIBLE);
+            layoutEmptyState.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reabilitar campo de chave ao retornar
+        editKey.setEnabled(true);
     }
 }

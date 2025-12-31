@@ -40,6 +40,7 @@ import java.util.Map;
 import ao.co.isptec.aplm.locationads.adapter.AnunciosAdapter;
 import ao.co.isptec.aplm.locationads.adapter.LocaisAdapter;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
 import retrofit2.Call;
@@ -48,6 +49,8 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
+    private static final String TAG = "MainActivity";
 
     // Views
     private FusedLocationProviderClient fusedLocationClient;
@@ -63,9 +66,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private View mapView;
 
     // Data
-    private Map<String, String> perfilUsuario = new HashMap<>();
     private ApiService apiService;
-    private List<AdMessage> anunciosFiltrados = new ArrayList<>();
+    private List<Ads> anunciosFiltrados; // ✅ Mudar de AdMessage para Ads
+
+    // Data
+    private Map<String, String> perfilUsuario = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // RecyclerView de Anúncios
         recyclerViewAnuncios.setLayoutManager(new LinearLayoutManager(this));
+        anunciosFiltrados = new ArrayList<>(); // ✅ Inicializar lista
         anunciosAdapter = new AnunciosAdapter(this, anunciosFiltrados);
         recyclerViewAnuncios.setAdapter(anunciosAdapter);
     }
@@ -279,25 +285,118 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
+
     /**
-     * Carrega e filtra os anúncios
+     * Carrega e filtra os anúncios de todos os locais
      */
     private void loadAds() {
-        List<AdMessage> todasMensagens = AdMessage.carregarMensagens();
-        anunciosFiltrados.clear();
+        Log.d(TAG, "========== CARREGANDO ANÚNCIOS ==========");
 
-        for (AdMessage msg : todasMensagens) {
-            boolean permitido = podeVerMensagem(perfilUsuario, msg.getWhitelist(), false) &&
-                    podeVerMensagem(perfilUsuario, msg.getBlacklist(), true);
+        // Primeiro, buscar todos os locais
+        apiService.getAllLocals().enqueue(new retrofit2.Callback<List<Local>>() {
+            @Override
+            public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Local> locais = response.body();
+                    Log.d(TAG, "✅ Locais encontrados: " + locais.size());
 
-            if (permitido) {
-                anunciosFiltrados.add(msg);
+                    // Limpar lista
+                    anunciosFiltrados.clear();
+
+                    if (locais.isEmpty()) {
+                        Log.d(TAG, "⚠️ Nenhum local encontrado");
+                        runOnUiThread(() -> {
+                            updateAdsUI();
+                            Toast.makeText(MainActivity.this,
+                                    "Nenhum local encontrado",
+                                    Toast.LENGTH_SHORT).show();
+                        });
+                        return;
+                    }
+
+                    // Contador para saber quando terminou todas as requisições
+                    final int totalLocais = locais.size();
+                    final int[] locaisProcessados = {0};
+
+                    // Buscar mensagens de cada local
+                    for (Local local : locais) {
+                        apiService.getMessagesByLocation(local.getId())
+                                .enqueue(new retrofit2.Callback<List<Ads>>() {
+                                    @Override
+                                    public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
+                                        if (response.isSuccessful() && response.body() != null) {
+                                            List<Ads> mensagensDoLocal = response.body();
+                                            anunciosFiltrados.addAll(mensagensDoLocal);
+                                            Log.d(TAG, "✅ Mensagens do local " + local.getNome() +
+                                                    " (" + local.getId() + "): " + mensagensDoLocal.size());
+                                        } else {
+                                            Log.w(TAG, "⚠️ Erro ao buscar mensagens do local " +
+                                                    local.getNome() + ": " + response.code());
+                                        }
+
+                                        locaisProcessados[0]++;
+
+                                        // Se processou todos os locais, atualizar UI
+                                        if (locaisProcessados[0] == totalLocais) {
+                                            Log.d(TAG, "✅ Total de anúncios carregados: " +
+                                                    anunciosFiltrados.size());
+                                            Log.d(TAG, "=========================================");
+
+                                            runOnUiThread(() -> {
+                                                updateAdsUI();
+                                                Toast.makeText(MainActivity.this,
+                                                        anunciosFiltrados.size() + " anúncios carregados",
+                                                        Toast.LENGTH_SHORT).show();
+                                            });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<List<Ads>> call, Throwable t) {
+                                        Log.e(TAG, "❌ Erro ao buscar mensagens do local " +
+                                                local.getNome() + ": " + t.getMessage());
+
+                                        locaisProcessados[0]++;
+
+                                        // Se processou todos os locais (mesmo com erros), atualizar UI
+                                        if (locaisProcessados[0] == totalLocais) {
+                                            Log.d(TAG, "Total de anúncios carregados (com erros): " +
+                                                    anunciosFiltrados.size());
+                                            Log.d(TAG, "=========================================");
+
+                                            runOnUiThread(() -> updateAdsUI());
+                                        }
+                                    }
+                                });
+                    }
+                } else {
+                    Log.e(TAG, "❌ Erro ao buscar locais: " + response.code());
+                    Log.d(TAG, "=========================================");
+
+                    runOnUiThread(() -> {
+                        Toast.makeText(MainActivity.this,
+                                "Erro ao buscar locais",
+                                Toast.LENGTH_SHORT).show();
+                        updateAdsUI();
+                    });
+                }
             }
-        }
 
-        // Atualizar UI
-        updateAdsUI();
+            @Override
+            public void onFailure(Call<List<Local>> call, Throwable t) {
+                Log.e(TAG, "❌ Falha ao buscar locais: " + t.getMessage());
+                Log.d(TAG, "=========================================");
+
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this,
+                            "Erro de conexão: " + t.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                    updateAdsUI();
+                });
+            }
+        });
     }
+
 
     /**
      * Atualiza a UI dos anúncios
@@ -307,7 +406,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         txtTotalAnuncios.setText(String.valueOf(anunciosFiltrados.size()));
 
         // Atualizar adapter
-        anunciosAdapter.notifyDataSetChanged();
+        if (anunciosAdapter != null) {
+            anunciosAdapter.updateData(anunciosFiltrados);
+        }
 
         // Mostrar/ocultar empty state
         if (anunciosFiltrados.isEmpty()) {
