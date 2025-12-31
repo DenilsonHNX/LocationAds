@@ -67,7 +67,7 @@ public interface ApiService {
      *
      * ATENÇÃO: O backend EXIGE o parâmetro localId
      */
-    @GET("messages")
+    @GET("https://backend-aplm-segq.onrender.com/messages")
     Call<List<Ads>> getMessagesByLocation(@Query("localId") int localId);
 
     /**
