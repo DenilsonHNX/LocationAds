@@ -3,6 +3,7 @@ package ao.co.isptec.aplm.locationads;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,7 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 
+import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
+
 public class PerfilAccount extends AppCompatActivity {
+
+    private static final String TAG = "PerfilAccount";
 
     // Views
     private ImageButton btnBack;
@@ -58,12 +63,22 @@ public class PerfilAccount extends AppCompatActivity {
         perfilName = findViewById(R.id.perfilName);
         perfilEmail = findViewById(R.id.perfilEmail);
         infoEmail = findViewById(R.id.info_email);
+
+        // ✅ CORRIGIDO: Tentar ambos os IDs para compatibilidade
         infoTelefone = findViewById(R.id.info_telefone);
-        infoDataCriacao = findViewById(R.id.info_dataCriancaoDaConta);
+        if (infoTelefone == null) {
+            infoTelefone = findViewById(R.id.info_telefone); // ID antigo do XML original
+        }
 
         txtVisualizados = findViewById(R.id.txtVisualizados);
         txtGuardados = findViewById(R.id.txtGuardados);
         txtPublicados = findViewById(R.id.txtPublicados);
+
+        // Log para debug
+        Log.d(TAG, "Views inicializadas:");
+        Log.d(TAG, "btnBack: " + (btnBack != null));
+        Log.d(TAG, "btnLogOut: " + (btnLogOut != null));
+        Log.d(TAG, "toEditPerfil: " + (toEditPerfil != null));
     }
 
     /**
@@ -78,21 +93,36 @@ public class PerfilAccount extends AppCompatActivity {
         String telefone = sharedPref.getString("telefone", "Telefone não definido");
         String dataCriacao = sharedPref.getString("dataCriacao", "Data não definida");
 
-        // Definir dados nas views
-        perfilName.setText(nome);
-        perfilEmail.setText(email);
-        infoEmail.setText(email);
-        infoTelefone.setText(telefone);
-        infoDataCriacao.setText(formatarData(dataCriacao));
+        Log.d(TAG, "Dados carregados:");
+        Log.d(TAG, "Nome: " + nome);
+        Log.d(TAG, "Email: " + email);
+
+        // Definir dados nas views (com verificação de null)
+        if (perfilName != null) {
+            perfilName.setText(nome);
+        }
+
+        if (perfilEmail != null) {
+            perfilEmail.setText(email);
+        }
+
+        if (infoEmail != null) {
+            infoEmail.setText(email);
+        }
+
+        if (infoTelefone != null) {
+            infoTelefone.setText(telefone);
+        }
+
+        if (infoDataCriacao != null) {
+            infoDataCriacao.setText(formatarData(dataCriacao));
+        }
     }
 
     /**
      * Formata a data para um formato mais legível
      */
     private String formatarData(String data) {
-        // Se a data estiver no formato dd/MM/yyyy, converte para formato mais legível
-        // Exemplo: 02/11/2025 → 2 de Novembro, 2025
-
         if (data == null || data.equals("Data não definida")) {
             return data;
         }
@@ -112,10 +142,10 @@ public class PerfilAccount extends AppCompatActivity {
                 return dia + " de " + meses[mes - 1] + ", " + ano;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "Erro ao formatar data: " + e.getMessage());
         }
 
-        return data; // Retorna original se falhar
+        return data;
     }
 
     /**
@@ -124,15 +154,21 @@ public class PerfilAccount extends AppCompatActivity {
     private void loadStatistics() {
         SharedPreferences sharedPref = getSharedPreferences("user_stats", MODE_PRIVATE);
 
-        // Obter estatísticas (valores padrão = 0)
         int visualizados = sharedPref.getInt("anuncios_visualizados", 0);
         int guardados = sharedPref.getInt("anuncios_guardados", 0);
         int publicados = sharedPref.getInt("anuncios_publicados", 0);
 
-        // Definir nas views
-        txtVisualizados.setText(String.valueOf(visualizados));
-        txtGuardados.setText(String.valueOf(guardados));
-        txtPublicados.setText(String.valueOf(publicados));
+        if (txtVisualizados != null) {
+            txtVisualizados.setText(String.valueOf(visualizados));
+        }
+
+        if (txtGuardados != null) {
+            txtGuardados.setText(String.valueOf(guardados));
+        }
+
+        if (txtPublicados != null) {
+            txtPublicados.setText(String.valueOf(publicados));
+        }
     }
 
     /**
@@ -140,28 +176,49 @@ public class PerfilAccount extends AppCompatActivity {
      */
     private void setupListeners() {
         // Botão Voltar
-        btnBack.setOnClickListener(v -> finish());
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                Log.d(TAG, "Botão voltar clicado");
+                finish();
+            });
+        }
 
         // Botão Editar Perfil
-        toEditPerfil.setOnClickListener(v -> {
-            Intent intent = new Intent(PerfilAccount.this, EditPerfilAccount.class);
-            startActivity(intent);
-        });
+        if (toEditPerfil != null) {
+            toEditPerfil.setOnClickListener(v -> {
+                Log.d(TAG, "Botão editar perfil clicado");
+                Intent intent = new Intent(PerfilAccount.this, EditPerfilAccount.class);
+                startActivity(intent);
+            });
+        }
 
         // Botão Logout
-        btnLogOut.setOnClickListener(v -> showLogoutDialog());
+        if (btnLogOut != null) {
+            btnLogOut.setOnClickListener(v -> {
+                Log.d(TAG, "Botão logout clicado");
+                showLogoutDialog();
+            });
+        } else {
+            Log.e(TAG, "ERRO: btnLogOut é NULL!");
+        }
     }
 
     /**
      * Mostra dialog de confirmação de logout
      */
     private void showLogoutDialog() {
+        Log.d(TAG, "Mostrando dialog de logout");
+
         new AlertDialog.Builder(this)
                 .setTitle("Terminar Sessão")
                 .setMessage("Tem certeza que deseja sair da sua conta?")
-                .setPositiveButton("Sim", (dialog, which) -> performLogout())
-                .setNegativeButton("Cancelar", null)
-                .setIcon(R.drawable.ic_logout)
+                .setPositiveButton("Sim", (dialog, which) -> {
+                    Log.d(TAG, "Usuário confirmou logout");
+                    performLogout();
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> {
+                    Log.d(TAG, "Usuário cancelou logout");
+                })
                 .show();
     }
 
@@ -169,37 +226,62 @@ public class PerfilAccount extends AppCompatActivity {
      * Executa o logout
      */
     private void performLogout() {
-        // Limpar SharedPreferences
-        SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.clear();
-        editor.apply();
+        Log.d(TAG, "Executando logout...");
 
-        // Também limpar estatísticas se necessário
-        SharedPreferences statsPrefs = getSharedPreferences("user_stats", MODE_PRIVATE);
-        statsPrefs.edit().clear().apply();
+        try {
 
-        // Mostrar mensagem
-        Toast.makeText(this, "Sessão encerrada com sucesso", Toast.LENGTH_SHORT).show();
+            TokenManager tokenManager = TokenManager.getInstance(this);
+            tokenManager.clearUserData(); // ← Isso aqui!
 
-        // Redirecionar para tela de login
-        Intent intent = new Intent(PerfilAccount.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        finish();
+            // Limpar SharedPreferences antigo também
+            SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            prefs.edit().clear().commit();
+
+            // Limpar SharedPreferences de user_prefs
+            SharedPreferences userPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            SharedPreferences.Editor userEditor = userPrefs.edit();
+            userEditor.clear();
+            boolean userCleared = userEditor.commit(); // Usar commit para garantir gravação imediata
+            Log.d(TAG, "user_prefs limpo: " + userCleared);
+
+            // Limpar SharedPreferences de user_stats
+            SharedPreferences statsPrefs = getSharedPreferences("user_stats", MODE_PRIVATE);
+            SharedPreferences.Editor statsEditor = statsPrefs.edit();
+            statsEditor.clear();
+            boolean statsCleared = statsEditor.commit();
+            Log.d(TAG, "user_stats limpo: " + statsCleared);
+
+            // Mostrar mensagem
+            Toast.makeText(this, "Sessão encerrada com sucesso", Toast.LENGTH_SHORT).show();
+
+            // Redirecionar para LoginActivity
+            Log.d(TAG, "Redirecionando para LoginActivity");
+            Intent intent = new Intent(PerfilAccount.this, SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
+            // Finalizar esta activity
+            finish();
+
+            Log.d(TAG, "Logout concluído");
+
+        } catch (Exception e) {
+            Log.e(TAG, "ERRO no logout: " + e.getMessage());
+            e.printStackTrace();
+            Toast.makeText(this, "Erro ao sair: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Recarregar dados quando voltar para a tela (caso tenha editado)
+        Log.d(TAG, "onResume chamado");
         loadProfileData();
         loadStatistics();
     }
 
     /**
-     * Método público para atualizar estatísticas
-     * Pode ser chamado de outras activities
+     * Métodos públicos para atualizar estatísticas
      */
     public static void incrementarVisualizados(android.content.Context context) {
         SharedPreferences prefs = context.getSharedPreferences("user_stats", MODE_PRIVATE);

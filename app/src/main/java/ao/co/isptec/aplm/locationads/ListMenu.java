@@ -1,10 +1,12 @@
 package ao.co.isptec.aplm.locationads;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,46 +19,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ao.co.isptec.aplm.locationads.adapter.AnunciosAdapter;
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.Ads;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListMenu extends AppCompatActivity {
 
+    private static final String TAG = "ListMenu";
+
     // Views
-    private ImageButton btnVoltar;
     private TabLayout tabLayout;
-
-    private LinearLayout containerGuardados;
-    private LinearLayout containerCriados;
-
-    private RecyclerView listGuardados;
-    private RecyclerView listCriados;
-
-    private MaterialCardView emptyStateGuardados;
-    private MaterialCardView emptyStateCriados;
-
-    private TextView txtTotalGuardados;
-    private TextView txtTotalCriados;
+    private RecyclerView recyclerViewAnuncios;
+    private MaterialCardView emptyStateCard;
+    private TextView txtTotalAnuncios;
+    private ImageButton btnVoltar;
 
     // Adapters
     private AnunciosAdapter adapterGuardados;
     private AnunciosAdapter adapterCriados;
 
-    // Dados
-    private List<AdMessage> anunciosGuardados = new ArrayList<>();
-    private List<AdMessage> anunciosCriados = new ArrayList<>();
+    // Data
+    private List<Ads> anunciosGuardados;
+    private List<Ads> anunciosCriados;
+    private ApiService apiService;
+
+    // Estado atual
+    private int currentTab = 0; // 0 = Guardados, 1 = Criados
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_menu);
 
+        // Inicializar API
+        apiService = ApiClient.getInstance(this).getApiService();
+
         // Inicializar views
         initViews();
 
+        // Inicializar dados
+        initData();
+
         // Configurar listeners
         setupListeners();
-
-        // Configurar RecyclerViews
-        setupRecyclerViews();
 
         // Carregar dados
         loadData();
@@ -66,20 +74,30 @@ public class ListMenu extends AppCompatActivity {
      * Inicializa todas as views
      */
     private void initViews() {
-        btnVoltar = findViewById(R.id.btnVoltar);
         tabLayout = findViewById(R.id.tabLayout);
+        recyclerViewAnuncios = findViewById(R.id.recyclerViewAnuncios);
+        emptyStateCard = findViewById(R.id.emptyStateCard);
+        txtTotalAnuncios = findViewById(R.id.txtTotalAnuncios);
+        btnVoltar = findViewById(R.id.btnVoltar);
 
-        containerGuardados = findViewById(R.id.containerGuardados);
-        containerCriados = findViewById(R.id.containerCriados);
+        // Configurar RecyclerView
+        recyclerViewAnuncios.setLayoutManager(new LinearLayoutManager(this));
+    }
 
-        listGuardados = findViewById(R.id.listGuardados);
-        listCriados = findViewById(R.id.listCriados);
+    /**
+     * Inicializa listas e adapters
+     */
+    private void initData() {
+        // Inicializar listas
+        anunciosGuardados = new ArrayList<>();
+        anunciosCriados = new ArrayList<>();
 
-        emptyStateGuardados = findViewById(R.id.emptyStateGuardados);
-        emptyStateCriados = findViewById(R.id.emptyStateCriados);
+        // Criar adapters
+        adapterGuardados = new AnunciosAdapter(this, anunciosGuardados);
+        adapterCriados = new AnunciosAdapter(this, anunciosCriados);
 
-        txtTotalGuardados = findViewById(R.id.txtTotalGuardados);
-        txtTotalCriados = findViewById(R.id.txtTotalCriados);
+        // Definir adapter inicial (Guardados)
+        recyclerViewAnuncios.setAdapter(adapterGuardados);
     }
 
     /**
@@ -89,15 +107,15 @@ public class ListMenu extends AppCompatActivity {
         // Botão voltar
         btnVoltar.setOnClickListener(v -> finish());
 
-        // TabLayout
+        // TabLayout - Alternar entre Guardados e Criados
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    // Guardados
+                currentTab = tab.getPosition();
+
+                if (currentTab == 0) {
                     showGuardados();
                 } else {
-                    // Criados
                     showCriados();
                 }
             }
@@ -113,144 +131,148 @@ public class ListMenu extends AppCompatActivity {
     }
 
     /**
-     * Configura os RecyclerViews
-     */
-    private void setupRecyclerViews() {
-        // RecyclerView Guardados
-        listGuardados.setLayoutManager(new LinearLayoutManager(this));
-        adapterGuardados = new AnunciosAdapter(this, anunciosGuardados);
-        listGuardados.setAdapter(adapterGuardados);
-
-        // RecyclerView Criados
-        listCriados.setLayoutManager(new LinearLayoutManager(this));
-        adapterCriados = new AnunciosAdapter(this, anunciosCriados);
-        listCriados.setAdapter(adapterCriados);
-    }
-
-    /**
-     * Carrega os dados dos anúncios
+     * Carrega os dados da API
      */
     private void loadData() {
-        // Carregar anúncios guardados (do SharedPreferences ou banco de dados)
         loadAnunciosGuardados();
-
-        // Carregar anúncios criados (do SharedPreferences ou banco de dados)
         loadAnunciosCriados();
-
-        // Atualizar UI
-        updateUI();
     }
 
     /**
-     * Carrega anúncios guardados
-     * TODO: Implementar carregamento do SharedPreferences ou banco de dados
+     * Carrega anúncios guardados/salvos
      */
     private void loadAnunciosGuardados() {
-        // Exemplo de dados mockados
-        // Em produção, carregue do SharedPreferences ou banco de dados
+        Log.d(TAG, "Carregando anúncios guardados...");
 
-        // anunciosGuardados.add(new AdMessage(...));
-        // anunciosGuardados.add(new AdMessage(...));
+        apiService.getSavedMessages().enqueue(new Callback<List<Ads>>() {
+            @Override
+            public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    anunciosGuardados.clear();
+                    anunciosGuardados.addAll(response.body());
 
-        // Por enquanto, lista vazia para mostrar empty state
-        anunciosGuardados.clear();
+                    Log.d(TAG, "✅ Anúncios guardados: " + anunciosGuardados.size());
+
+                    runOnUiThread(() -> {
+                        if (currentTab == 0) {
+                            updateUI();
+                        }
+                    });
+                } else {
+                    Log.e(TAG, "❌ Erro ao carregar guardados: " + response.code());
+                    runOnUiThread(() -> {
+                        if (currentTab == 0) {
+                            updateUI();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Ads>> call, Throwable t) {
+                Log.e(TAG, "❌ Falha ao carregar guardados: " + t.getMessage());
+                runOnUiThread(() -> {
+                    Toast.makeText(ListMenu.this,
+                            "Erro ao carregar anúncios guardados",
+                            Toast.LENGTH_SHORT).show();
+                    if (currentTab == 0) {
+                        updateUI();
+                    }
+                });
+            }
+        });
     }
 
     /**
      * Carrega anúncios criados pelo usuário
-     * TODO: Implementar carregamento do SharedPreferences ou banco de dados
      */
     private void loadAnunciosCriados() {
-        // Exemplo de dados mockados
-        // Em produção, carregue do SharedPreferences ou banco de dados
+        Log.d(TAG, "Carregando anúncios criados...");
 
-        // anunciosCriados.add(new AdMessage(...));
-        // anunciosCriados.add(new AdMessage(...));
+        apiService.getMyMessages().enqueue(new Callback<List<Ads>>() {
+            @Override
+            public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    anunciosCriados.clear();
+                    anunciosCriados.addAll(response.body());
 
-        // Por enquanto, lista vazia para mostrar empty state
-        anunciosCriados.clear();
+                    Log.d(TAG, "✅ Anúncios criados: " + anunciosCriados.size());
+
+                    runOnUiThread(() -> {
+                        if (currentTab == 1) {
+                            updateUI();
+                        }
+                    });
+                } else {
+                    Log.e(TAG, "❌ Erro ao carregar criados: " + response.code());
+                    runOnUiThread(() -> {
+                        if (currentTab == 1) {
+                            updateUI();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Ads>> call, Throwable t) {
+                Log.e(TAG, "❌ Falha ao carregar criados: " + t.getMessage());
+                runOnUiThread(() -> {
+                    Toast.makeText(ListMenu.this,
+                            "Erro ao carregar anúncios criados",
+                            Toast.LENGTH_SHORT).show();
+                    if (currentTab == 1) {
+                        updateUI();
+                    }
+                });
+            }
+        });
     }
 
     /**
-     * Atualiza a UI baseado nos dados
-     */
-    private void updateUI() {
-        // Atualizar contadores
-        txtTotalGuardados.setText(String.valueOf(anunciosGuardados.size()));
-        txtTotalCriados.setText(String.valueOf(anunciosCriados.size()));
-
-        // Atualizar adapters
-        adapterGuardados.notifyDataSetChanged();
-        adapterCriados.notifyDataSetChanged();
-
-        // Mostrar/ocultar empty states
-        updateEmptyStates();
-    }
-
-    /**
-     * Atualiza os empty states
-     */
-    private void updateEmptyStates() {
-        // Empty state guardados
-        if (anunciosGuardados.isEmpty()) {
-            listGuardados.setVisibility(View.GONE);
-            emptyStateGuardados.setVisibility(View.VISIBLE);
-        } else {
-            listGuardados.setVisibility(View.VISIBLE);
-            emptyStateGuardados.setVisibility(View.GONE);
-        }
-
-        // Empty state criados
-        if (anunciosCriados.isEmpty()) {
-            listCriados.setVisibility(View.GONE);
-            emptyStateCriados.setVisibility(View.VISIBLE);
-        } else {
-            listCriados.setVisibility(View.VISIBLE);
-            emptyStateCriados.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * Mostra lista de guardados
+     * Mostra a aba de anúncios guardados
      */
     private void showGuardados() {
-        containerGuardados.setVisibility(View.VISIBLE);
-        containerCriados.setVisibility(View.GONE);
+        Log.d(TAG, "Mostrando anúncios guardados");
+        recyclerViewAnuncios.setAdapter(adapterGuardados);
+        updateUI();
     }
 
     /**
-     * Mostra lista de criados
+     * Mostra a aba de anúncios criados
      */
     private void showCriados() {
-        containerGuardados.setVisibility(View.GONE);
-        containerCriados.setVisibility(View.VISIBLE);
+        Log.d(TAG, "Mostrando anúncios criados");
+        recyclerViewAnuncios.setAdapter(adapterCriados);
+        updateUI();
+    }
+
+    /**
+     * Atualiza a UI baseado na aba atual
+     */
+    private void updateUI() {
+        List<Ads> currentList = currentTab == 0 ? anunciosGuardados : anunciosCriados;
+        AnunciosAdapter currentAdapter = currentTab == 0 ? adapterGuardados : adapterCriados;
+
+        // Atualizar contador
+        txtTotalAnuncios.setText(String.valueOf(currentList.size()));
+
+        // Notificar adapter
+        currentAdapter.notifyDataSetChanged();
+
+        // Mostrar/ocultar empty state
+        if (currentList.isEmpty()) {
+            recyclerViewAnuncios.setVisibility(View.GONE);
+            emptyStateCard.setVisibility(View.VISIBLE);
+        } else {
+            recyclerViewAnuncios.setVisibility(View.VISIBLE);
+            emptyStateCard.setVisibility(View.GONE);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Recarregar dados quando voltar para a tela
+        // Recarregar dados quando voltar para a activity
         loadData();
-    }
-
-    /**
-     * Método público para adicionar anúncio aos guardados
-     */
-    public static void adicionarGuardado(AdMessage anuncio) {
-        // TODO: Salvar no SharedPreferences ou banco de dados
-    }
-
-    /**
-     * Método público para remover anúncio dos guardados
-     */
-    public static void removerGuardado(AdMessage anuncio) {
-        // TODO: Remover do SharedPreferences ou banco de dados
-    }
-
-    /**
-     * Método público para adicionar anúncio aos criados
-     */
-    public static void adicionarCriado(AdMessage anuncio) {
-        // TODO: Salvar no SharedPreferences ou banco de dados
     }
 }

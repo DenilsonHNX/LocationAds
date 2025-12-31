@@ -280,46 +280,7 @@
 
                     </LinearLayout>
 
-                    <!-- Data de Criação -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginEnd="12dp"
-                            android:contentDescription="@string/date"
-                            android:src="@drawable/ic_calendar"
-                            app:tint="@color/textSecondary" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Membro desde"
-                                android:textColor="@color/textSecondary"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/info_dataCriancaoDaConta"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="02/11/2025"
-                                android:textColor="@color/textPrimary"
-                                android:textSize="15sp"
-                                tools:text="17 de Dezembro, 2024" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
 
                 </LinearLayout>
 

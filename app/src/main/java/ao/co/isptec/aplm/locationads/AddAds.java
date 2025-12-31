@@ -2,33 +2,21 @@ package ao.co.isptec.aplm.locationads;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,11 +29,7 @@ import java.util.TimeZone;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
-import ao.co.isptec.aplm.locationads.network.models.UploadResponse;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,7 +37,6 @@ import retrofit2.Response;
 public class AddAds extends AppCompatActivity {
 
     private static final String TAG = "AddAds";
-    private static final int PICK_IMAGE_REQUEST = 1001;
 
     // Views - Inputs
     private TextInputEditText inputTitulo;
@@ -73,18 +56,13 @@ public class AddAds extends AppCompatActivity {
     private TextInputLayout policyInputLayout;
     private TextInputLayout localidadeInputLayout;
 
-    // Views - Outros
+    // Views - Botões
     private ImageButton btnVoltar;
     private MaterialButton btnPublicar;
     private MaterialButton btnAtualizarLocais;
-    private ImageView imgPreview;
-    private LinearLayout placeholderLayout;
-    private MaterialCardView imagePreviewCard;
 
     // API e dados
     private ApiService apiService;
-    private Uri imagemUri;
-    private String imagemUrl = "";
     private List<Local> locaisList = new ArrayList<>();
 
     // Estado
@@ -127,21 +105,16 @@ public class AddAds extends AppCompatActivity {
         policyInputLayout = findViewById(R.id.policyInputLayout);
         localidadeInputLayout = findViewById(R.id.localidadeInputLayout);
 
-        // Buttons e outros
+        // Buttons
         btnVoltar = findViewById(R.id.btnVoltar);
         btnPublicar = findViewById(R.id.btnPublicar);
         btnAtualizarLocais = findViewById(R.id.btnAtualizarLocais);
-        imgPreview = findViewById(R.id.imgPreview);
-        placeholderLayout = findViewById(R.id.placeholderLayout);
-        imagePreviewCard = findViewById(R.id.imagePreviewCard);
     }
 
     private void setupListeners() {
         btnVoltar.setOnClickListener(v -> finish());
         btnPublicar.setOnClickListener(v -> handlePublicarAnuncio());
         btnAtualizarLocais.setOnClickListener(v -> carregarLocais());
-        imagePreviewCard.setOnClickListener(v -> abrirGaleria());
-        placeholderLayout.setOnClickListener(v -> abrirGaleria());
 
         // Date/Time pickers
         inputHoraInicio.setOnClickListener(v -> showDateTimePicker(true));
@@ -344,8 +317,8 @@ public class AddAds extends AppCompatActivity {
 
         Log.d(TAG, "Local ID: " + localId);
 
-        // ✅ CORREÇÃO: Montar restrições como FINAL
-        final Map<String, Object> restricoes = new HashMap<>();
+        // Montar restrições
+        Map<String, Object> restricoes = new HashMap<>();
         if (!idadeMinimaStr.isEmpty()) {
             try {
                 int idadeMinima = Integer.parseInt(idadeMinimaStr);
@@ -368,40 +341,12 @@ public class AddAds extends AppCompatActivity {
         Log.d(TAG, "Hora Início ISO: " + horaInicioISO);
         Log.d(TAG, "Hora Fim ISO: " + horaFimISO);
 
-        // Upload da imagem ou criar anúncio
-        if (imagemUri != null) {
-            Log.d(TAG, "Fazendo upload da imagem...");
-            uploadImagem(imagemUri, new ImageCallback() {
-                @Override
-                public void onSuccess(String imageUrl) {
-                    Log.d(TAG, "✅ Upload concluído: " + imageUrl);
-                    // Passar restricoes (ou null se estiver vazio)
-                    Map<String, Object> restricoesParaEnviar = restricoes.isEmpty() ? null : restricoes;
-                    criarAnuncio(titulo, conteudo, autorId, localId, policy,
-                            restricoesParaEnviar, imageUrl, horaInicioISO, horaFimISO);
-                }
+        // Passar restricoes (ou null se estiver vazio)
+        Map<String, Object> restricoesParaEnviar = restricoes.isEmpty() ? null : restricoes;
 
-                @Override
-                public void onError(Throwable error) {
-                    setLoadingState(false);
-                    Log.e(TAG, "❌ Erro no upload: " + error.getMessage());
-                    Toast.makeText(AddAds.this,
-                            "Erro ao fazer upload da imagem: " + error.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
-            });
-        } else {
-            // Verificar se deve ter imagem
-            if (imagemUrl.isEmpty()) {
-                Toast.makeText(this, getString(R.string.error_no_image),
-                        Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "❌ Nenhuma imagem selecionada");
-                return;
-            }
-            Map<String, Object> restricoesParaEnviar = restricoes.isEmpty() ? null : restricoes;
-            criarAnuncio(titulo, conteudo, autorId, localId, policy,
-                    restricoesParaEnviar, imagemUrl, horaInicioISO, horaFimISO);
-        }
+        // Criar anúncio sem imagem
+        criarAnuncio(titulo, conteudo, autorId, localId, policy,
+                restricoesParaEnviar, horaInicioISO, horaFimISO);
     }
 
     private boolean validateInputs(String titulo, String conteudo, String horaInicio,
@@ -498,9 +443,10 @@ public class AddAds extends AppCompatActivity {
 
     private void criarAnuncio(String titulo, String conteudo, int autorId, int localId,
                               String policy, Map<String, Object> restricoes,
-                              String imagemUrl, String horaInicio, String horaFim) {
+                              String horaInicio, String horaFim) {
         setLoadingState(true);
 
+        // Criar anúncio SEM imagem
         Ads novoAnuncio = new Ads(
                 titulo,
                 conteudo,
@@ -508,7 +454,7 @@ public class AddAds extends AppCompatActivity {
                 localId,
                 policy,
                 restricoes,
-                imagemUrl,
+                null,  // imagemUrl = null
                 horaInicio,
                 horaFim
         );
@@ -518,7 +464,7 @@ public class AddAds extends AppCompatActivity {
         Log.d(TAG, "Autor ID: " + autorId);
         Log.d(TAG, "Local ID: " + localId);
         Log.d(TAG, "Policy: " + policy);
-        Log.d(TAG, "Imagem: " + imagemUrl);
+        Log.d(TAG, "Restrições: " + (restricoes != null ? restricoes.toString() : "nenhuma"));
 
         apiService.addAd(novoAnuncio).enqueue(new Callback<Ads>() {
             @Override
@@ -600,160 +546,6 @@ public class AddAds extends AppCompatActivity {
         Log.e(TAG, "Erro de rede ao " + action, t);
     }
 
-    private void abrirGaleria() {
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null) {
-            imagemUri = data.getData();
-
-            // Exibir imagem na preview
-            imgPreview.setImageURI(imagemUri);
-            placeholderLayout.setVisibility(View.GONE);
-            imgPreview.setVisibility(View.VISIBLE);
-
-            Toast.makeText(this, "Imagem selecionada", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "Imagem selecionada: " + imagemUri.toString());
-        }
-    }
-
-    private void uploadImagem(Uri imageUri, ImageCallback callback) {
-        setLoadingState(true);
-
-        Log.d(TAG, "========== UPLOAD DE IMAGEM ==========");
-        Log.d(TAG, "URI: " + imageUri.toString());
-
-        try {
-            String filePath = getRealPathFromURI(imageUri);
-
-            if (filePath == null) {
-                throw new Exception("Não foi possível obter o caminho do arquivo");
-            }
-
-            File file = new File(filePath);
-
-            if (!file.exists()) {
-                throw new Exception("Arquivo não encontrado: " + filePath);
-            }
-
-            Log.d(TAG, "Caminho do arquivo: " + filePath);
-            Log.d(TAG, "Tamanho do arquivo: " + file.length() + " bytes");
-
-            RequestBody requestFile = RequestBody.create(
-                    MediaType.parse("image/*"),
-                    file
-            );
-
-            MultipartBody.Part body = MultipartBody.Part.createFormData(
-                    "imagem",
-                    file.getName(),
-                    requestFile
-            );
-
-            Log.d(TAG, "Enviando requisição de upload...");
-
-            apiService.uploadImage(body).enqueue(new Callback<UploadResponse>() {
-                @Override
-                public void onResponse(Call<UploadResponse> call, Response<UploadResponse> response) {
-                    Log.d(TAG, "========== RESPOSTA DO UPLOAD ==========");
-                    Log.d(TAG, "Status Code: " + response.code());
-                    Log.d(TAG, "URL: " + call.request().url());
-
-                    if (response.isSuccessful() && response.body() != null) {
-                        String imageUrl = response.body().getUrl();
-                        Log.d(TAG, "✅ Upload bem-sucedido");
-                        Log.d(TAG, "URL da imagem: " + imageUrl);
-                        callback.onSuccess(imageUrl);
-                    } else {
-                        setLoadingState(false);
-                        Log.e(TAG, "❌ Erro no upload");
-                        try {
-                            String errorBody = response.errorBody() != null ?
-                                    response.errorBody().string() : "Sem corpo de erro";
-                            Log.e(TAG, "Error Body: " + errorBody);
-                        } catch (Exception e) {
-                            Log.e(TAG, "Erro ao ler errorBody", e);
-                        }
-                        callback.onError(new Exception("Falha no upload: " + response.code()));
-                    }
-
-                    Log.d(TAG, "=====================================");
-                }
-
-                @Override
-                public void onFailure(Call<UploadResponse> call, Throwable t) {
-                    setLoadingState(false);
-                    Log.e(TAG, "❌ Falha no upload: " + t.getMessage());
-                    t.printStackTrace();
-                    callback.onError(t);
-                }
-            });
-        } catch (Exception e) {
-            setLoadingState(false);
-            Log.e(TAG, "❌ Erro ao preparar upload: " + e.getMessage());
-            e.printStackTrace();
-            callback.onError(e);
-        }
-    }
-
-    private String getRealPathFromURI(Uri contentUri) {
-        String result = null;
-
-        Log.d(TAG, "Obtendo caminho real da URI: " + contentUri);
-
-        // Tentar com ContentResolver primeiro
-        try {
-            String[] projection = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(contentUri, projection, null, null, null);
-
-            if (cursor != null) {
-                int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-                cursor.moveToFirst();
-                result = cursor.getString(columnIndex);
-                cursor.close();
-
-                Log.d(TAG, "✅ Caminho obtido via ContentResolver: " + result);
-            }
-        } catch (Exception e) {
-            Log.w(TAG, "⚠️ Erro ao obter caminho via ContentResolver: " + e.getMessage());
-        }
-
-        // Fallback: copiar arquivo para cache
-        if (result == null || !(new File(result).exists())) {
-            Log.d(TAG, "Copiando arquivo para cache...");
-            try {
-                File tempFile = new File(getCacheDir(), "temp_image_" + System.currentTimeMillis() + ".jpg");
-                InputStream inputStream = getContentResolver().openInputStream(contentUri);
-                OutputStream outputStream = new FileOutputStream(tempFile);
-
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                inputStream.close();
-                outputStream.close();
-
-                result = tempFile.getAbsolutePath();
-                Log.d(TAG, "✅ Arquivo copiado para cache: " + result);
-
-            } catch (Exception e) {
-                Log.e(TAG, "❌ Erro ao copiar arquivo: " + e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-        return result;
-    }
-
     private void clearErrors() {
         tituloInputLayout.setError(null);
         conteudoInputLayout.setError(null);
@@ -784,16 +576,10 @@ public class AddAds extends AppCompatActivity {
         }
     }
 
-    public interface ImageCallback {
-        void onSuccess(String result);
-        void onError(Throwable error);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // Limpar referências
         apiService = null;
-        imagemUri = null;
     }
 }

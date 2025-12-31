@@ -37,7 +37,7 @@
                     android:contentDescription="@string/back"
                     android:padding="12dp"
                     android:src="@drawable/ic_arrow_back"
-                    android:tint="@color/white" />
+                    app:tint="@color/white" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -105,7 +105,7 @@
                             android:contentDescription="@string/profile_picture"
                             android:padding="20dp"
                             android:src="@drawable/ic_account"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                     </com.google.android.material.card.MaterialCardView>
 
@@ -153,7 +153,7 @@
                             android:layout_height="24dp"
                             android:contentDescription="@string/basic_info"
                             android:src="@drawable/ic_person"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -174,6 +174,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:hint="Nome completo"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp"
                         app:startIconTint="@color/colorPrimary">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -186,24 +190,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Email -->
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:hint="Email"
-                        app:startIconTint="@color/colorPrimary">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="textEmailAddress"
-                            android:textColor="@color/textPrimary"
-                            android:textSize="16sp" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- Telefone -->
                     <com.google.android.material.textfield.TextInputLayout
@@ -211,6 +197,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Telefone"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp"
                         app:startIconTint="@color/colorPrimary">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -227,7 +217,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Card de Propriedades Adicionais -->
+            <!-- Card de Propriedades Chave-Valor -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -253,22 +243,22 @@
                         <ImageView
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:contentDescription="@string/additional_properties"
+                            android:contentDescription="Propriedades"
                             android:src="@drawable/ic_settings"
-                            android:tint="@color/colorPrimary" />
+                            app:tint="@color/colorPrimary" />
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:layout_weight="1"
-                            android:text="Propriedades Adicionais"
+                            android:text="Propriedades Personalizadas"
                             android:textColor="@color/textPrimary"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/txtTotalPropriedades"
+                            android:id="@+id/textPropertyCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/badge_background"
@@ -283,28 +273,186 @@
 
                     </LinearLayout>
 
-                    <!-- RecyclerView de Propriedades -->
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rvKeyValuePairs"
+                    <!-- Descrição -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Adicione propriedades para filtrar as mensagens que deseja receber"
+                        android:textColor="@color/textSecondary"
+                        android:textSize="13sp"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/gray" />
+
+                    <!-- Seção: Adicionar Nova Propriedade -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nova Propriedade"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Campo Chave -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
-                        android:nestedScrollingEnabled="false"
-                        tools:itemCount="2" />
+                        android:hint="Chave (ex: profissao, clube, cidade)"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:startIconTint="@color/colorPrimary"
+                        app:helperText="Nome da propriedade"
+                        app:helperTextEnabled="true">
 
-                    <!-- Botão Adicionar Propriedade -->
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnAddKeyValue"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editKey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="15sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Campo Valor -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Adicionar Propriedade"
-                        android:textAllCaps="false"
-                        app:cornerRadius="12dp"
-                        app:icon="@drawable/ic_add"
-                        app:iconGravity="textStart"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp" />
+                        android:layout_marginBottom="12dp"
+                        android:hint="Valor (ex: Estudante, Real Madrid, Luanda)"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:startIconTint="@color/colorPrimary"
+                        app:helperText="Valor da propriedade"
+                        app:helperTextEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textColor="@color/textPrimary"
+                            android:textSize="15sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Botões de Ação -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <!-- Botão Adicionar -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAddProperty"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:text="Adicionar"
+                            android:textAllCaps="false"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_add"
+                            app:iconGravity="textStart" />
+
+                        <!-- Botão Ver Chaves Públicas -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnViewPublicKeys"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:text="Chaves"
+                            android:textAllCaps="false"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_list"
+                            app:iconGravity="textStart"
+                            app:strokeColor="@color/colorPrimary"
+                            app:strokeWidth="2dp" />
+
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@color/gray" />
+
+                    <!-- Seção: Minhas Propriedades -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Minhas Propriedades"
+                        android:textColor="@color/textPrimary"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- RecyclerView de Propriedades -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewPerfil"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:clipToPadding="false"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_perfil_property" />
+
+                    <!-- Estado Vazio -->
+                    <LinearLayout
+                        android:id="@+id/layoutEmptyState"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        android:padding="32dp"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:src="@drawable/ic_empty"
+                            android:alpha="0.3"
+                            app:tint="@color/textSecondary" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nenhuma Propriedade"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/textSecondary"
+                            android:layout_marginTop="12dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Adicione propriedades para\npersonalizar seu perfil"
+                            android:textSize="13sp"
+                            android:textColor="@color/textSecondary"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center"
+                            android:textAlignment="center" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -315,7 +463,7 @@
                 android:id="@+id/btnGuardar"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Atualizar Perfil"
+                android:text="Salvar Alterações"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:cornerRadius="12dp"
