@@ -3,103 +3,344 @@ package ao.co.isptec.aplm.locationads;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
+import android.util.Log;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.button.MaterialButton;
+
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.UserProfile;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PerfilAccount extends AppCompatActivity {
 
-    private ImageView toEditPerfil;
-    private ImageView btnLogOut;
-    private ImageView btnBack;
+    private static final String TAG = "PerfilAccount";
+
+    // Views
+    private ImageButton btnBack;
+    private ImageButton toEditPerfil;
+    private MaterialButton btnLogOut;
+
+    private TextView perfilName;
+    private TextView perfilEmail;
+    private TextView infoEmail;
+    private TextView infoTelefone;
+
+    private TextView txtVisualizados;
+    private TextView txtGuardados;
+    private TextView txtPublicados;
+
+    // API
+    private ApiService apiService;
+    private TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_perfil_account);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        TextView tvNome = findViewById(R.id.perfilName); // Adicione esse id no XML, ou adapte
-        TextView tvEmail = findViewById(R.id.info_email);
-        TextView tvTelefone = findViewById(R.id.info_);
-        TextView tvDataCriacao = findViewById(R.id.info_dataCriancaoDaConta);
+        // Inicializar API
+        apiService = ApiClient.getInstance().getApiService();
+        tokenManager = TokenManager.getInstance(this);
 
-        // Obtendo SharedPreferences
-        SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        // Inicializar views
+        initViews();
 
-        String nome = sharedPref.getString("nomeCompleto", "Nome não definido");
-        String email = sharedPref.getString("email", "Email não definido");
-        String telefone = sharedPref.getString("telefone", "Telefone não definido");
-        String dataCriacao = sharedPref.getString("dataCriacao", "Data não definida");
+        // Carregar dados do perfil da API
+        loadProfileFromApi();
 
-        // Setando os valores nos TextViews
-        // Se não tem TextView para nome no XML, será necessário adicionar um com id para mostrar.
-        if (tvNome != null) {
-            tvNome.setText(nome);
-        } else {
-            // Se não tem, pode usar o TextView equivalente:
-            // No seu XML, o TextView "NOME DO USUÁRIO" não tem id, então pode adicionar android:id="@+id/nome_usuario_textview"
-        }
+        // Configurar listeners
+        setupListeners();
 
-        tvEmail.setText(email);
-        tvTelefone.setText(telefone);
-        tvDataCriacao.setText(dataCriacao);
+        // Carregar estatísticas
+        loadStatistics();
+    }
 
+    /**
+     * Inicializa todas as views
+     */
+    private void initViews() {
+        btnBack = findViewById(R.id.btnBack);
         toEditPerfil = findViewById(R.id.toEditPerfil);
         btnLogOut = findViewById(R.id.btnLogOut);
-        // Não há id no ImageView com ic_back, precisaria adicionar para detectar clique, caso queira
-        // Exemplo: android:id="@+id/btnBack"
-        // Aqui supondo que você adicionou esse id no XML
-        btnBack = findViewById(R.id.btnBack);
 
-        // Intent para editar perfil
-        toEditPerfil.setOnClickListener(new View.OnClickListener() {
+        perfilName = findViewById(R.id.perfilName);
+        perfilEmail = findViewById(R.id.perfilEmail);
+        infoEmail = findViewById(R.id.info_email);
+        infoTelefone = findViewById(R.id.info_telefone);
+
+        txtVisualizados = findViewById(R.id.txtVisualizados);
+        txtGuardados = findViewById(R.id.txtGuardados);
+        txtPublicados = findViewById(R.id.txtPublicados);
+
+        Log.d(TAG, "Views inicializadas");
+    }
+
+    /**
+     * Carrega os dados do perfil da API
+     */
+    private void loadProfileFromApi() {
+        Log.d(TAG, "Carregando perfil da API...");
+
+        String token = "Bearer " + tokenManager.getToken();
+
+        apiService.getUserProfile(token).enqueue(new Callback<UserProfile>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PerfilAccount.this, EditPerfilAccount.class);
-                startActivity(intent);
-            }
-        });
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UserProfile profile = response.body();
 
-        // Intent para logout
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Limpa dados de sessão, marcando isLoggedIn como false
-                SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.clear();
-                editor.apply();
+                    Log.d(TAG, "✅ Perfil carregado da API");
+                    Log.d(TAG, "User: " + profile);
 
-                // Lógica de logout, limpar sessão, etc.
-                // Depois voltar para tela de login, limpando o histórico para não voltar atrás
-                Intent intent = new Intent(PerfilAccount.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-            }
-        });
+                    // Extrair dados do response
+                    // O response é: {"message": "...", "user": {"sub": "...", "email": "...", "name": "..."}}
+                    // Mas precisamos acessar via UserProfile
 
-        // Intent para voltar - precisa do id no XML para funcionar
-        if (btnBack != null) {
-            btnBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Fecha essa activity para voltar à anterior
-                    finish();
+                    // Atualizar UI
+                    runOnUiThread(() -> {
+                        updateUI(profile);
+                        saveProfileDataLocally(profile);
+                    });
+
+                } else {
+                    Log.e(TAG, "Erro ao carregar perfil: " + response.code());
+                    // Fallback: tentar carregar do SharedPreferences
+                    loadProfileFromSharedPreferences();
                 }
-            });
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {
+                Log.e(TAG, "Falha ao carregar perfil da API", t);
+                // Fallback: tentar carregar do SharedPreferences
+                loadProfileFromSharedPreferences();
+            }
+        });
+    }
+
+    /**
+     * Atualiza a UI com os dados do perfil
+     */
+    private void updateUI(UserProfile profile) {
+        // Nome do usuário
+        String username = tokenManager.getUsername();
+        if (username != null && !username.isEmpty()) {
+            perfilName.setText(username);
         }
+
+        // Email do usuário
+        String email = tokenManager.getEmail();
+        if (email != null && !email.isEmpty()) {
+            perfilEmail.setText(email);
+            infoEmail.setText(email);
+        }
+
+        // Telefone (se existir no SharedPreferences)
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String telefone = prefs.getString("telefone", "Não definido");
+        infoTelefone.setText(telefone);
+
+        Log.d(TAG, "UI atualizada com dados do perfil");
+    }
+
+    /**
+     * Salva os dados do perfil localmente para fallback
+     */
+    private void saveProfileDataLocally(UserProfile profile) {
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String username = tokenManager.getUsername();
+        String email = tokenManager.getEmail();
+
+        if (username != null) {
+            editor.putString("nomeCompleto", username);
+        }
+
+        if (email != null) {
+            editor.putString("email", email);
+        }
+
+        editor.apply();
+
+        Log.d(TAG, "Dados salvos localmente");
+    }
+
+    /**
+     * Carrega dados do SharedPreferences (fallback)
+     */
+    private void loadProfileFromSharedPreferences() {
+        Log.d(TAG, "Carregando perfil do SharedPreferences (fallback)");
+
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+
+        String nome = prefs.getString("nomeCompleto", "Nome não definido");
+        String email = prefs.getString("email", "Email não definido");
+        String telefone = prefs.getString("telefone", "Não definido");
+
+        // Verificar também o TokenManager
+        String tokenName = tokenManager.getUsername();
+        String tokenEmail = tokenManager.getEmail();
+
+        if (tokenName != null && !tokenName.isEmpty()) {
+            nome = tokenName;
+        }
+
+        if (tokenEmail != null && !tokenEmail.isEmpty()) {
+            email = tokenEmail;
+        }
+
+        Log.d(TAG, "Nome: " + nome);
+        Log.d(TAG, "Email: " + email);
+
+        // Atualizar UI
+        perfilName.setText(nome);
+        perfilEmail.setText(email);
+        infoEmail.setText(email);
+        infoTelefone.setText(telefone);
+    }
+
+    /**
+     * Carrega as estatísticas do usuário
+     */
+    private void loadStatistics() {
+        SharedPreferences prefs = getSharedPreferences("user_stats", MODE_PRIVATE);
+
+        int visualizados = prefs.getInt("anuncios_visualizados", 0);
+        int guardados = prefs.getInt("anuncios_guardados", 0);
+        int publicados = prefs.getInt("anuncios_publicados", 0);
+
+        txtVisualizados.setText(String.valueOf(visualizados));
+        txtGuardados.setText(String.valueOf(guardados));
+        txtPublicados.setText(String.valueOf(publicados));
+    }
+
+    /**
+     * Configura os listeners dos botões
+     */
+    private void setupListeners() {
+        // Botão Voltar
+        btnBack.setOnClickListener(v -> {
+            Log.d(TAG, "Botão voltar clicado");
+            finish();
+        });
+
+        // Botão Editar Perfil
+        toEditPerfil.setOnClickListener(v -> {
+            Log.d(TAG, "Botão editar perfil clicado");
+            Intent intent = new Intent(PerfilAccount.this, EditPerfilAccount.class);
+            startActivity(intent);
+        });
+
+        // Botão Logout
+        btnLogOut.setOnClickListener(v -> {
+            Log.d(TAG, "Botão logout clicado");
+            showLogoutDialog();
+        });
+    }
+
+    /**
+     * Mostra dialog de confirmação de logout
+     */
+    private void showLogoutDialog() {
+        Log.d(TAG, "Mostrando dialog de logout");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Terminar Sessão")
+                .setMessage("Tem certeza que deseja sair da sua conta?")
+                .setPositiveButton("Sim", (dialog, which) -> {
+                    Log.d(TAG, "Usuário confirmou logout");
+                    performLogout();
+                })
+                .setNegativeButton("Cancelar", (dialog, which) -> {
+                    Log.d(TAG, "Usuário cancelou logout");
+                })
+                .show();
+    }
+
+    /**
+     * Executa o logout
+     */
+    private void performLogout() {
+        Log.d(TAG, "Executando logout...");
+
+        try {
+            // Limpar TokenManager
+            tokenManager.clearUserData();
+            Log.d(TAG, "✅ TokenManager limpo");
+
+            // Limpar SharedPreferences
+            SharedPreferences userPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            userPrefs.edit().clear().commit();
+            Log.d(TAG, "✅ user_prefs limpo");
+
+            SharedPreferences statsPrefs = getSharedPreferences("user_stats", MODE_PRIVATE);
+            statsPrefs.edit().clear().commit();
+            Log.d(TAG, "✅ user_stats limpo");
+
+            // Mostrar mensagem
+            Toast.makeText(this, "Sessão encerrada com sucesso", Toast.LENGTH_SHORT).show();
+
+            // Redirecionar para SplashActivity
+            Intent intent = new Intent(PerfilAccount.this, SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            finishAffinity();
+
+            Log.d(TAG, "✅ Logout concluído");
+
+        } catch (Exception e) {
+            Log.e(TAG, "❌ ERRO no logout: " + e.getMessage());
+            e.printStackTrace();
+            Toast.makeText(this, "Erro ao sair: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume chamado");
+        loadProfileFromApi();
+        loadStatistics();
+    }
+
+    /**
+     * Métodos públicos para atualizar estatísticas
+     */
+    public static void incrementarVisualizados(android.content.Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("user_stats", MODE_PRIVATE);
+        int atual = prefs.getInt("anuncios_visualizados", 0);
+        prefs.edit().putInt("anuncios_visualizados", atual + 1).apply();
+    }
+
+    public static void incrementarGuardados(android.content.Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("user_stats", MODE_PRIVATE);
+        int atual = prefs.getInt("anuncios_guardados", 0);
+        prefs.edit().putInt("anuncios_guardados", atual + 1).apply();
+    }
+
+    public static void decrementarGuardados(android.content.Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("user_stats", MODE_PRIVATE);
+        int atual = prefs.getInt("anuncios_guardados", 0);
+        if (atual > 0) {
+            prefs.edit().putInt("anuncios_guardados", atual - 1).apply();
+        }
+    }
+
+    public static void incrementarPublicados(android.content.Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("user_stats", MODE_PRIVATE);
+        int atual = prefs.getInt("anuncios_publicados", 0);
+        prefs.edit().putInt("anuncios_publicados", atual + 1).apply();
     }
 }

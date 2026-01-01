@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+        <domain includeSubdomains="true">192.168.56.1</domain>
+        <domain includeSubdomains="true">172.20.10.3</domain>
+        <domain includeSubdomains="true">172.20.10.5</domain>
+
+
+    </domain-config>
+
+    <!-- Para desenvolvimento, permitir cleartext em todos os domínios -->
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
