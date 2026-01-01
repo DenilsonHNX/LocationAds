@@ -13,7 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.UserProfile;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
 import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PerfilAccount extends AppCompatActivity {
 
@@ -28,22 +34,29 @@ public class PerfilAccount extends AppCompatActivity {
     private TextView perfilEmail;
     private TextView infoEmail;
     private TextView infoTelefone;
-    private TextView infoDataCriacao;
 
     private TextView txtVisualizados;
     private TextView txtGuardados;
     private TextView txtPublicados;
+
+    // API
+    private ApiService apiService;
+    private TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_account);
 
+        // Inicializar API
+        apiService = ApiClient.getInstance().getApiService();
+        tokenManager = TokenManager.getInstance(this);
+
         // Inicializar views
         initViews();
 
-        // Carregar dados do perfil
-        loadProfileData();
+        // Carregar dados do perfil da API
+        loadProfileFromApi();
 
         // Configurar listeners
         setupListeners();
@@ -63,112 +76,153 @@ public class PerfilAccount extends AppCompatActivity {
         perfilName = findViewById(R.id.perfilName);
         perfilEmail = findViewById(R.id.perfilEmail);
         infoEmail = findViewById(R.id.info_email);
-
-        // ✅ CORRIGIDO: Tentar ambos os IDs para compatibilidade
         infoTelefone = findViewById(R.id.info_telefone);
-        if (infoTelefone == null) {
-            infoTelefone = findViewById(R.id.info_telefone); // ID antigo do XML original
-        }
 
         txtVisualizados = findViewById(R.id.txtVisualizados);
         txtGuardados = findViewById(R.id.txtGuardados);
         txtPublicados = findViewById(R.id.txtPublicados);
 
-        // Log para debug
-        Log.d(TAG, "Views inicializadas:");
-        Log.d(TAG, "btnBack: " + (btnBack != null));
-        Log.d(TAG, "btnLogOut: " + (btnLogOut != null));
-        Log.d(TAG, "toEditPerfil: " + (toEditPerfil != null));
+        Log.d(TAG, "Views inicializadas");
     }
 
     /**
-     * Carrega os dados do perfil do SharedPreferences
+     * Carrega os dados do perfil da API
      */
-    private void loadProfileData() {
-        SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
+    private void loadProfileFromApi() {
+        Log.d(TAG, "Carregando perfil da API...");
 
-        // Obter dados
-        String nome = sharedPref.getString("nomeCompleto", "Nome não definido");
-        String email = sharedPref.getString("email", "Email não definido");
-        String telefone = sharedPref.getString("telefone", "Telefone não definido");
-        String dataCriacao = sharedPref.getString("dataCriacao", "Data não definida");
+        String token = "Bearer " + tokenManager.getToken();
 
-        Log.d(TAG, "Dados carregados:");
-        Log.d(TAG, "Nome: " + nome);
-        Log.d(TAG, "Email: " + email);
+        apiService.getUserProfile(token).enqueue(new Callback<UserProfile>() {
+            @Override
+            public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    UserProfile profile = response.body();
 
-        // Definir dados nas views (com verificação de null)
-        if (perfilName != null) {
-            perfilName.setText(nome);
+                    Log.d(TAG, "✅ Perfil carregado da API");
+                    Log.d(TAG, "User: " + profile);
+
+                    // Extrair dados do response
+                    // O response é: {"message": "...", "user": {"sub": "...", "email": "...", "name": "..."}}
+                    // Mas precisamos acessar via UserProfile
+
+                    // Atualizar UI
+                    runOnUiThread(() -> {
+                        updateUI(profile);
+                        saveProfileDataLocally(profile);
+                    });
+
+                } else {
+                    Log.e(TAG, "Erro ao carregar perfil: " + response.code());
+                    // Fallback: tentar carregar do SharedPreferences
+                    loadProfileFromSharedPreferences();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserProfile> call, Throwable t) {
+                Log.e(TAG, "Falha ao carregar perfil da API", t);
+                // Fallback: tentar carregar do SharedPreferences
+                loadProfileFromSharedPreferences();
+            }
+        });
+    }
+
+    /**
+     * Atualiza a UI com os dados do perfil
+     */
+    private void updateUI(UserProfile profile) {
+        // Nome do usuário
+        String username = tokenManager.getUsername();
+        if (username != null && !username.isEmpty()) {
+            perfilName.setText(username);
         }
 
-        if (perfilEmail != null) {
+        // Email do usuário
+        String email = tokenManager.getEmail();
+        if (email != null && !email.isEmpty()) {
             perfilEmail.setText(email);
-        }
-
-        if (infoEmail != null) {
             infoEmail.setText(email);
         }
 
-        if (infoTelefone != null) {
-            infoTelefone.setText(telefone);
-        }
+        // Telefone (se existir no SharedPreferences)
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String telefone = prefs.getString("telefone", "Não definido");
+        infoTelefone.setText(telefone);
 
-        if (infoDataCriacao != null) {
-            infoDataCriacao.setText(formatarData(dataCriacao));
-        }
+        Log.d(TAG, "UI atualizada com dados do perfil");
     }
 
     /**
-     * Formata a data para um formato mais legível
+     * Salva os dados do perfil localmente para fallback
      */
-    private String formatarData(String data) {
-        if (data == null || data.equals("Data não definida")) {
-            return data;
+    private void saveProfileDataLocally(UserProfile profile) {
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        String username = tokenManager.getUsername();
+        String email = tokenManager.getEmail();
+
+        if (username != null) {
+            editor.putString("nomeCompleto", username);
         }
 
-        try {
-            String[] partes = data.split("/");
-            if (partes.length == 3) {
-                int dia = Integer.parseInt(partes[0]);
-                int mes = Integer.parseInt(partes[1]);
-                String ano = partes[2];
-
-                String[] meses = {
-                        "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                        "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-                };
-
-                return dia + " de " + meses[mes - 1] + ", " + ano;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Erro ao formatar data: " + e.getMessage());
+        if (email != null) {
+            editor.putString("email", email);
         }
 
-        return data;
+        editor.apply();
+
+        Log.d(TAG, "Dados salvos localmente");
+    }
+
+    /**
+     * Carrega dados do SharedPreferences (fallback)
+     */
+    private void loadProfileFromSharedPreferences() {
+        Log.d(TAG, "Carregando perfil do SharedPreferences (fallback)");
+
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+
+        String nome = prefs.getString("nomeCompleto", "Nome não definido");
+        String email = prefs.getString("email", "Email não definido");
+        String telefone = prefs.getString("telefone", "Não definido");
+
+        // Verificar também o TokenManager
+        String tokenName = tokenManager.getUsername();
+        String tokenEmail = tokenManager.getEmail();
+
+        if (tokenName != null && !tokenName.isEmpty()) {
+            nome = tokenName;
+        }
+
+        if (tokenEmail != null && !tokenEmail.isEmpty()) {
+            email = tokenEmail;
+        }
+
+        Log.d(TAG, "Nome: " + nome);
+        Log.d(TAG, "Email: " + email);
+
+        // Atualizar UI
+        perfilName.setText(nome);
+        perfilEmail.setText(email);
+        infoEmail.setText(email);
+        infoTelefone.setText(telefone);
     }
 
     /**
      * Carrega as estatísticas do usuário
      */
     private void loadStatistics() {
-        SharedPreferences sharedPref = getSharedPreferences("user_stats", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("user_stats", MODE_PRIVATE);
 
-        int visualizados = sharedPref.getInt("anuncios_visualizados", 0);
-        int guardados = sharedPref.getInt("anuncios_guardados", 0);
-        int publicados = sharedPref.getInt("anuncios_publicados", 0);
+        int visualizados = prefs.getInt("anuncios_visualizados", 0);
+        int guardados = prefs.getInt("anuncios_guardados", 0);
+        int publicados = prefs.getInt("anuncios_publicados", 0);
 
-        if (txtVisualizados != null) {
-            txtVisualizados.setText(String.valueOf(visualizados));
-        }
-
-        if (txtGuardados != null) {
-            txtGuardados.setText(String.valueOf(guardados));
-        }
-
-        if (txtPublicados != null) {
-            txtPublicados.setText(String.valueOf(publicados));
-        }
+        txtVisualizados.setText(String.valueOf(visualizados));
+        txtGuardados.setText(String.valueOf(guardados));
+        txtPublicados.setText(String.valueOf(publicados));
     }
 
     /**
@@ -176,31 +230,23 @@ public class PerfilAccount extends AppCompatActivity {
      */
     private void setupListeners() {
         // Botão Voltar
-        if (btnBack != null) {
-            btnBack.setOnClickListener(v -> {
-                Log.d(TAG, "Botão voltar clicado");
-                finish();
-            });
-        }
+        btnBack.setOnClickListener(v -> {
+            Log.d(TAG, "Botão voltar clicado");
+            finish();
+        });
 
         // Botão Editar Perfil
-        if (toEditPerfil != null) {
-            toEditPerfil.setOnClickListener(v -> {
-                Log.d(TAG, "Botão editar perfil clicado");
-                Intent intent = new Intent(PerfilAccount.this, EditPerfilAccount.class);
-                startActivity(intent);
-            });
-        }
+        toEditPerfil.setOnClickListener(v -> {
+            Log.d(TAG, "Botão editar perfil clicado");
+            Intent intent = new Intent(PerfilAccount.this, EditPerfilAccount.class);
+            startActivity(intent);
+        });
 
         // Botão Logout
-        if (btnLogOut != null) {
-            btnLogOut.setOnClickListener(v -> {
-                Log.d(TAG, "Botão logout clicado");
-                showLogoutDialog();
-            });
-        } else {
-            Log.e(TAG, "ERRO: btnLogOut é NULL!");
-        }
+        btnLogOut.setOnClickListener(v -> {
+            Log.d(TAG, "Botão logout clicado");
+            showLogoutDialog();
+        });
     }
 
     /**
@@ -229,44 +275,33 @@ public class PerfilAccount extends AppCompatActivity {
         Log.d(TAG, "Executando logout...");
 
         try {
+            // Limpar TokenManager
+            tokenManager.clearUserData();
+            Log.d(TAG, "✅ TokenManager limpo");
 
-            TokenManager tokenManager = TokenManager.getInstance(this);
-            tokenManager.clearUserData(); // ← Isso aqui!
-
-            // Limpar SharedPreferences antigo também
-            SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-            prefs.edit().clear().commit();
-
-            // Limpar SharedPreferences de user_prefs
+            // Limpar SharedPreferences
             SharedPreferences userPrefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-            SharedPreferences.Editor userEditor = userPrefs.edit();
-            userEditor.clear();
-            boolean userCleared = userEditor.commit(); // Usar commit para garantir gravação imediata
-            Log.d(TAG, "user_prefs limpo: " + userCleared);
+            userPrefs.edit().clear().commit();
+            Log.d(TAG, "✅ user_prefs limpo");
 
-            // Limpar SharedPreferences de user_stats
             SharedPreferences statsPrefs = getSharedPreferences("user_stats", MODE_PRIVATE);
-            SharedPreferences.Editor statsEditor = statsPrefs.edit();
-            statsEditor.clear();
-            boolean statsCleared = statsEditor.commit();
-            Log.d(TAG, "user_stats limpo: " + statsCleared);
+            statsPrefs.edit().clear().commit();
+            Log.d(TAG, "✅ user_stats limpo");
 
             // Mostrar mensagem
             Toast.makeText(this, "Sessão encerrada com sucesso", Toast.LENGTH_SHORT).show();
 
-            // Redirecionar para LoginActivity
-            Log.d(TAG, "Redirecionando para LoginActivity");
+            // Redirecionar para SplashActivity
             Intent intent = new Intent(PerfilAccount.this, SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
-
-            // Finalizar esta activity
             finish();
+            finishAffinity();
 
-            Log.d(TAG, "Logout concluído");
+            Log.d(TAG, "✅ Logout concluído");
 
         } catch (Exception e) {
-            Log.e(TAG, "ERRO no logout: " + e.getMessage());
+            Log.e(TAG, "❌ ERRO no logout: " + e.getMessage());
             e.printStackTrace();
             Toast.makeText(this, "Erro ao sair: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -276,7 +311,7 @@ public class PerfilAccount extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d(TAG, "onResume chamado");
-        loadProfileData();
+        loadProfileFromApi();
         loadStatistics();
     }
 

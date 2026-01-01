@@ -9,12 +9,14 @@ public class TokenManager {
     private static final String TAG = "TokenManager";
     private static TokenManager instance;
     private SharedPreferences prefs;
+
     private static final String PREFS_NAME = "AuthPrefs";
     private static final String KEY_TOKEN = "auth_token";
     private static final String KEY_REFRESH_TOKEN = "refresh_token";
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_USERNAME = "username";
-    private static final String KEY_TOKEN_EXPIRY = "token_expiry"; // ✅ NOVO
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_TOKEN_EXPIRY = "token_expiry";
 
     public static synchronized TokenManager getInstance(Context context) {
         if (instance == null) {
@@ -27,16 +29,60 @@ public class TokenManager {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
+    // ✅ CORRIGIDO - Salvar dados do usuário COM EMAIL
+    public void saveUserData(String userId, String username, String email, String token) {
+        prefs.edit()
+                .putString(KEY_USER_ID, userId)
+                .putString(KEY_USERNAME, username)
+                .putString(KEY_EMAIL, email)  // ← ADICIONADO!
+                .putString(KEY_TOKEN, token)
+                .apply();
+
+        // Definir tempo de expiração padrão (24 horas)
+        long expiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000);
+        prefs.edit().putLong(KEY_TOKEN_EXPIRY, expiryTime).apply();
+
+        Log.d(TAG, "✅ Dados do usuário salvos:");
+        Log.d(TAG, "  - User ID: " + userId);
+        Log.d(TAG, "  - Username: " + username);
+        Log.d(TAG, "  - Email: " + email);  // ← ADICIONADO!
+    }
+
+    // ✅ CORRIGIDO - Salvar dados com expiração personalizada
+    public void saveUserData(String userId, String username, String email, String token, long expiryTimeMillis) {
+        prefs.edit()
+                .putString(KEY_USER_ID, userId)
+                .putString(KEY_USERNAME, username)
+                .putString(KEY_EMAIL, email)  // ← ADICIONADO!
+                .putString(KEY_TOKEN, token)
+                .putLong(KEY_TOKEN_EXPIRY, expiryTimeMillis)
+                .apply();
+
+        Log.d(TAG, "✅ Dados do usuário salvos com expiração personalizada");
+        Log.d(TAG, "  - Email: " + email);  // ← ADICIONADO!
+    }
+
+    // ⚠️ DEPRECATED - Manter para compatibilidade (sem email)
+    @Deprecated
+    public void saveUserData(String userId, String username, String token) {
+        saveUserData(userId, username, "", token);
+        Log.w(TAG, "⚠️ Usando saveUserData sem email - use a versão com email!");
+    }
+
+    @Deprecated
+    public void saveUserData(String userId, String username, String token, long expiryTimeMillis) {
+        saveUserData(userId, username, "", token, expiryTimeMillis);
+        Log.w(TAG, "⚠️ Usando saveUserData sem email - use a versão com email!");
+    }
+
     // Salvar token
     public void saveToken(String token) {
         prefs.edit().putString(KEY_TOKEN, token).apply();
-        // Definir tempo de expiração (exemplo: 24 horas a partir de agora)
-        long expiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000); // 24 horas
+        long expiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000);
         prefs.edit().putLong(KEY_TOKEN_EXPIRY, expiryTime).apply();
         Log.d(TAG, "Token salvo com sucesso");
     }
 
-    // Salvar token com tempo de expiração personalizado
     public void saveToken(String token, long expiryTimeMillis) {
         prefs.edit().putString(KEY_TOKEN, token).apply();
         prefs.edit().putLong(KEY_TOKEN_EXPIRY, expiryTimeMillis).apply();
@@ -48,13 +94,28 @@ public class TokenManager {
         return prefs.getString(KEY_TOKEN, "");
     }
 
+    // Obter ID do usuário
+    public String getUserId() {
+        return prefs.getString(KEY_USER_ID, "");
+    }
+
+    // Obter username
+    public String getUsername() {
+        return prefs.getString(KEY_USERNAME, "");
+    }
+
+    // ✅ Obter email - AGORA FUNCIONA!
+    public String getEmail() {
+        return prefs.getString(KEY_EMAIL, "");
+    }
+
     // Verificar se tem token
     public boolean hasToken() {
         String token = getToken();
         return token != null && !token.isEmpty();
     }
 
-    // ✅ MÉTODO NOVO - Verificar se o token é válido (não expirou)
+    // Verificar se o token é válido (não expirou)
     public boolean isTokenValid() {
         if (!hasToken()) {
             Log.d(TAG, "Token não existe");
@@ -73,63 +134,35 @@ public class TokenManager {
         return isValid;
     }
 
-    // ✅ MÉTODO NOVO (STATIC) - Verificar se o token é válido estaticamente
     public static boolean isTokenValid(Context context) {
         return getInstance(context).isTokenValid();
     }
 
-    // Limpar token (logout)
-    public void clearToken() {
-        prefs.edit().clear().apply();
-        Log.d(TAG, "Token limpo");
+    // Verificar se está logado
+    public boolean isLoggedIn() {
+        return hasToken() && isTokenValid();
     }
 
-    // ✅ MÉTODO NOVO - Limpar token e fazer logout
-    public void clearAndLogout() {
-        clearToken();
-        Log.d(TAG, "Logout realizado - token e dados limpos");
+    // Obter tempo restante do token (em milissegundos)
+    public long getTokenRemainingTime() {
+        if (!hasToken()) {
+            return 0;
+        }
+
+        long expiryTime = prefs.getLong(KEY_TOKEN_EXPIRY, 0);
+        long currentTime = System.currentTimeMillis();
+        long remaining = expiryTime - currentTime;
+
+        return Math.max(0, remaining);
     }
 
-    // ✅ MÉTODO NOVO (STATIC) - Limpar e fazer logout estaticamente
-    public static void clearAndLogout(Context context) {
-        getInstance(context).clearAndLogout();
-    }
-
-    // Salvar dados do utilizador
-    public void saveUserData(String userId, String username, String token) {
-        prefs.edit()
-                .putString(KEY_USER_ID, userId)
-                .putString(KEY_USERNAME, username)
-                .putString(KEY_TOKEN, token)
-                .apply();
-
-        // Definir tempo de expiração padrão
-        long expiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000); // 24 horas
-        prefs.edit().putLong(KEY_TOKEN_EXPIRY, expiryTime).apply();
-
-        Log.d(TAG, "Dados do usuário salvos");
-    }
-
-    // Salvar dados do utilizador com tempo de expiração personalizado
-    public void saveUserData(String userId, String username, String token, long expiryTimeMillis) {
-        prefs.edit()
-                .putString(KEY_USER_ID, userId)
-                .putString(KEY_USERNAME, username)
-                .putString(KEY_TOKEN, token)
-                .putLong(KEY_TOKEN_EXPIRY, expiryTimeMillis)
-                .apply();
-
-        Log.d(TAG, "Dados do usuário salvos com expiração personalizada");
-    }
-
-    // Obter ID do utilizador
-    public String getUserId() {
-        return prefs.getString(KEY_USER_ID, "");
-    }
-
-    // Obter username
-    public String getUsername() {
-        return prefs.getString(KEY_USERNAME, "");
+    // Renovar token (atualizar tempo de expiração)
+    public void renewToken() {
+        if (hasToken()) {
+            long newExpiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000);
+            prefs.edit().putLong(KEY_TOKEN_EXPIRY, newExpiryTime).apply();
+            Log.d(TAG, "Token renovado");
+        }
     }
 
     // Salvar refresh token
@@ -142,42 +175,28 @@ public class TokenManager {
         return prefs.getString(KEY_REFRESH_TOKEN, "");
     }
 
-    // ✅ MÉTODO NOVO - Verificar se está logado
-    public boolean isLoggedIn() {
-        return hasToken() && isTokenValid();
+    // Limpar token (logout)
+    public void clearToken() {
+        prefs.edit().clear().apply();
+        Log.d(TAG, "Token limpo");
     }
 
-    // ✅ MÉTODO NOVO - Obter tempo restante do token (em milissegundos)
-    public long getTokenRemainingTime() {
-        if (!hasToken()) {
-            return 0;
-        }
-
-        long expiryTime = prefs.getLong(KEY_TOKEN_EXPIRY, 0);
-        long currentTime = System.currentTimeMillis();
-        long remaining = expiryTime - currentTime;
-
-        return Math.max(0, remaining); // Nunca retornar negativo
-    }
-
-
-
-    // ✅ MÉTODO NOVO - Renovar token (atualizar tempo de expiração)
-    public void renewToken() {
-        if (hasToken()) {
-            long newExpiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000); // +24 horas
-            prefs.edit().putLong(KEY_TOKEN_EXPIRY, newExpiryTime).apply();
-            Log.d(TAG, "Token renovado");
-        }
-    }
-
+    // Limpar todos os dados do usuário
     public void clearUserData() {
         SharedPreferences.Editor editor = prefs.edit();
-        editor.clear(); // Limpa TUDO
-        editor.commit(); // Grava imediatamente
+        editor.clear();
+        editor.commit();
 
         Log.d(TAG, "🗑️ Todos os dados do usuário foram limpos");
     }
 
+    // Limpar e fazer logout
+    public void clearAndLogout() {
+        clearUserData();
+        Log.d(TAG, "Logout realizado - token e dados limpos");
+    }
 
+    public static void clearAndLogout(Context context) {
+        getInstance(context).clearAndLogout();
+    }
 }

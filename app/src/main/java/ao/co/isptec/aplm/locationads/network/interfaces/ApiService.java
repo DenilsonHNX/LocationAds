@@ -74,42 +74,42 @@ public interface ApiService {
      * Buscar minhas mensagens (do usuário autenticado)
      * Endpoint: GET /messages/my-messages
      */
-    @GET("messages/my-messages")
+    @GET("https://backend-aplm-segq.onrender.com/messages/my-messages")
     Call<List<Ads>> getMyMessages();
 
     /**
      * Buscar mensagem específica por ID
      * Endpoint: GET /messages/{id}
      */
-    @GET("messages/{id}")
+    @GET("https://backend-aplm-segq.onrender.com/messages/{id}")
     Call<Ads> getMessageById(@Path("id") int id);
 
     /**
      * Buscar notificações
      * Endpoint: GET /messages/notifications
      */
-    @GET("messages/notifications")
+    @GET("https://backend-aplm-segq.onrender.com/messages/notifications")
     Call<List<Ads>> getNotifications();
 
     /**
      * Buscar mensagens salvas (favoritos)
      * Endpoint: GET /messages/saved
      */
-    @GET("messages/saved")
+    @GET("https://backend-aplm-segq.onrender.com/messages/saved")
     Call<List<Ads>> getSavedMessages();
 
     /**
      * Salvar mensagem nos favoritos
      * Endpoint: POST /messages/{id}/save
      */
-    @POST("messages/{id}/save")
+    @POST("https://backend-aplm-segq.onrender.com/messages/{id}/save")
     Call<ResponseBody> saveMessage(@Path("id") int id);
 
     /**
      * Remover mensagem dos favoritos
      * Endpoint: DELETE /messages/{id}/save
      */
-    @DELETE("messages/{id}/save")
+    @DELETE("https://backend-aplm-segq.onrender.com/messages/{id}/save")
     Call<ResponseBody> unsaveMessage(@Path("id") int id);
 
     @GET("/locais/user/{userId}")
@@ -123,6 +123,28 @@ public interface ApiService {
     Call<ResponseBody> addProfileProperty(
             @Header("Authorization") String token,
             @Body PerfilKeyValue property
+    );
+
+    // ✅ NOVO: Obter perfil por userId
+    @GET("https://backend-aplm-segq.onrender.com/usuarios/{userId}/perfil")
+    Call<List<PerfilKeyValue>> getPerfilByUserId(@Path("userId") int userId);
+
+    // ✅ CORRIGIDO: userId na URL (não via Header)
+    @POST("https://backend-aplm-segq.onrender.com/usuarios/{userId}/perfil")
+    Call<PerfilKeyValue> addProfileProperty(
+            @Path("userId") int userId,
+            @Body PerfilKeyValue property
+    );
+
+    // ✅ NOVO: Atualizar perfil completo
+    @PUT("https://backend-aplm-segq.onrender.com/usuarios/{userId}/perfil")
+    Call<List<PerfilKeyValue>> updateCompleteProfile();
+
+    // ✅ CORRIGIDO: Remover propriedade
+    @DELETE("https://backend-aplm-segq.onrender.com/usuarios/{userId}/perfil/{chave}")
+    Call<Void> removeProfileProperty(
+            @Path("userId") int userId,
+            @Path("chave") String chave
     );
 
     /**
@@ -139,7 +161,7 @@ public interface ApiService {
      * Obter perfil completo do utilizador
      * GET /profile/get
      */
-    @GET("profile/get")
+    @GET("https://backend-aplm-segq.onrender.com/auth/profile")
     Call<UserProfile> getUserProfile(
             @Header("Authorization") String token
     );
@@ -158,10 +180,8 @@ public interface ApiService {
      * Obter lista de todas as chaves públicas
      * GET /profile/public-keys
      */
-    @GET("profile/public-keys")
-    Call<List<String>> getPublicKeys(
-            @Header("Authorization") String token
-    );
+    @GET("https://backend-aplm-segq.onrender.com/perfil/chaves")
+    Call<List<String>> getPublicKeys();
 
     // Buscar todos os anúncios
 

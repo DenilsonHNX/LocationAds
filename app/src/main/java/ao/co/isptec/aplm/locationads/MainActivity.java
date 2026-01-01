@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,14 +41,15 @@ import ao.co.isptec.aplm.locationads.adapter.LocaisAdapter;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
+import ao.co.isptec.aplm.locationads.network.models.UserProfile;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     private static final String TAG = "MainActivity";
 
     // Views
@@ -67,10 +67,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     // Data
     private ApiService apiService;
-    private List<Ads> anunciosFiltrados; // ✅ Mudar de AdMessage para Ads
-
-    // Data
-    private Map<String, String> perfilUsuario = new HashMap<>();
+    private List<Ads> anunciosFiltrados;
+    private UserProfile perfilUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Configurar listeners
         setupListeners();
 
-        // Carregar dados do usuário
+        // Carregar perfil do usuário
         loadUserProfile();
 
         // Configurar mapa
@@ -123,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // RecyclerView de Anúncios
         recyclerViewAnuncios.setLayoutManager(new LinearLayoutManager(this));
-        anunciosFiltrados = new ArrayList<>(); // ✅ Inicializar lista
+        anunciosFiltrados = new ArrayList<>();
         anunciosAdapter = new AnunciosAdapter(this, anunciosFiltrados);
         recyclerViewAnuncios.setAdapter(anunciosAdapter);
     }
@@ -199,21 +197,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     /**
-     * Carrega o perfil do usuário
+     * Carrega o perfil do usuário do ProfileManager
      */
     private void loadUserProfile() {
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        String perfilJson = prefs.getString("perfil_usuario", "{}");
+        perfilUsuario = ProfileManager.getInstance(this).getCurrentProfile();
 
-        try {
-            JSONObject jsonObject = new JSONObject(perfilJson);
-            Iterator<String> keys = jsonObject.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                perfilUsuario.put(key, jsonObject.getString(key));
+        if (perfilUsuario != null && perfilUsuario.getProperties() != null) {
+            Log.d(TAG, "========== PERFIL DO USUÁRIO ==========");
+            Log.d(TAG, "User ID: " + perfilUsuario.getUserId());
+            Log.d(TAG, "Propriedades: " + perfilUsuario.getProperties().size());
+
+            for (Map.Entry<String, String> entry : perfilUsuario.getProperties().entrySet()) {
+                Log.d(TAG, "  " + entry.getKey() + " = " + entry.getValue());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            Log.d(TAG, "=====================================");
+        } else {
+            Log.w(TAG, "⚠️ Usuário sem perfil definido");
         }
     }
 
@@ -285,14 +285,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-
     /**
-     * Carrega e filtra os anúncios de todos os locais
+     * Carrega e filtra os anúncios de todos os locais baseado no perfil do usuário
      */
     private void loadAds() {
         Log.d(TAG, "========== CARREGANDO ANÚNCIOS ==========");
 
-        // Primeiro, buscar todos os locais
+        // Verificar se o perfil está carregado
+        if (perfilUsuario == null) {
+            Log.w(TAG, "⚠️ Tentando recarregar perfil do usuário...");
+            loadUserProfile();
+        }
+
+        logPerfilUsuario();
+
+        // Buscar todos os locais
         apiService.getAllLocals().enqueue(new retrofit2.Callback<List<Local>>() {
             @Override
             public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
@@ -317,6 +324,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     // Contador para saber quando terminou todas as requisições
                     final int totalLocais = locais.size();
                     final int[] locaisProcessados = {0};
+                    final int[] totalAnunciosRecebidos = {0};
+                    final int[] totalAnunciosPermitidos = {0};
+                    final int[] totalAnunciosBloqueados = {0};
 
                     // Buscar mensagens de cada local
                     for (Local local : locais) {
@@ -326,9 +336,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                     public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
                                         if (response.isSuccessful() && response.body() != null) {
                                             List<Ads> mensagensDoLocal = response.body();
-                                            anunciosFiltrados.addAll(mensagensDoLocal);
-                                            Log.d(TAG, "✅ Mensagens do local " + local.getNome() +
-                                                    " (" + local.getId() + "): " + mensagensDoLocal.size());
+                                            totalAnunciosRecebidos[0] += mensagensDoLocal.size();
+
+                                            Log.d(TAG, "");
+                                            Log.d(TAG, "📍 Local: " + local.getNome() + " (ID: " + local.getId() + ")");
+                                            Log.d(TAG, "📨 Total de anúncios: " + mensagensDoLocal.size());
+                                            Log.d(TAG, "─────────────────────────────────────");
+
+                                            // Aplicar filtro de WHITELIST/BLACKLIST
+                                            for (Ads anuncio : mensagensDoLocal) {
+                                                boolean podeVer = podeVerAnuncio(anuncio);
+
+                                                if (podeVer) {
+                                                    anunciosFiltrados.add(anuncio);
+                                                    totalAnunciosPermitidos[0]++;
+                                                } else {
+                                                    totalAnunciosBloqueados[0]++;
+                                                }
+                                            }
                                         } else {
                                             Log.w(TAG, "⚠️ Erro ao buscar mensagens do local " +
                                                     local.getNome() + ": " + response.code());
@@ -338,15 +363,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                         // Se processou todos os locais, atualizar UI
                                         if (locaisProcessados[0] == totalLocais) {
-                                            Log.d(TAG, "✅ Total de anúncios carregados: " +
-                                                    anunciosFiltrados.size());
+                                            Log.d(TAG, "");
+                                            Log.d(TAG, "========== RESUMO DA FILTRAGEM ==========");
+                                            Log.d(TAG, "📊 Total de anúncios recebidos: " + totalAnunciosRecebidos[0]);
+                                            Log.d(TAG, "✅ Anúncios PERMITIDOS: " + totalAnunciosPermitidos[0]);
+                                            Log.d(TAG, "❌ Anúncios BLOQUEADOS: " + totalAnunciosBloqueados[0]);
                                             Log.d(TAG, "=========================================");
 
                                             runOnUiThread(() -> {
                                                 updateAdsUI();
+
+                                                String mensagem = totalAnunciosPermitidos[0] + " anúncios disponíveis para você";
+                                                if (totalAnunciosBloqueados[0] > 0) {
+                                                    mensagem += " (" + totalAnunciosBloqueados[0] + " bloqueados)";
+                                                }
+
                                                 Toast.makeText(MainActivity.this,
-                                                        anunciosFiltrados.size() + " anúncios carregados",
-                                                        Toast.LENGTH_SHORT).show();
+                                                        mensagem,
+                                                        Toast.LENGTH_LONG).show();
                                             });
                                         }
                                     }
@@ -358,7 +392,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                                         locaisProcessados[0]++;
 
-                                        // Se processou todos os locais (mesmo com erros), atualizar UI
                                         if (locaisProcessados[0] == totalLocais) {
                                             Log.d(TAG, "Total de anúncios carregados (com erros): " +
                                                     anunciosFiltrados.size());
@@ -397,6 +430,168 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+    /**
+     * Log detalhado do perfil do usuário
+     */
+    private void logPerfilUsuario() {
+        if (perfilUsuario != null && perfilUsuario.getProperties() != null &&
+                !perfilUsuario.getProperties().isEmpty()) {
+            Log.d(TAG, "👤 Perfil do Usuário:");
+            for (Map.Entry<String, String> entry : perfilUsuario.getProperties().entrySet()) {
+                Log.d(TAG, "   " + entry.getKey() + " = \"" + entry.getValue() + "\"");
+            }
+        } else {
+            Log.w(TAG, "⚠️ Usuário SEM perfil definido (verá apenas anúncios sem restrições)");
+        }
+        Log.d(TAG, "");
+    }
+
+    /**
+     * Verifica se o usuário pode ver o anúncio baseado na política WHITELIST/BLACKLIST
+     *
+     * WHITELIST: Apenas quem corresponde às restrições pode ver
+     * BLACKLIST: Todos podem ver, EXCETO quem corresponde às restrições
+     */
+    private boolean podeVerAnuncio(Ads anuncio) {
+        String policy = anuncio.getPolicy();
+        Map<String, Object> restricoes = anuncio.getRestricoes();
+
+        Log.d(TAG, "");
+        Log.d(TAG, "🔍 Anúncio: \"" + anuncio.getTitulo() + "\"");
+        Log.d(TAG, "   Policy: " + policy);
+
+        if (restricoes != null && !restricoes.isEmpty()) {
+            Log.d(TAG, "   Restrições:");
+            for (Map.Entry<String, Object> entry : restricoes.entrySet()) {
+                Log.d(TAG, "     • " + entry.getKey() + " = " + entry.getValue());
+            }
+        } else {
+            Log.d(TAG, "   Restrições: NENHUMA");
+        }
+
+        // Caso 1: Anúncio SEM restrições
+        if (restricoes == null || restricoes.isEmpty()) {
+            if ("WHITELIST".equalsIgnoreCase(policy)) {
+                // WHITELIST vazia = ninguém pode ver
+                Log.d(TAG, "   Resultado: ❌ BLOQUEADO (WHITELIST vazia - ninguém autorizado)");
+                return false;
+            } else {
+                // BLACKLIST vazia = todos podem ver
+                Log.d(TAG, "   Resultado: ✅ PERMITIDO (BLACKLIST vazia - todos autorizados)");
+                return true;
+            }
+        }
+
+        // Caso 2: Anúncio COM restrições
+        boolean perfilCorresponde = verificaCorrespondenciaPerfil(restricoes);
+
+        Log.d(TAG, "   Perfil corresponde às restrições: " + (perfilCorresponde ? "SIM" : "NÃO"));
+
+        // Aplicar lógica da política
+        boolean resultado;
+        if ("WHITELIST".equalsIgnoreCase(policy)) {
+            // WHITELIST: Só pode ver quem corresponde
+            resultado = perfilCorresponde;
+            Log.d(TAG, "   Resultado: " + (resultado ? "✅ PERMITIDO" : "❌ BLOQUEADO") +
+                    " (WHITELIST - apenas quem corresponde)");
+        } else {
+            // BLACKLIST: Pode ver quem NÃO corresponde
+            resultado = !perfilCorresponde;
+            Log.d(TAG, "   Resultado: " + (resultado ? "✅ PERMITIDO" : "❌ BLOQUEADO") +
+                    " (BLACKLIST - bloqueado quem corresponde)");
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Verifica se o perfil do usuário corresponde às restrições do anúncio
+     * Retorna TRUE se o perfil corresponde a TODAS as restrições
+     */
+    private boolean verificaCorrespondenciaPerfil(Map<String, Object> restricoes) {
+        // Se o usuário não tem perfil definido
+        if (perfilUsuario == null || perfilUsuario.getProperties() == null ||
+                perfilUsuario.getProperties().isEmpty()) {
+            Log.d(TAG, "     ⚠️ Usuário sem perfil definido");
+            return false;
+        }
+
+        Map<String, String> perfilMap = perfilUsuario.getProperties();
+
+        // Verificar cada restrição
+        for (Map.Entry<String, Object> restricao : restricoes.entrySet()) {
+            String chave = restricao.getKey();
+            String valorEsperado = String.valueOf(restricao.getValue());
+
+            Log.d(TAG, "     Verificando: " + chave);
+
+            // Verificar se o usuário tem essa propriedade no perfil
+            if (!perfilMap.containsKey(chave)) {
+                Log.d(TAG, "       ❌ Usuário NÃO tem a propriedade \"" + chave + "\"");
+                return false; // Falta uma propriedade obrigatória
+            }
+
+            String valorUsuario = perfilMap.get(chave);
+
+            // Tratamento especial para idade (idadeMinima)
+            if (chave.equalsIgnoreCase("idadeMinima") || chave.equalsIgnoreCase("idade")) {
+                boolean idadeOk = compararIdade(chave, valorUsuario, valorEsperado, perfilMap);
+                if (!idadeOk) {
+                    return false;
+                }
+            } else {
+                // Comparação normal (case-insensitive)
+                boolean corresponde = valorUsuario.trim().equalsIgnoreCase(valorEsperado.trim());
+
+                Log.d(TAG, "       Usuário: \"" + valorUsuario + "\" vs Esperado: \"" + valorEsperado + "\"");
+                Log.d(TAG, "       " + (corresponde ? "✅ CORRESPONDE" : "❌ NÃO CORRESPONDE"));
+
+                if (!corresponde) {
+                    return false; // Uma propriedade não corresponde
+                }
+            }
+        }
+
+        // Se chegou aqui, todas as restrições foram satisfeitas
+        Log.d(TAG, "     ✅ TODAS as restrições foram satisfeitas");
+        return true;
+    }
+
+    /**
+     * Compara idade do usuário com restrição de idade mínima
+     */
+    private boolean compararIdade(String chave, String valorUsuario, String valorEsperado,
+                                  Map<String, String> perfilMap) {
+        try {
+            int idadeMinima = Integer.parseInt(valorEsperado);
+
+            // Se a restrição é "idadeMinima", precisamos buscar "idade" no perfil
+            String idadeStr;
+            if (chave.equalsIgnoreCase("idadeMinima")) {
+                if (!perfilMap.containsKey("idade")) {
+                    Log.d(TAG, "       ❌ Usuário NÃO tem \"idade\" no perfil");
+                    return false;
+                }
+                idadeStr = perfilMap.get("idade");
+            } else {
+                idadeStr = valorUsuario;
+            }
+
+            int idadeUsuario = Integer.parseInt(idadeStr);
+
+            boolean idadeOk = idadeUsuario >= idadeMinima;
+
+            Log.d(TAG, "       Idade do usuário: " + idadeUsuario + " anos");
+            Log.d(TAG, "       Idade mínima: " + idadeMinima + " anos");
+            Log.d(TAG, "       " + (idadeOk ? "✅ IDADE SUFICIENTE" : "❌ IDADE INSUFICIENTE"));
+
+            return idadeOk;
+
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "       ❌ Erro ao comparar idades: " + e.getMessage());
+            return false;
+        }
+    }
 
     /**
      * Atualiza a UI dos anúncios
@@ -420,43 +615,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    /**
-     * Verifica se o usuário pode ver a mensagem baseado nas regras
-     */
-    private boolean podeVerMensagem(Map<String, String> perfilUsuario,
-                                    Map<String, String> restricao,
-                                    boolean isBlacklist) {
-        if (restricao == null || restricao.isEmpty()) {
-            return true;
-        }
-
-        for (Map.Entry<String, String> regra : restricao.entrySet()) {
-            String chave = regra.getKey();
-            String valor = regra.getValue();
-
-            if (isBlacklist) {
-                if (perfilUsuario.containsKey(chave) &&
-                        perfilUsuario.get(chave).equalsIgnoreCase(valor)) {
-                    return false;
-                }
-            } else {
-                if (!perfilUsuario.containsKey(chave) ||
-                        !perfilUsuario.get(chave).equalsIgnoreCase(valor)) {
-                    return false;
-                }
-            }
-        }
-        return true;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recarregar perfil e anúncios quando voltar para a activity
+        loadUserProfile();
+        loadAds();
     }
 
-    /**
-     * Callback quando o mapa está pronto
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        Log.d("MainActivity", "===== MAPA PRONTO =====");
+        Log.d(TAG, "===== MAPA PRONTO =====");
 
         // Verificar permissões de localização
         if (ActivityCompat.checkSelfPermission(this,
@@ -464,7 +635,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 ActivityCompat.checkSelfPermission(this,
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            Log.w("MainActivity", "⚠️ Permissões não concedidas, solicitando...");
+            Log.w(TAG, "⚠️ Permissões não concedidas, solicitando...");
             ActivityCompat.requestPermissions(this,
                     new String[]{
                             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -474,18 +645,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
 
-        Log.d("MainActivity", "✅ Permissões concedidas");
+        Log.d(TAG, "✅ Permissões concedidas");
 
         // Habilitar localização no mapa
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         // Obter última localização conhecida
-        Log.d("MainActivity", "Obtendo última localização conhecida...");
+        Log.d(TAG, "Obtendo última localização conhecida...");
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, location -> {
                     if (location != null) {
-                        Log.d("MainActivity", "✅ Última localização obtida: Lat=" +
+                        Log.d(TAG, "✅ Última localização obtida: Lat=" +
                                 location.getLatitude() + ", Lng=" + location.getLongitude());
 
                         LatLng currentLocation = new LatLng(
@@ -503,20 +674,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 ", Lng: " + String.format("%.4f", location.getLongitude()));
 
                     } else {
-                        Log.w("MainActivity", "⚠️ Última localização é null, tentando localização em tempo real...");
-                        // Se getLastLocation retornar null, solicitar atualizações
-                        requestCurrentLocation();
+                        Log.w(TAG, "⚠️ Última localização é null, usando localização padrão...");
+                        useDefaultLocation();
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("MainActivity", "❌ Erro ao obter localização: " + e.getMessage());
+                    Log.e(TAG, "❌ Erro ao obter localização: " + e.getMessage());
                     useDefaultLocation();
                 });
     }
 
-    /**
-     * Callback de resultado de permissões
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -536,81 +703,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Recarregar anúncios quando voltar para a activity
-        loadAds();
-    }
-
-    /**
-     * Solicita a localização atual em tempo real (como no AddLocal)
-     */
-    private void requestCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-
-        Log.d("MainActivity", "Solicitando localização em tempo real...");
-
-        // Criar LocationRequest
-        com.google.android.gms.location.LocationRequest locationRequest =
-                new com.google.android.gms.location.LocationRequest.Builder(
-                        com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY,
-                        5000 // 5 segundos
-                ).build();
-
-        // LocationCallback
-        com.google.android.gms.location.LocationCallback locationCallback =
-                new com.google.android.gms.location.LocationCallback() {
-                    @Override
-                    public void onLocationResult(@NonNull com.google.android.gms.location.LocationResult locationResult) {
-                        super.onLocationResult(locationResult);
-
-                        if (locationResult.getLastLocation() != null) {
-                            android.location.Location location = locationResult.getLastLocation();
-
-                            Log.d("MainActivity", "✅ Localização em tempo real obtida: Lat=" +
-                                    location.getLatitude() + ", Lng=" + location.getLongitude());
-
-                            LatLng currentLocation = new LatLng(
-                                    location.getLatitude(),
-                                    location.getLongitude()
-                            );
-
-                            // Limpar marcadores antigos e adicionar novo
-                            if (mMap != null) {
-                                mMap.clear();
-                                mMap.addMarker(new MarkerOptions()
-                                        .position(currentLocation)
-                                        .title("Minha localização"));
-
-                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15));
-
-                                locActual.setText("Lat: " + String.format("%.4f", location.getLatitude()) +
-                                        ", Lng: " + String.format("%.4f", location.getLongitude()));
-                            }
-
-                            // Parar atualizações após obter a primeira localização
-                            fusedLocationClient.removeLocationUpdates(this);
-                        }
-                    }
-                };
-
-        // Solicitar atualizações
-        fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                android.os.Looper.getMainLooper()
-        );
-    }
-
     /**
      * Usa localização padrão (Luanda) se não conseguir obter GPS
      */
     private void useDefaultLocation() {
-        Log.w("MainActivity", "⚠️ Usando localização padrão (Luanda)");
+        Log.w(TAG, "⚠️ Usando localização padrão (Luanda)");
 
         LatLng defaultLocation = new LatLng(-8.838333, 13.234444);
 

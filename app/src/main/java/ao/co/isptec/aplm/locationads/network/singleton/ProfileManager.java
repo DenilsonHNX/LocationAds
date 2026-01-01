@@ -190,7 +190,7 @@ public class ProfileManager {
     public void getPublicKeys(PublicKeysCallback callback) {
         String token = TokenManager.getInstance(context).getToken();
 
-        apiService.getPublicKeys("Bearer " + token)
+        apiService.getPublicKeys()
                 .enqueue(new Callback<List<String>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<String>> call,
@@ -304,10 +304,36 @@ public class ProfileManager {
     /**
      * Retorna o username do perfil atual
      */
+    /**
+     * Retorna o username do perfil atual
+     */
     public String getUsername() {
         if (currentProfile != null) {
             return currentProfile.getUsername();
         }
         return "";
     }
+
+    public int getUserId() {
+        SharedPreferences userPrefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        int userId = userPrefs.getInt("userId", -1);
+
+        Log.d(TAG, "getUserId() chamado: " + userId);
+
+        return userId;
+    }
+    public void setUserId(int userId) {
+        if (currentProfile != null) {
+            currentProfile.setUserId(userId);
+            saveCachedProfile();
+            Log.d(TAG, "User ID definido no perfil: " + userId);
+        }
+
+        // Também salvar em SharedPreferences para compatibilidade
+        SharedPreferences userPrefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        userPrefs.edit().putInt("userId", userId).apply();
+    }
+
+
+
 }

@@ -17,10 +17,12 @@
 
             <ImageButton
                 android:id="@+id/btnVoltar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:src="@drawable/ic_arrow_back"
-                android:background="?attr/selectableItemBackgroundBorderless" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back"
+                app:tint="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -58,12 +60,21 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:tabMode="fixed">
+                    android:layout_height="66dp"
+                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabMode="fixed"
+                    app:tabSelectedTextColor="@color/colorPrimary"
+                    app:tabTextColor="@color/textSecondary">
 
-                    <com.google.android.material.tabs.TabItem android:text="Guardados" />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guardados" />
 
-                    <com.google.android.material.tabs.TabItem android:text="Criados por Mim" />
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Criados por Mim" />
 
                 </com.google.android.material.tabs.TabLayout>
 
@@ -74,16 +85,19 @@
                 android:id="@+id/txtTotalAnuncios"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="0 anúncios"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/textPrimary"
                 android:layout_marginBottom="12dp" />
 
             <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewAnuncios"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingBottom="80dp" />
 
             <!-- Empty State -->
             <com.google.android.material.card.MaterialCardView
@@ -91,7 +105,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:cardCornerRadius="16dp">
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                android:layout_marginTop="40dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -100,12 +116,34 @@
                     android:padding="40dp"
                     android:gravity="center">
 
+                    <!-- Ícone vazio -->
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/ic_campaign"
+                        android:alpha="0.3"
+                        app:tint="@color/textSecondary"
+                        android:layout_marginBottom="16dp" />
+
+                    <!-- Texto dinâmico -->
                     <TextView
+                        android:id="@+id/emptyStateText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nenhum anúncio encontrado"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/textSecondary"
+                        android:gravity="center"
+                        android:layout_marginBottom="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Explore anúncios na tela inicial"
+                        android:textSize="14sp"
+                        android:textColor="@color/textSecondary"
+                        android:gravity="center" />
 
                 </LinearLayout>
 

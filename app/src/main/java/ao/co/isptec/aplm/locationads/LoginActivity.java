@@ -18,6 +18,7 @@ import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.LoginRequest;
 import ao.co.isptec.aplm.locationads.network.models.LoginResponse;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
 import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -238,6 +239,14 @@ public class LoginActivity extends AppCompatActivity {
 
             // Também salvar no SharedPreferences antigo (para compatibilidade)
             saveToSharedPreferences(email, token, userId);
+
+            // ✅ ADICIONAR ESTAS LINHAS
+            // Atualizar ProfileManager com userId e username
+            ProfileManager profileManager = ProfileManager.getInstance(this);
+            profileManager.setUserId(userId);
+            profileManager.setUsername(username);
+
+            Log.d(TAG, "✅ ProfileManager atualizado com userId: " + userId + " e username: " + username);
 
             // Mostrar mensagem de sucesso
             String message = loginResponse.getMessage();

@@ -6,6 +6,9 @@ import java.util.*;
 
 public class UserProfile implements Serializable {
 
+    @SerializedName("userId")
+    private int userId;
+
     @SerializedName("username")
     private String username;
 
@@ -16,11 +19,19 @@ public class UserProfile implements Serializable {
     private long lastUpdated;
 
     public UserProfile() {
+        this.userId = -1;
         this.properties = new HashMap<>();
         this.lastUpdated = System.currentTimeMillis();
     }
 
     public UserProfile(String username) {
+        this.username = username;
+        this.properties = new HashMap<>();
+        this.lastUpdated = System.currentTimeMillis();
+    }
+
+    public UserProfile(int userId, String username) {
+        this.userId = userId;
         this.username = username;
         this.properties = new HashMap<>();
         this.lastUpdated = System.currentTimeMillis();
@@ -105,6 +116,14 @@ public class UserProfile implements Serializable {
     public void setProperties(Map<String, String> properties) {
         this.properties = properties;
     }
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+        this.lastUpdated = System.currentTimeMillis();
+    }
 
     public long getLastUpdated() {
         return lastUpdated;
@@ -112,5 +131,18 @@ public class UserProfile implements Serializable {
 
     public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+    public boolean isValid() {
+        return userId != -1;
+    }
+
+    @Override
+    public String toString() { 
+        return "UserProfile{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", properties=" + properties.size() + " items" +
+                ", lastUpdated=" + lastUpdated +
+                '}';
     }
 }

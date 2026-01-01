@@ -123,7 +123,7 @@ public class AddAds extends AppCompatActivity {
 
     private void setupSpinners() {
         // Spinner de Políticas
-        String[] policies = {"WHITELIST", "BLACKLIST"};
+        String[] policies = {"BLACKLIST", "WHITELIST"};
         ArrayAdapter<String> policyAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_dropdown_item_1line,
