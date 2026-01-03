@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">LocationAds</string>
+    <string name="app_logo_description">Logo do aplicativo</string>
+
+    <!-- Login -->
+    <string name="login_subtitle">Faça login para continuar</string>
+    <string name="hint_username">Usuário</string>
+    <string name="hint_password">Senha</string>
+    <string name="forgot_password">Esqueceu a senha?</string>
+    <string name="login_button">Entrar</string>
+    <string name="or">OU</string>
+    <string name="no_account">Não tem uma conta?</string>
+    <string name="create_account">Criar conta</string>
+
+    <!-- Recuperação de Senha -->
+    <string name="forgot_password_title">Esqueceu a senha?</string>
+    <string name="forgot_password_description">Insira seu e-mail no campo abaixo para receber o código de recuperação e alterar sua senha</string>
+    <string name="hint_email">Digite seu e-mail</string>
+    <string name="send_recovery_code">Enviar código</string>
+    <string name="recovery_info">Você receberá um e-mail com instruções para redefinir sua senha</string>
+    <string name="remember_password">Lembrou sua senha?</string>
+    <string name="back_to_login">Entrar</string>
+    <string name="back">Voltar</string>
+    <string name="email_icon_description">Ícone de e-mail</string>
+    <string name="info">Informação</string>
+
+    <!-- ViewAds Activity Strings -->
+    <string name="ad_image">Imagem do anúncio</string>
+    <string name="description_icon">Ícone de descrição</string>
+    <string name="date_icon">Ícone de data</string>
+    <string name="author_icon">Ícone de autor</string>
+    <string name="favorite">Favorito</string>
+
+    <!-- MainActivity Strings -->
+    <string name="ads_icon">Ícone de anúncios</string>
+    <string name="home">Home</string>
+    <string name="list">Lista</string>
+    <string name="ideas">Ideias</string>
+    <string name="profile">Perfil</string>
+    <string name="add">Adicionar</string>
+
+    <!-- Register -->
+    <string name="create_account_title">Criar Conta</string>
+    <string name="register_subtitle">Preencha os dados abaixo para começar</string>
+    <string name="hint_full_name">Nome completo</string>
+    <string name="hint_phone">Número de telefone</string>
+    <string name="hint_otp">Código OTP</string>
+    <string name="send_code">Enviar Código</string>
+    <string name="hint_confirm_password">Confirmar senha</string>
+    <string name="password_requirements">Mínimo 6 caracteres</string>
+    <string name="accept_terms">Aceito os termos e condições</string>
+    <string name="already_have_account">Já tem uma conta?</string>
+    <string name="login">Entrar</string>
+
+    <!-- Validações Gerais -->
+    <string name="error_empty_username">Por favor, insira seu e-mail</string>
+    <string name="error_empty_password">Por favor, insira sua senha</string>
+    <string name="error_empty_email">Por favor, insira seu e-mail</string>
+    <string name="error_invalid_email">E-mail inválido</string>
+    <string name="error_invalid_credentials">E-mail ou senha incorretos</string>
+    <string name="error_password_too_short">A senha deve ter no mínimo 6 caracteres</string>
+
+    <!-- Validações Register -->
+    <string name="error_empty_name">Por favor, insira seu nome completo</string>
+    <string name="error_empty_phone">Por favor, insira seu telefone</string>
+    <string name="error_invalid_phone">Número de telefone inválido</string>
+    <string name="error_empty_otp">Por favor, insira o código OTP</string>
+    <string name="error_invalid_otp">Código OTP deve ter 6 dígitos</string>
+    <string name="error_passwords_dont_match">As senhas não coincidem</string>
+    <string name="error_accept_terms">Você deve aceitar os termos e condições</string>
+    <string name="error_email_already_exists">Este e-mail já está cadastrado</string>
+
+    <!-- Mensagens de Sucesso -->
+    <string name="otp_sent_success">Código enviado para seu e-mail!</string>
+    <string name="register_success">Conta criada com sucesso!</string>
+    <string name="recovery_email_sent">E-mail de recuperação enviado com sucesso!</string>
+
+    <!-- Mensagens de Erro -->
+    <string name="error_register_failed">Erro ao criar conta. Tente novamente.</string>
+    <string name="error_sending_email">Erro ao enviar e-mail. Tente novamente.</string>
+    <string name="app_description">O LocationAds é um sistema que exibe anúncios de acordo com a localização atual do utilizador, permitindo que empresas promovam produtos e serviços especificamente em zonas geográficas estratégicas.\n\nAlém disso, o usuário pode guardar anúncios, rever o histórico de visualizações e explorar novas oportunidades de compra de forma personalizada.</string>
+
+    <string name="features_title">Funcionalidades</string>
+    <string name="feature_location_ads">Anúncios baseados na sua localização</string>
+    <string name="feature_save_ads">Guardar anúncios favoritos</string>
+    <string name="feature_history">Histórico de visualizações</string>
+
+    <string name="developed_by">Desenvolvido por</string>
+    <string name="developers_names">Denilson Correia\nFilomeno Lopes\nJoisson Miguel</string>
+
+    <string name="app_version">Versão 1.0.0</string>
+    <string name="app_contact">nobresDoIsptec@locationads.com</string>
+    <string name="copyright">© 2025 LocationAds. Todos os direitos reservados.</string>
+
+    <string name="feature_icon">Ícone de funcionalidade</string>
+    <string name="developers_icon">Ícone de desenvolvedores</string>
+    <string name="version_icon">Ícone de versão</string>
+    <string name="contact_icon">Ícone de contato</string>
+
+    <!-- Add Local Activity -->
+    <string name="add_local_title">Adicionar Local</string>
+    <string name="add_local_subtitle">Preencha os dados abaixo para criar um novo local</string>
+
+    <string name="hint_local_name">Nome do Local</string>
+    <string name="hint_local_type">Tipo do Local</string>
+    <string name="hint_radius">Raio (metros)</string>
+    <string name="hint_wifi_ids">WiFi IDs (separados por vírgula)</string>
+
+    <string name="helper_local_type">Ex: Restaurante, Loja, Parque</string>
+    <string name="helper_radius">Distância em metros para exibir anúncios</string>
+    <string name="helper_wifi_ids">Opcional: IDs de redes WiFi do local</string>
+
+    <string name="location_detected">Localização detectada</string>
+    <string name="waiting_location">Aguardando GPS…</string>
+    <string name="create_local">Criar Local</string>
+
+    <string name="location_icon">Ícone de localização</string>
+    <string name="gps_icon">Ícone de GPS</string>
+
+    <!-- Validações Add Local -->
+    <string name="error_empty_local_name">Por favor, insira o nome do local</string>
+    <string name="error_empty_type">Por favor, insira o tipo do local</string>
+    <string name="error_empty_radius">Por favor, insira o raio</string>
+    <string name="error_invalid_radius">Raio inválido</string>
+    <string name="error_waiting_location">Aguardando localização. Tente novamente.</string>
+
+    <!-- Mensagens -->
+    <string name="local_created_success">Local adicionado com sucesso!</string>
+    <string name="error_creating_local">Falha ao adicionar local</string>
+    <string name="location_permission_denied">Permissão de localização negada</string>
+    <string name="error_getting_location">Não foi possível obter a localização</string>
+    <string name="enable_location">Ative a permissão de Localização</string>
+
+    <!-- Create Ad Activity -->
+    <string name="create_ad_title">Criar Anúncio</string>
+    <string name="create_ad_subtitle">Preencha os dados para publicar seu anúncio</string>
+
+    <string name="section_image">Imagem do Anúncio</string>
+    <string name="section_basic_info">Informações Básicas</string>
+    <string name="section_policy_schedule">Política e Horário</string>
+    <string name="section_location">Localização</string>
+    <string name="section_restrictions">Restrições</string>
+
+    <string name="hint_ad_title">Título do anúncio</string>
+    <string name="hint_ad_description">Descrição completa do anúncio</string>
+    <string name="hint_policy">Política de exibição</string>
+    <string name="hint_start_time">Data e hora de início</string>
+    <string name="hint_end_time">Data e hora de fim</string>
+    <string name="hint_location">Localidade</string>
+    <string name="hint_min_age">Idade mínima</string>
+
+    <string name="helper_date_format">Formato: DD/MM/AAAA HH:MM</string>
+    <string name="helper_min_age">Deixe em branco se não houver restrição</string>
+
+    <string name="select_image">+ Selecionar imagem</string>
+    <string name="update_locations">Buscar Locais Próximos</string>
+    <string name="publish_ad">Publicar Anúncio</string>
+
+    <string name="ad_icon">Ícone de anúncio</string>
+    <string name="image_preview">Pré-visualização da imagem</string>
+    <string name="add_image_icon">Ícone de adicionar imagem</string>
+
+    <!-- Validações Create Ad -->
+    <string name="error_empty_title">Por favor, insira o título do anúncio</string>
+    <string name="error_empty_description">Por favor, insira a descrição</string>
+    <string name="error_empty_policy">Por favor, selecione uma política</string>
+    <string name="error_empty_start_time">Por favor, selecione a data de início</string>
+    <string name="error_empty_end_time">Por favor, selecione a data de fim</string>
+    <string name="error_empty_location">Por favor, selecione uma localidade</string>
+    <string name="error_invalid_age">Idade inválida</string>
+    <string name="error_no_image">Por favor, selecione uma imagem</string>
+    <string name="error_end_before_start">A data de fim deve ser após a data de início</string>
+
+    <!-- Mensagens -->
+    <string name="ad_created_success">Anúncio publicado com sucesso!</string>
+    <string name="error_creating_ad">Erro ao publicar anúncio</string>
+    <string name="locations_updated">Locais atualizados!</string>
+    <string name="no_locations_found">Nenhum local próximo encontrado</string>
+
+    <!-- EditPerfilAccount Strings -->
+    <string name="basic_info">Informações básicas</string>
+    <string name="additional_properties">Propriedades adicionais</string>
+
+    <!-- Add Options Dialog -->
+    <string name="add_options_title">O que deseja adicionar?</string>
+    <string name="add_options_subtitle">Escolha uma das opções abaixo</string>
+    <string name="add_local_option">Adicionar Local</string>
+    <string name="add_local_description">Criar um novo local para anúncios</string>
+    <string name="add_ad_option">Adicionar Anúncio</string>
+    <string name="add_ad_description">Criar um novo anúncio publicitário</string>
+    <string name="close">Fechar</string>
+    <string name="add_icon">Ícone de adicionar</string>
+    <string name="arrow_icon">Ícone de seta</string>
+
+    <!-- ListMenu Strings -->
+    <string name="no_saved_ads">Sem anúncios guardados</string>
+    <string name="no_created_ads">Sem anúncios criados</string>
+
+    <string name="no_ads">Sem anúncios</string>
+
+    <!-- PerfilAccount Strings -->
+    <string name="profile_picture">Foto de perfil</string>
+    <string name="account_info">Informações da conta</string>
+    <string name="edit_profile">Editar perfil</string>
+    <string name="email">Email</string>
+    <string name="phone">Telefone</string>
+    <string name="date">Data</string>
+    <string name="activity_icon">Ícone de atividades</string>
+    <string name="viewed">Visualizados</string>
+    <string name="saved">Guardados</string>
+    <string name="published">Publicados</string>
+
+</resources>
