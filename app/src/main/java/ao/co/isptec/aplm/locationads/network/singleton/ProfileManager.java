@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+<<<<<<< HEAD
 import ao.co.isptec.aplm.locationads.network.models.LoginResponse;
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 import ao.co.isptec.aplm.locationads.network.models.PerfilKeyValue;
 import ao.co.isptec.aplm.locationads.network.models.UserProfile;
 import com.google.gson.Gson;
@@ -97,6 +100,7 @@ public class ProfileManager {
 
     // Adicionar propriedade
     public void addProperty(String key, String value, ProfileCallback callback) {
+<<<<<<< HEAD
 
 
         PerfilKeyValue property = new PerfilKeyValue(key, value);
@@ -105,6 +109,12 @@ public class ProfileManager {
 
 
         apiService.addProfileProperty("Bearer " + token, property, userId)
+=======
+        PerfilKeyValue property = new PerfilKeyValue(key, value);
+        String token = TokenManager.getInstance(context).getToken();
+
+        apiService.addProfileProperty("Bearer " + token, property)
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call,

@@ -44,7 +44,10 @@ import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
 import retrofit2.Call;
+<<<<<<< HEAD
 import retrofit2.Callback;
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Views
     private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap mMap;
+<<<<<<< HEAD
 
     private List<Ads> anunciosWhitelist = new ArrayList<>();
     private List<Ads> anunciosCriados = new ArrayList<>();
@@ -64,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private AnunciosAdapter adapterCriados;
 
     private TextView emptyStateText;
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     private RecyclerView listaLocais;
     private RecyclerView recyclerViewAnuncios;
     private LocaisAdapter locaisAdapter;
@@ -81,8 +87,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Data
     private Map<String, String> perfilUsuario = new HashMap<>();
 
+<<<<<<< HEAD
     private int currentTab = 0;
 
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +129,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locActual = findViewById(R.id.locActual);
         txtTotalAnuncios = findViewById(R.id.txtTotalAnuncios);
         tabLayout = findViewById(R.id.tabLayout);
+<<<<<<< HEAD
         emptyStateText = findViewById(R.id.emptyStateText);
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         emptyStateCard = findViewById(R.id.emptyStateCard);
     }
 
@@ -128,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Configura os RecyclerViews
      */
     private void setupRecyclerViews() {
+<<<<<<< HEAD
 
         adapterWhitelist = new AnunciosAdapter(this, anunciosWhitelist);
         adapterCriados = new AnunciosAdapter(this, anunciosCriados);
@@ -135,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 // Usa o adapter da whitelist por default
         recyclerViewAnuncios.setAdapter(adapterWhitelist);
 
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         // RecyclerView de Locais
         listaLocais.setLayoutManager(new LinearLayoutManager(this));
         locaisAdapter = new LocaisAdapter(new ArrayList<>());
@@ -337,6 +352,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     final int totalLocais = locais.size();
                     final int[] locaisProcessados = {0};
 
+<<<<<<< HEAD
                     // Teste ----------
 
                     apiService.getAdsWhitelist().enqueue(new Callback<List<Ads>>() {
@@ -409,6 +425,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                     // Buscar mensagens de cada local
                     for (Local local : locais) {
                         apiService.getMessagesByLocation(local.getId())
@@ -719,6 +737,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 "Não foi possível obter sua localização. Usando Luanda como padrão.",
                 Toast.LENGTH_LONG).show();
     }
+<<<<<<< HEAD
 
     private void updateUI() {
 
@@ -750,4 +769,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "✅ UI atualizada com " + anunciosFiltrados.size() + " anúncios");
     }
 
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 }

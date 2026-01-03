@@ -17,12 +17,19 @@
 
             <ImageButton
                 android:id="@+id/btnVoltar"
+<<<<<<< HEAD
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/ic_arrow_back"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/back"
                 app:tint="@color/white" />
+=======
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_back"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,6 +67,7 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
+<<<<<<< HEAD
                     android:layout_height="83dp"
                     app:tabIndicatorColor="@color/colorPrimary"
                     app:tabMode="fixed"
@@ -75,6 +83,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Criados por Mim" />
+=======
+                    android:layout_height="wrap_content"
+                    app:tabMode="fixed">
+
+                    <com.google.android.material.tabs.TabItem android:text="Guardados" />
+
+                    <com.google.android.material.tabs.TabItem android:text="Criados por Mim" />
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
                 </com.google.android.material.tabs.TabLayout>
 
@@ -85,19 +101,29 @@
                 android:id="@+id/txtTotalAnuncios"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:text="0 anúncios"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/textPrimary"
+=======
+                android:text="0"
+                android:textSize="16sp"
+                android:textStyle="bold"
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                 android:layout_marginBottom="12dp" />
 
             <!-- RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewAnuncios"
                 android:layout_width="match_parent"
+<<<<<<< HEAD
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
                 android:paddingBottom="80dp" />
+=======
+                android:layout_height="wrap_content" />
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
             <!-- Empty State -->
             <com.google.android.material.card.MaterialCardView
@@ -105,9 +131,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+<<<<<<< HEAD
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 android:layout_marginTop="40dp">
+=======
+                app:cardCornerRadius="16dp">
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,6 +146,7 @@
                     android:padding="40dp"
                     android:gravity="center">
 
+<<<<<<< HEAD
                     <!-- Ícone vazio -->
                     <ImageView
                         android:layout_width="80dp"
@@ -128,10 +159,14 @@
                     <!-- Texto dinâmico -->
                     <TextView
                         android:id="@+id/emptyStateText"
+=======
+                    <TextView
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Nenhum anúncio encontrado"
                         android:textSize="16sp"
+<<<<<<< HEAD
                         android:textStyle="bold"
                         android:textColor="@color/textSecondary"
                         android:gravity="center"
@@ -144,6 +179,9 @@
                         android:textSize="14sp"
                         android:textColor="@color/textSecondary"
                         android:gravity="center" />
+=======
+                        android:textStyle="bold" />
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
                 </LinearLayout>
 
@@ -153,5 +191,8 @@
 
     </androidx.core.widget.NestedScrollView>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

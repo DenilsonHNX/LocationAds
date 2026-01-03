@@ -58,7 +58,11 @@ public interface ApiService {
     @POST("messages")
     Call<Ads> addAd(@Body Ads ads);
 
+<<<<<<< HEAD
     @POST("https://backend-aplm-1.onrender.com/messages")
+=======
+    @POST("https://backend-aplm-segq.onrender.com/messages")
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     Call<Ads> addAdAlternative(@Body Ads ads);
 
     /**
@@ -67,6 +71,7 @@ public interface ApiService {
      *
      * ATENÇÃO: O backend EXIGE o parâmetro localId
      */
+<<<<<<< HEAD
     @GET("https://backend-aplm-1.onrender.com/messages")
     Call<List<Ads>> getMessagesByLocation(@Query("localId") int localId);
 
@@ -76,11 +81,20 @@ public interface ApiService {
     @GET("https://backend-aplm-1.onrender.com/messages/BLACKlist")
     Call<List<Ads>> getAdsBlacklist();
 
+=======
+    @GET("https://backend-aplm-segq.onrender.com/messages")
+    Call<List<Ads>> getMessagesByLocation(@Query("localId") int localId);
+
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     /**
      * Buscar minhas mensagens (do usuário autenticado)
      * Endpoint: GET /messages/my-messages
      */
+<<<<<<< HEAD
     @GET("https://backend-aplm-1.onrender.com/messages/my-messages")
+=======
+    @GET("messages/my-messages")
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     Call<List<Ads>> getMyMessages();
 
     /**
@@ -125,11 +139,18 @@ public interface ApiService {
     Call<RecoveryResponse> sendRecoveryCode(@Body RecoveryRequest request);
 
 
+<<<<<<< HEAD
     @POST("https://backend-aplm-1.onrender.com/usuarios/{userId}/perfil")
     Call<ResponseBody> addProfileProperty(
             @Header("Authorization") String token,
             @Body PerfilKeyValue property,
             @Path("userId") String userId
+=======
+    @POST("profile/add")
+    Call<ResponseBody> addProfileProperty(
+            @Header("Authorization") String token,
+            @Body PerfilKeyValue property
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     );
 
     /**
@@ -165,7 +186,11 @@ public interface ApiService {
      * Obter lista de todas as chaves públicas
      * GET /profile/public-keys
      */
+<<<<<<< HEAD
     @GET("https://backend-aplm-1.onrender.com/perfil/chaves")
+=======
+    @GET("profile/public-keys")
+>>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     Call<List<String>> getPublicKeys(
             @Header("Authorization") String token
     );
