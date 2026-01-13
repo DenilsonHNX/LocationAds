@@ -179,5 +179,59 @@ public class TokenManager {
         Log.d(TAG, "🗑️ Todos os dados do usuário foram limpos");
     }
 
+    /**
+     * Extrai o userId do token JWT
+     * @return userId como int, ou -1 se inválido
+     */
+    public int getUserIdFromToken() {
+        String token = getToken();
+        if (token == null || token.isEmpty()) {
+            Log.e(TAG, "Token vazio ou null");
+            return -1;
+        }
+
+        try {
+            // JWT tem 3 partes separadas por "."
+            String[] parts = token.split("\\.");
+            if (parts.length < 2) {
+                Log.e(TAG, "Token inválido - formato incorreto");
+                return -1;
+            }
+
+            // Decodificar payload (segunda parte)
+            String payload = new String(android.util.Base64.decode(parts[1], android.util.Base64.URL_SAFE));
+
+            Log.d(TAG, "📦 Token payload: " + payload);
+
+            // Parse JSON
+            org.json.JSONObject json = new org.json.JSONObject(payload);
+
+            // Tentar diferentes chaves possíveis
+            if (json.has("sub")) {
+                String sub = json.getString("sub");
+                Log.d(TAG, "✅ userId encontrado em 'sub': " + sub);
+                return Integer.parseInt(sub);
+            } else if (json.has("userId")) {
+                int userId = json.getInt("userId");
+                Log.d(TAG, "✅ userId encontrado em 'userId': " + userId);
+                return userId;
+            } else if (json.has("id")) {
+                int userId = json.getInt("id");
+                Log.d(TAG, "✅ userId encontrado em 'id': " + userId);
+                return userId;
+            }
+
+            Log.e(TAG, "❌ userId não encontrado no token. Chaves disponíveis: " + json.keys());
+            return -1;
+
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "❌ Erro ao converter userId para int", e);
+            return -1;
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Erro ao extrair userId do token", e);
+            return -1;
+        }
+    }
+
 
 }

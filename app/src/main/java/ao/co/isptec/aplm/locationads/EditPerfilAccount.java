@@ -2,8 +2,8 @@ package ao.co.isptec.aplm.locationads;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,13 +21,19 @@ import java.util.List;
 
 import ao.co.isptec.aplm.locationads.adapter.PerfilAdapter;
 import ao.co.isptec.aplm.locationads.network.models.PerfilKeyValue;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
 import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
+import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapter.OnPropertyActionListener {
 
+    private static final String TAG = "EditPerfilAccount";
+
     // Views - Campos básicos
     private TextInputEditText editNome;
-    private TextInputEditText editEmail;
     private TextInputEditText editTelefone;
 
     // Views - Campos de propriedades chave-valor
@@ -57,9 +63,15 @@ public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapte
 
         initViews();
         profileManager = ProfileManager.getInstance(this);
-        loadUserProfile();
+
+        // Inicializar lista vazia
+        perfilList = new ArrayList<>();
+
         setupRecyclerView();
         setupListeners();
+
+        // Carregar do backend
+        loadUserProfileFromBackend();
     }
 
     private void initViews() {
@@ -83,14 +95,63 @@ public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapte
         layoutEmptyState = findViewById(R.id.layoutEmptyState);
     }
 
-    private void loadUserProfile() {
-        perfilList = new ArrayList<>();
-        List<PerfilKeyValue> savedProperties = profileManager.getAllProperties();
-        if (savedProperties != null) {
-            perfilList.addAll(savedProperties);
+    /**
+     * ✅ CARREGAR PERFIL DO BACKEND
+     */
+    private void loadUserProfileFromBackend() {
+        TokenManager tokenManager = TokenManager.getInstance(this);
+        String token = tokenManager.getToken();
+        int userId = tokenManager.getUserIdFromToken();
+
+        if (token == null || userId == -1) {
+            Toast.makeText(this, "Token inválido", Toast.LENGTH_SHORT).show();
+            return;
         }
-        updatePropertyCount();
-        updateEmptyState();
+
+        Log.d(TAG, "🔄 Carregando perfil do usuário ID: " + userId);
+
+        ApiClient.getInstance(this)
+                .getApiService()
+                .getUserPerfil(userId, "Bearer " + token)
+                .enqueue(new Callback<List<PerfilKeyValue>>() {
+                    @Override
+                    public void onResponse(Call<List<PerfilKeyValue>> call,
+                                           Response<List<PerfilKeyValue>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<PerfilKeyValue> properties = response.body();
+                            Log.d(TAG, "✅ Propriedades recebidas: " + properties.size());
+
+                            runOnUiThread(() -> {
+                                perfilList.clear();
+                                perfilList.addAll(properties);
+                                perfilAdapter.notifyDataSetChanged();
+                                updatePropertyCount();
+                                updateEmptyState();
+
+                                Toast.makeText(EditPerfilAccount.this,
+                                        perfilList.size() + " propriedades carregadas",
+                                        Toast.LENGTH_SHORT).show();
+                            });
+                        } else {
+                            Log.e(TAG, "❌ Erro ao carregar: " + response.code());
+                            runOnUiThread(() -> {
+                                Toast.makeText(EditPerfilAccount.this,
+                                        "Erro ao carregar perfil: " + response.code(),
+                                        Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<PerfilKeyValue>> call, Throwable t) {
+                        Log.e(TAG, "❌ Falha: " + t.getMessage(), t);
+                        runOnUiThread(() -> {
+                            Toast.makeText(EditPerfilAccount.this,
+                                    "Erro de conexão: " + t.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        });
+                    }
+                });
     }
 
     private void setupRecyclerView() {
@@ -100,19 +161,15 @@ public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapte
     }
 
     private void setupListeners() {
-        // Botão voltar
         btnVoltar.setOnClickListener(v -> finish());
-
-        // Botão adicionar propriedade
         btnAddProperty.setOnClickListener(v -> addProperty());
-
-        // Botão ver chaves públicas
         btnViewPublicKeys.setOnClickListener(v -> showPublicKeysDialog());
-
-        // Botão guardar
         btnGuardar.setOnClickListener(v -> saveAllChanges());
     }
 
+    /**
+     * ✅ ADICIONAR PROPRIEDADE
+     */
     private void addProperty() {
         String key = editKey.getText().toString().trim();
         String value = editValue.getText().toString().trim();
@@ -183,51 +240,89 @@ public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapte
                 .show();
     }
 
+    /**
+     * ✅ EDITAR PROPRIEDADE (usando novo método updateProperty)
+     */
     private void updateProperty(PerfilKeyValue prop, String newValue) {
-        profileManager.removeProperty(prop.getKey(), new ProfileManager.ProfileCallback() {
-            @Override
-            public void onSuccess() {
-                profileManager.addProperty(prop.getKey(), newValue,
-                        new ProfileManager.ProfileCallback() {
-                            @Override
-                            public void onSuccess() {
-                                runOnUiThread(() -> {
-                                    prop.setValue(newValue);
-                                    perfilAdapter.notifyDataSetChanged();
-                                    Toast.makeText(EditPerfilAccount.this,
-                                            "Propriedade atualizada", Toast.LENGTH_SHORT).show();
-                                    editKey.setText("");
-                                    editValue.setText("");
-                                });
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                runOnUiThread(() -> {
-                                    Toast.makeText(EditPerfilAccount.this,
-                                            "Erro ao atualizar: " + error, Toast.LENGTH_SHORT).show();
-                                });
-                            }
+        profileManager.updateProperty(prop.getKey(), newValue,
+                new ProfileManager.ProfileCallback() {
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(() -> {
+                            prop.setValue(newValue);
+                            perfilAdapter.notifyDataSetChanged();
+                            Toast.makeText(EditPerfilAccount.this,
+                                    "Propriedade atualizada", Toast.LENGTH_SHORT).show();
+                            editKey.setText("");
+                            editValue.setText("");
                         });
-            }
+                    }
 
-            @Override
-            public void onError(String error) {
-                onSuccess(); // Continuar mesmo se falhar a remoção
-            }
-        });
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(EditPerfilAccount.this,
+                                    "Erro ao atualizar: " + error, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
     }
 
+    /**
+     * ✅ CALLBACK DO ADAPTER - EDITAR
+     * Mostra dialog para editar valor
+     */
     @Override
     public void onEditProperty(PerfilKeyValue property, int position) {
-        editKey.setText(property.getKey());
-        editValue.setText(property.getValue());
-        editKey.setEnabled(false);
+        // Criar dialog para editar
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_edit_property, null);
+        TextInputEditText inputNewValue = dialogView.findViewById(R.id.inputNewValue);
+        inputNewValue.setText(property.getValue());
 
-        Toast.makeText(this, "Edite o valor e clique em Adicionar",
-                Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(this)
+                .setTitle("Editar " + property.getKey())
+                .setView(dialogView)
+                .setPositiveButton("Salvar", (dialog, which) -> {
+                    String newValue = inputNewValue.getText().toString().trim();
+                    if (!TextUtils.isEmpty(newValue)) {
+                        updatePropertyAtPosition(property, newValue, position);
+                    } else {
+                        Toast.makeText(this, "Valor não pode estar vazio", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Cancelar", null)
+                .show();
+
+        // Focar no campo e mostrar teclado
+        inputNewValue.requestFocus();
     }
 
+    private void updatePropertyAtPosition(PerfilKeyValue property, String newValue, int position) {
+        profileManager.updateProperty(property.getKey(), newValue,
+                new ProfileManager.ProfileCallback() {
+                    @Override
+                    public void onSuccess() {
+                        runOnUiThread(() -> {
+                            property.setValue(newValue);
+                            perfilAdapter.notifyItemChanged(position);
+                            Toast.makeText(EditPerfilAccount.this,
+                                    "Propriedade atualizada", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(EditPerfilAccount.this,
+                                    "Erro ao atualizar: " + error, Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                });
+    }
+
+    /**
+     * ✅ CALLBACK DO ADAPTER - DELETAR
+     */
     @Override
     public void onDeleteProperty(PerfilKeyValue property, int position) {
         new AlertDialog.Builder(this)
@@ -298,13 +393,11 @@ public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapte
     }
 
     private void saveAllChanges() {
-        // Salvar dados básicos (nome, telefone)
         String nome = editNome.getText().toString().trim();
         String telefone = editTelefone.getText().toString().trim();
 
         // TODO: Implementar salvamento de dados básicos no servidor
 
-        // Salvar perfil
         profileManager.saveProfile();
 
         Toast.makeText(this, "Perfil atualizado com sucesso",
@@ -330,7 +423,6 @@ public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapte
     @Override
     protected void onResume() {
         super.onResume();
-        // Reabilitar campo de chave ao retornar
         editKey.setEnabled(true);
     }
 }

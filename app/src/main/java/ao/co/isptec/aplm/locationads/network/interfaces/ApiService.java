@@ -1,6 +1,7 @@
 package ao.co.isptec.aplm.locationads.network.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.models.LoginRequest;
@@ -10,24 +11,24 @@ import ao.co.isptec.aplm.locationads.network.models.PerfilKeyValue;
 import ao.co.isptec.aplm.locationads.network.models.RecoveryRequest;
 import ao.co.isptec.aplm.locationads.network.models.RecoveryResponse;
 import ao.co.isptec.aplm.locationads.network.models.RegisterRequest;
-import ao.co.isptec.aplm.locationads.network.models.UploadResponse;
 import ao.co.isptec.aplm.locationads.network.models.UserProfile;
 import ao.co.isptec.aplm.locationads.network.models.VerifyEmailRequest;
-import okhttp3.MultipartBody;
+import ao.co.isptec.aplm.locationads.network.models.SavedAd;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiService {
+
+    // ==================== AUTENTICAÇÃO ====================
+
     @POST("/auth/register")
     Call<Void> register(@Body RegisterRequest request);
 
@@ -36,6 +37,11 @@ public interface ApiService {
 
     @POST("/auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
+
+    @POST("/auth/forgot-password")
+    Call<RecoveryResponse> sendRecoveryCode(@Body RecoveryRequest request);
+
+    // ==================== LOCAIS ====================
 
     @POST("/locais")
     Call<Local> addLocal(@Body Local request);
@@ -49,29 +55,17 @@ public interface ApiService {
     @DELETE("/locais/{id}")
     Call<Void> removeLocalById(@Path("id") String id);
 
+    @GET("/locais/user/{userId}")
+    Call<List<Local>> getLocaisByUser(@Path("userId") int userId);
+
     // ==================== MENSAGENS/ANÚNCIOS ====================
 
-    /**
-     * Criar novo anúncio/mensagem
-     * Endpoint: POST /messages
-     */
     @POST("messages")
     Call<Ads> addAd(@Body Ads ads);
 
-<<<<<<< HEAD
     @POST("https://backend-aplm-1.onrender.com/messages")
-=======
-    @POST("https://backend-aplm-segq.onrender.com/messages")
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     Call<Ads> addAdAlternative(@Body Ads ads);
 
-    /**
-     * Buscar mensagens por localId (OBRIGATÓRIO)
-     * Endpoint: GET /messages?localId={localId}
-     *
-     * ATENÇÃO: O backend EXIGE o parâmetro localId
-     */
-<<<<<<< HEAD
     @GET("https://backend-aplm-1.onrender.com/messages")
     Call<List<Ads>> getMessagesByLocation(@Query("localId") int localId);
 
@@ -81,121 +75,91 @@ public interface ApiService {
     @GET("https://backend-aplm-1.onrender.com/messages/BLACKlist")
     Call<List<Ads>> getAdsBlacklist();
 
-=======
-    @GET("https://backend-aplm-segq.onrender.com/messages")
-    Call<List<Ads>> getMessagesByLocation(@Query("localId") int localId);
-
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
-    /**
-     * Buscar minhas mensagens (do usuário autenticado)
-     * Endpoint: GET /messages/my-messages
-     */
-<<<<<<< HEAD
     @GET("https://backend-aplm-1.onrender.com/messages/my-messages")
-=======
-    @GET("messages/my-messages")
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     Call<List<Ads>> getMyMessages();
 
-    /**
-     * Buscar mensagem específica por ID
-     * Endpoint: GET /messages/{id}
-     */
+    @GET("https://backend-aplm-1.onrender.com/messages/similar")
+    Call<List<Ads>> getSimilarMessages();
+
     @GET("messages/{id}")
     Call<Ads> getMessageById(@Path("id") int id);
 
-    /**
-     * Buscar notificações
-     * Endpoint: GET /messages/notifications
-     */
     @GET("messages/notifications")
     Call<List<Ads>> getNotifications();
 
-    /**
-     * Buscar mensagens salvas (favoritos)
-     * Endpoint: GET /messages/saved
-     */
-    @GET("messages/saved")
-    Call<List<Ads>> getSavedMessages();
+    // ==================== SALVAR ANÚNCIOS ====================
 
-    /**
-     * Salvar mensagem nos favoritos
-     * Endpoint: POST /messages/{id}/save
-     */
-    @POST("messages/{id}/save")
+    @GET("https://backend-aplm-1.onrender.com/messages/saved")
+    Call<List<SavedAd>> getSavedMessages();
+
+    @POST("https://backend-aplm-1.onrender.com/messages/{id}/save")
     Call<ResponseBody> saveMessage(@Path("id") int id);
 
-    /**
-     * Remover mensagem dos favoritos
-     * Endpoint: DELETE /messages/{id}/save
-     */
-    @DELETE("messages/{id}/save")
+    @DELETE("https://backend-aplm-1.onrender.com/messages/{id}/save")
     Call<ResponseBody> unsaveMessage(@Path("id") int id);
 
-    @GET("/locais/user/{userId}")
-    Call<List<Local>> getLocaisByUser(@Path("userId") int userId);
-
-    @POST("/auth/forgot-password")
-    Call<RecoveryResponse> sendRecoveryCode(@Body RecoveryRequest request);
-
-
-<<<<<<< HEAD
-    @POST("https://backend-aplm-1.onrender.com/usuarios/{userId}/perfil")
-    Call<ResponseBody> addProfileProperty(
-            @Header("Authorization") String token,
-            @Body PerfilKeyValue property,
-            @Path("userId") String userId
-=======
-    @POST("profile/add")
-    Call<ResponseBody> addProfileProperty(
-            @Header("Authorization") String token,
-            @Body PerfilKeyValue property
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
-    );
+    // ==================== PERFIL (CORRIGIDO) ====================
 
     /**
-     * Remover propriedade do perfil do utilizador
-     * DELETE /profile/remove/{key}
+     * Obter perfil do usuário
+     * GET /usuarios/{userId}/perfil
+     * Retorna: List<PerfilKeyValue> (array de {chave, valor})
      */
-    @DELETE("profile/remove/{key}")
-    Call<ResponseBody> removeProfileProperty(
-            @Header("Authorization") String token,
-            @Path("key") String key
-    );
-
-    /**
-     * Obter perfil completo do utilizador
-     * GET /profile/get
-     */
-    @GET("profile/get")
-    Call<UserProfile> getUserProfile(
+    @GET("https://backend-aplm-1.onrender.com/usuarios/{userId}/perfil")
+    Call<List<PerfilKeyValue>> getUserPerfil(
+            @Path("userId") int userId,
             @Header("Authorization") String token
     );
 
     /**
-     * Atualizar perfil completo do utilizador
-     * PUT /profile/update
+     * Adicionar nova propriedade ao perfil
+     * POST /usuarios/{userId}/perfil
+     * Body: {chave: "...", valor: "..."}
      */
-    @PUT("profile/update")
-    Call<ResponseBody> updateUserProfile(
+    @POST("https://backend-aplm-1.onrender.com/usuarios/{userId}/perfil")
+    Call<ResponseBody> addProfileProperty(
+            @Path("userId") int userId,
             @Header("Authorization") String token,
-            @Body UserProfile profile
+            @Body PerfilKeyValue property
     );
 
     /**
-     * Obter lista de todas as chaves públicas
-     * GET /profile/public-keys
+     * Remover propriedade específica do perfil
+     * DELETE /usuarios/{userId}/perfil/{chave}
      */
-<<<<<<< HEAD
+    @DELETE("https://backend-aplm-1.onrender.com/usuarios/{userId}/perfil/{chave}")
+    Call<ResponseBody> removeProfileProperty(
+            @Path("userId") int userId,
+            @Path("chave") String chave,
+            @Header("Authorization") String token
+    );
+
+    /**
+     * Atualizar perfil completo
+     * PUT /usuarios/{userId}/perfil
+     * Body: [{chave: "...", valor: "..."}, ...]
+     */
+    @PUT("https://backend-aplm-1.onrender.com/usuarios/{userId}/perfil")
+    Call<List<PerfilKeyValue>> updateCompleteProfile(
+            @Path("userId") int userId,
+            @Header("Authorization") String token,
+            @Body List<PerfilKeyValue> properties
+    );
+
+    /**
+     * Obter lista de chaves públicas disponíveis
+     * GET /perfil/chaves
+     */
     @GET("https://backend-aplm-1.onrender.com/perfil/chaves")
-=======
-    @GET("profile/public-keys")
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     Call<List<String>> getPublicKeys(
             @Header("Authorization") String token
     );
 
-    // Buscar todos os anúncios
+    // ==================== FCM TOKEN ====================
 
-
+    @POST("https://backend-aplm-1.onrender.com/usuarios/fcm-token")
+    Call<ResponseBody> saveFcmToken(
+            @Header("Authorization") String token,
+            @Body Map<String, String> body
+    );
 }

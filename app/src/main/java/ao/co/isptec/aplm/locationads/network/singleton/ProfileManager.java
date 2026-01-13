@@ -5,10 +5,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
-<<<<<<< HEAD
-import ao.co.isptec.aplm.locationads.network.models.LoginResponse;
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 import ao.co.isptec.aplm.locationads.network.models.PerfilKeyValue;
 import ao.co.isptec.aplm.locationads.network.models.UserProfile;
 import com.google.gson.Gson;
@@ -63,7 +59,6 @@ public class ProfileManager {
         loadCachedProfile();
     }
 
-    // Carregar perfil do cache
     private void loadCachedProfile() {
         String profileJson = prefs.getString(KEY_PROFILE, null);
         if (profileJson != null) {
@@ -79,7 +74,6 @@ public class ProfileManager {
         }
     }
 
-    // Salvar perfil no cache
     private void saveCachedProfile() {
         try {
             String profileJson = gson.toJson(currentProfile);
@@ -90,7 +84,6 @@ public class ProfileManager {
         }
     }
 
-    // Obter perfil atual
     public UserProfile getCurrentProfile() {
         if (currentProfile == null) {
             currentProfile = new UserProfile();
@@ -98,23 +91,25 @@ public class ProfileManager {
         return currentProfile;
     }
 
-    // Adicionar propriedade
+    /**
+     * ✅ ADICIONAR PROPRIEDADE
+     * POST /usuarios/{userId}/perfil
+     */
     public void addProperty(String key, String value, ProfileCallback callback) {
-<<<<<<< HEAD
+        TokenManager tokenManager = TokenManager.getInstance(context);
+        String token = tokenManager.getToken();
+        int userId = tokenManager.getUserIdFromToken();
 
+        if (token == null || userId == -1) {
+            if (callback != null) callback.onError("Token inválido");
+            return;
+        }
 
         PerfilKeyValue property = new PerfilKeyValue(key, value);
-        String token = TokenManager.getInstance(context).getToken();
-        String userId = TokenManager.getInstance(context).getUserId();
 
+        Log.d(TAG, "➕ Adicionando propriedade: " + key + " = " + value);
 
-        apiService.addProfileProperty("Bearer " + token, property, userId)
-=======
-        PerfilKeyValue property = new PerfilKeyValue(key, value);
-        String token = TokenManager.getInstance(context).getToken();
-
-        apiService.addProfileProperty("Bearer " + token, property)
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
+        apiService.addProfileProperty(userId, "Bearer " + token, property)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call,
@@ -122,17 +117,17 @@ public class ProfileManager {
                         if (response.isSuccessful()) {
                             currentProfile.addProperty(key, value);
                             saveCachedProfile();
-                            Log.d(TAG, "Propriedade adicionada: " + key + "=" + value);
+                            Log.d(TAG, "✅ Propriedade adicionada: " + key + "=" + value);
                             if (callback != null) callback.onSuccess();
                         } else {
-                            Log.e(TAG, "Erro ao adicionar propriedade: " + response.code());
+                            Log.e(TAG, "❌ Erro ao adicionar propriedade: " + response.code());
                             if (callback != null) callback.onError("Erro: " + response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        Log.e(TAG, "Falha na requisição", t);
+                        Log.e(TAG, "❌ Falha ao adicionar propriedade", t);
                         // Salvar localmente mesmo se falhar
                         currentProfile.addProperty(key, value);
                         saveCachedProfile();
@@ -141,11 +136,23 @@ public class ProfileManager {
                 });
     }
 
-    // Remover propriedade
+    /**
+     * ✅ REMOVER PROPRIEDADE
+     * DELETE /usuarios/{userId}/perfil/{chave}
+     */
     public void removeProperty(String key, ProfileCallback callback) {
-        String token = TokenManager.getInstance(context).getToken();
+        TokenManager tokenManager = TokenManager.getInstance(context);
+        String token = tokenManager.getToken();
+        int userId = tokenManager.getUserIdFromToken();
 
-        apiService.removeProfileProperty("Bearer " + token, key)
+        if (token == null || userId == -1) {
+            if (callback != null) callback.onError("Token inválido");
+            return;
+        }
+
+        Log.d(TAG, "🗑️ Removendo propriedade: " + key);
+
+        apiService.removeProfileProperty(userId, key, "Bearer " + token)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call,
@@ -153,17 +160,17 @@ public class ProfileManager {
                         if (response.isSuccessful()) {
                             currentProfile.removeProperty(key);
                             saveCachedProfile();
-                            Log.d(TAG, "Propriedade removida: " + key);
+                            Log.d(TAG, "✅ Propriedade removida: " + key);
                             if (callback != null) callback.onSuccess();
                         } else {
-                            Log.e(TAG, "Erro ao remover propriedade: " + response.code());
+                            Log.e(TAG, "❌ Erro ao remover propriedade: " + response.code());
                             if (callback != null) callback.onError("Erro: " + response.code());
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        Log.e(TAG, "Falha na requisição", t);
+                        Log.e(TAG, "❌ Falha ao remover propriedade", t);
                         // Remover localmente mesmo se falhar
                         currentProfile.removeProperty(key);
                         saveCachedProfile();
@@ -172,38 +179,101 @@ public class ProfileManager {
                 });
     }
 
-    // Carregar perfil do servidor
-    public void loadProfileFromServer(ProfileLoadCallback callback) {
-        String token = TokenManager.getInstance(context).getToken();
+    /**
+     * ✅ EDITAR PROPRIEDADE (DELETE + POST)
+     * Opção B: Deleta a antiga e adiciona a nova
+     */
+    public void updateProperty(String key, String newValue, ProfileCallback callback) {
+        Log.d(TAG, "✏️ Editando propriedade: " + key + " -> " + newValue);
 
-        apiService.getUserProfile("Bearer " + token)
-                .enqueue(new Callback<UserProfile>() {
+        // Passo 1: Remover propriedade antiga
+        removeProperty(key, new ProfileCallback() {
+            @Override
+            public void onSuccess() {
+                // Passo 2: Adicionar propriedade com novo valor
+                addProperty(key, newValue, new ProfileCallback() {
                     @Override
-                    public void onResponse(@NonNull Call<UserProfile> call,
-                                           @NonNull Response<UserProfile> response) {
+                    public void onSuccess() {
+                        Log.d(TAG, "✅ Propriedade atualizada com sucesso");
+                        if (callback != null) callback.onSuccess();
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e(TAG, "❌ Erro ao adicionar nova propriedade: " + error);
+                        if (callback != null) callback.onError(error);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String error) {
+                Log.e(TAG, "❌ Erro ao remover propriedade antiga: " + error);
+                // Tentar adicionar mesmo assim
+                addProperty(key, newValue, callback);
+            }
+        });
+    }
+
+    /**
+     * Carregar perfil do servidor
+     * GET /usuarios/{userId}/perfil
+     */
+    public void loadProfileFromServer(ProfileLoadCallback callback) {
+        TokenManager tokenManager = TokenManager.getInstance(context);
+        String token = tokenManager.getToken();
+        int userId = tokenManager.getUserIdFromToken();
+
+        if (token == null || userId == -1) {
+            if (callback != null) callback.onError("Token inválido");
+            return;
+        }
+
+        Log.d(TAG, "🔄 Carregando perfil do servidor...");
+
+        apiService.getUserPerfil(userId, "Bearer " + token)
+                .enqueue(new Callback<List<PerfilKeyValue>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<PerfilKeyValue>> call,
+                                           @NonNull Response<List<PerfilKeyValue>> response) {
                         if (response.isSuccessful() && response.body() != null) {
-                            currentProfile = response.body();
+                            List<PerfilKeyValue> properties = response.body();
+
+                            // Converter lista para UserProfile
+                            currentProfile = new UserProfile();
+                            for (PerfilKeyValue prop : properties) {
+                                currentProfile.addProperty(prop.getKey(), prop.getValue());
+                            }
+
                             saveCachedProfile();
-                            Log.d(TAG, "Perfil carregado do servidor");
+                            Log.d(TAG, "✅ Perfil carregado: " + properties.size() + " propriedades");
                             if (callback != null) callback.onSuccess(currentProfile);
                         } else {
-                            Log.e(TAG, "Erro ao carregar perfil: " + response.code());
+                            Log.e(TAG, "❌ Erro ao carregar perfil: " + response.code());
                             if (callback != null) callback.onError("Erro: " + response.code());
                         }
                     }
 
                     @Override
-                    public void onFailure(@NonNull Call<UserProfile> call, @NonNull Throwable t) {
-                        Log.e(TAG, "Falha na requisição", t);
+                    public void onFailure(@NonNull Call<List<PerfilKeyValue>> call, @NonNull Throwable t) {
+                        Log.e(TAG, "❌ Falha ao carregar perfil", t);
                         // Retornar perfil em cache
                         if (callback != null) callback.onSuccess(currentProfile);
                     }
                 });
     }
 
-    // Obter chaves públicas
+    /**
+     * Obter chaves públicas
+     * GET /perfil/chaves
+     */
     public void getPublicKeys(PublicKeysCallback callback) {
         String token = TokenManager.getInstance(context).getToken();
+
+        if (token == null) {
+            if (callback != null) callback.onError("Token inválido");
+            return;
+        }
 
         apiService.getPublicKeys("Bearer " + token)
                 .enqueue(new Callback<List<String>>() {
@@ -213,31 +283,28 @@ public class ProfileManager {
                         if (response.isSuccessful() && response.body() != null) {
                             List<String> keys = response.body();
                             cachePublicKeys(keys);
-                            Log.d(TAG, "Chaves públicas carregadas: " + keys.size());
+                            Log.d(TAG, "✅ Chaves públicas: " + keys.size());
                             if (callback != null) callback.onSuccess(keys);
                         } else {
-                            Log.e(TAG, "Erro ao carregar chaves: " + response.code());
-                            // Retornar cache
+                            Log.e(TAG, "❌ Erro ao carregar chaves: " + response.code());
                             if (callback != null) callback.onSuccess(getCachedPublicKeys());
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<List<String>> call, @NonNull Throwable t) {
-                        Log.e(TAG, "Falha na requisição", t);
-                        // Retornar cache
+                        Log.e(TAG, "❌ Falha ao carregar chaves", t);
                         if (callback != null) callback.onSuccess(getCachedPublicKeys());
                     }
                 });
     }
 
-    // Cache de chaves públicas
     private void cachePublicKeys(List<String> keys) {
         try {
             String keysJson = gson.toJson(keys);
             prefs.edit().putString(KEY_PUBLIC_KEYS, keysJson).apply();
         } catch (Exception e) {
-            Log.e(TAG, "Erro ao cachear chaves públicas", e);
+            Log.e(TAG, "Erro ao cachear chaves", e);
         }
     }
 
@@ -253,61 +320,20 @@ public class ProfileManager {
         return new ArrayList<>();
     }
 
-    // Obter todas as propriedades
     public List<PerfilKeyValue> getAllProperties() {
         return currentProfile.getAllPropertiesAsList();
     }
 
-    // Limpar perfil
     public void clearProfile() {
         currentProfile.clearAllProperties();
         saveCachedProfile();
     }
 
-    // ✅ MÉTODO QUE FALTAVA - Salvar perfil
-    /**
-     * Salva o perfil atual no cache local
-     * Este método é chamado quando o usuário clica em "Salvar" na tela de edição
-     */
     public void saveProfile() {
         saveCachedProfile();
-        Log.d(TAG, "Perfil salvo manualmente pelo usuário");
+        Log.d(TAG, "Perfil salvo no cache");
     }
 
-    // ✅ MÉTODO ADICIONAL - Sincronizar perfil com servidor
-    /**
-     * Sincroniza o perfil local com o servidor
-     * Envia todas as propriedades para o backend
-     */
-    public void syncProfileWithServer(ProfileCallback callback) {
-        String token = TokenManager.getInstance(context).getToken();
-
-        apiService.updateUserProfile("Bearer " + token, currentProfile)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(@NonNull Call<ResponseBody> call,
-                                           @NonNull Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            Log.d(TAG, "Perfil sincronizado com servidor");
-                            if (callback != null) callback.onSuccess();
-                        } else {
-                            Log.e(TAG, "Erro ao sincronizar perfil: " + response.code());
-                            if (callback != null) callback.onError("Erro: " + response.code());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                        Log.e(TAG, "Falha ao sincronizar perfil", t);
-                        if (callback != null) callback.onError("Falha na conexão: " + t.getMessage());
-                    }
-                });
-    }
-
-    // ✅ MÉTODO ADICIONAL - Atualizar dados básicos do perfil
-    /**
-     * Atualiza o username do perfil atual
-     */
     public void setUsername(String username) {
         if (currentProfile != null) {
             currentProfile.setUsername(username);
@@ -315,10 +341,6 @@ public class ProfileManager {
         }
     }
 
-    // ✅ MÉTODO ADICIONAL - Obter username
-    /**
-     * Retorna o username do perfil atual
-     */
     public String getUsername() {
         if (currentProfile != null) {
             return currentProfile.getUsername();

@@ -197,7 +197,6 @@
     <!-- ListMenu Strings -->
     <string name="no_saved_ads">Sem anúncios guardados</string>
     <string name="no_created_ads">Sem anúncios criados</string>
-
     <string name="no_ads">Sem anúncios</string>
 
     <!-- PerfilAccount Strings -->
@@ -211,5 +210,72 @@
     <string name="viewed">Visualizados</string>
     <string name="saved">Guardados</string>
     <string name="published">Publicados</string>
+
+    <!-- ==================== NOVAS STRINGS - Funcionalidade de Salvar Anúncios ==================== -->
+
+    <!-- Ações de Salvar/Guardar -->
+    <string name="save_ad">Salvar anúncio</string>
+    <string name="unsave_ad">Remover dos salvos</string>
+    <string name="bookmark">Marcar como favorito</string>
+
+    <!-- Mensagens de Sucesso - Salvar -->
+    <string name="ad_saved">Anúncio salvo!</string>
+    <string name="ad_saved_success">Anúncio guardado com sucesso!</string>
+    <string name="ad_unsaved">Anúncio removido dos salvos</string>
+    <string name="ad_unsaved_success">Anúncio removido dos guardados com sucesso!</string>
+
+    <!-- Mensagens de Erro - Salvar -->
+    <string name="error_saving_ad">Erro ao salvar anúncio</string>
+    <string name="error_removing_ad">Erro ao remover anúncio</string>
+    <string name="error_loading_saved_ads">Erro ao carregar anúncios guardados</string>
+    <string name="error_connection">Erro de conexão</string>
+    <string name="error_invalid_ad_id">Erro: ID do anúncio inválido</string>
+
+    <!-- Abas e Categorias -->
+    <string name="saved_ads">Anúncios Guardados</string>
+    <string name="my_ads">Criados por Mim</string>
+    <string name="tab_saved">Guardados</string>
+    <string name="tab_created">Criados por Mim</string>
+
+    <!-- Empty States -->
+    <string name="no_saved_ads_yet">Você ainda não guardou nenhum anúncio</string>
+    <string name="no_created_ads_yet">Você ainda não criou nenhum anúncio</string>
+    <string name="explore_ads">Explore anúncios na tela inicial</string>
+    <string name="start_creating_ads">Comece a criar seus próprios anúncios</string>
+    <string name="no_ads_found">Nenhum anúncio encontrado</string>
+
+    <!-- Contadores -->
+    <string name="ads_count">%1$d anúncios</string>
+    <string name="saved_count">%1$d guardados</string>
+    <string name="created_count">%1$d criados</string>
+
+    <!-- Ícones e Descrições -->
+    <string name="bookmark_icon">Ícone de marcador</string>
+    <string name="bookmark_border_icon">Ícone de marcador vazio</string>
+    <string name="bookmark_filled_icon">Ícone de marcador preenchido</string>
+    <string name="campaign_icon">Ícone de campanha</string>
+
+    <!-- Ações em Cards -->
+    <string name="click_to_save">Clique para salvar</string>
+    <string name="click_to_unsave">Clique para remover</string>
+    <string name="tap_to_view_details">Toque para ver detalhes</string>
+
+    <!-- Confirmações -->
+    <string name="confirm_unsave">Deseja remover este anúncio dos salvos?</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- Notificações e Toasts -->
+    <string name="loading_saved_ads">Carregando anúncios guardados…</string>
+    <string name="loading_my_ads">Carregando seus anúncios…</string>
+    <string name="refreshing_data">Atualizando dados…</string>
+    <string name="data_updated">Dados atualizados!</string>
+
+    <!-- Acessibilidade -->
+    <string name="accessibility_save_button">Botão para salvar anúncio</string>
+    <string name="accessibility_unsave_button">Botão para remover anúncio dos salvos</string>
+    <string name="accessibility_ad_card">Card de anúncio</string>
+    <string name="accessibility_empty_state">Nenhum anúncio disponível</string>
 
 </resources>

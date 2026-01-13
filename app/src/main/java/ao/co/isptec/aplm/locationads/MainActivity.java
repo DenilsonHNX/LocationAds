@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,34 +41,29 @@ import ao.co.isptec.aplm.locationads.adapter.LocaisAdapter;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
+import ao.co.isptec.aplm.locationads.network.models.UserProfile;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import ao.co.isptec.aplm.locationads.utils.MessageDeliveryManager;
 import retrofit2.Call;
-<<<<<<< HEAD
 import retrofit2.Callback;
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 import retrofit2.Response;
+
+import com.google.gson.Gson;
+
+import ao.co.isptec.aplm.locationads.services.LocationTracker;
+import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
+import ao.co.isptec.aplm.locationads.utils.GpsUtils;
+import android.location.Location;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
     private static final String TAG = "MainActivity";
 
     // Views
     private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap mMap;
-<<<<<<< HEAD
-
-    private List<Ads> anunciosWhitelist = new ArrayList<>();
-    private List<Ads> anunciosCriados = new ArrayList<>();
-
-    private AnunciosAdapter adapterWhitelist;
-    private AnunciosAdapter adapterCriados;
-
     private TextView emptyStateText;
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     private RecyclerView listaLocais;
     private RecyclerView recyclerViewAnuncios;
     private LocaisAdapter locaisAdapter;
@@ -82,24 +76,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     // Data
     private ApiService apiService;
-    private List<Ads> anunciosFiltrados; // ✅ Mudar de AdMessage para Ads
-
-    // Data
+    private List<Ads> anunciosFiltrados;
     private Map<String, String> perfilUsuario = new HashMap<>();
 
-<<<<<<< HEAD
+    // ✅ Sistema de políticas
+    private MessageDeliveryManager deliveryManager;
+    private UserProfile currentUserProfile;
+    private int currentLocalId = -1;
+
     private int currentTab = 0;
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
+    private LocationTracker locationTracker;
+    private ProfileManager profileManager;
+    private Integer currentDetectedLocalId = null;
+    private boolean isLoadingAds = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
+        Log.d(TAG, "🚀 ========== MAINACTIVITY INICIADO ==========");
+
         // Inicializar API e Location
-        apiService = ApiClient.getInstance().getApiService();
+        apiService = ApiClient.getInstance(this).getApiService();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        // ✅ Inicializar sistema de políticas
+        deliveryManager = MessageDeliveryManager.getInstance(this);
+
+        // ✅ Inicializar ProfileManager e LocationTracker
+        profileManager = ProfileManager.getInstance(this);
+        locationTracker = new LocationTracker(this);
+
+        // ✅ Configurar listener do LocationTracker
+        setupLocationTracker();
 
         // Inicializar views
         initViews();
@@ -107,18 +118,141 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Configurar listeners
         setupListeners();
 
-        // Carregar dados do usuário
-        loadUserProfile();
-
         // Configurar mapa
         setupMap();
 
         // Configurar RecyclerViews
         setupRecyclerViews();
 
-        // Carregar anúncios
-        loadAds();
+        // Carregar anúncios similares
+        loadSimilarAds();
+
+        // ✅ Carregar locais e iniciar rastreamento
+        loadLocalsAndStartTracking();
+
     }
+
+    /**
+     * Configura o LocationTracker com callbacks
+     */
+    private void setupLocationTracker() {
+        locationTracker.setLocationChangeListener(new LocationTracker.LocationChangeListener() {
+            @Override
+            public void onEnteredLocal(Local local, Location location) {
+                Log.d(TAG, "========================================");
+                Log.d(TAG, "🎯 ENTROU NO LOCAL: " + local.getNome());
+                Log.d(TAG, "   ID: " + local.getId());
+                Log.d(TAG, "   Lat: " + location.getLatitude());
+                Log.d(TAG, "   Lng: " + location.getLongitude());
+                Log.d(TAG, "========================================");
+
+                currentDetectedLocalId = local.getId();
+                currentLocalId = local.getId(); // Atualizar também o antigo
+
+                // Atualizar UI
+                runOnUiThread(() -> {
+                    locActual.setText(local.getNome());
+                    Toast.makeText(MainActivity.this,
+                            "📍 Local detectado: " + local.getNome(),
+                            Toast.LENGTH_SHORT).show();
+                });
+
+                // Carregar anúncios do local
+                loadAdsForCurrentLocal();
+            }
+
+            @Override
+            public void onExitedLocal(int localId) {
+                Log.d(TAG, "🚪 Saiu do local ID: " + localId);
+
+                currentDetectedLocalId = null;
+                currentLocalId = -1;
+
+                runOnUiThread(() -> {
+                    locActual.setText("Fora de locais cadastrados");
+
+                    // Limpar anúncios quando sair do local
+                    anunciosFiltrados.clear();
+                    updateAdsUI();
+
+                    Toast.makeText(MainActivity.this,
+                            "Você saiu do local",
+                            Toast.LENGTH_SHORT).show();
+                });
+            }
+
+            @Override
+            public void onLocationUpdated(Location location) {
+                // Atualização silenciosa de localização
+                runOnUiThread(() -> {
+                    locActual.setText("Lat: " + String.format("%.4f", location.getLatitude()) +
+                            ", Lng: " + String.format("%.4f", location.getLongitude()));
+                });
+            }
+
+            @Override
+            public void onLocationError(String error) {
+                Log.e(TAG, "❌ Erro de localização: " + error);
+                runOnUiThread(() -> {
+                    Toast.makeText(MainActivity.this,
+                            "Erro ao obter localização",
+                            Toast.LENGTH_SHORT).show();
+                });
+            }
+        });
+    }
+
+    /**
+     * Carrega todos os locais e inicia rastreamento
+     */
+    private void loadLocalsAndStartTracking() {
+        Log.d(TAG, "🔄 Carregando locais...");
+
+        apiService.getAllLocals().enqueue(new retrofit2.Callback<List<Local>>() {
+            @Override
+            public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Local> locais = response.body();
+                    Log.d(TAG, "✅ " + locais.size() + " locais carregados");
+
+                    // Passar locais para o LocationTracker
+                    locationTracker.setAllLocals(locais);
+
+                    // Iniciar rastreamento
+                    locationTracker.startTracking();
+
+                    Log.d(TAG, "🚀 Rastreamento de localização iniciado (polling: 15s)");
+
+                } else {
+                    Log.e(TAG, "❌ Erro ao carregar locais: " + response.code());
+                    Toast.makeText(MainActivity.this,
+                            "Erro ao carregar locais",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Local>> call, Throwable t) {
+                Log.e(TAG, "❌ Falha ao carregar locais", t);
+                Toast.makeText(MainActivity.this,
+                        "Erro de conexão: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**
+     * Cria perfil de teste para filtro de políticas
+     */
+    private void createTestProfile() {
+        currentUserProfile = new UserProfile();
+        Map<String, Object> testProfile = new HashMap<>();
+        testProfile.put("idadeMinima", 25); // Maior que as restrições das mensagens
+        testProfile.put("Profissao", "Estudante");
+        currentUserProfile.setProfile(testProfile);
+        Log.d(TAG, "✅ Perfil de teste criado: " + testProfile);
+    }
+
 
     /**
      * Inicializa todas as views
@@ -129,10 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locActual = findViewById(R.id.locActual);
         txtTotalAnuncios = findViewById(R.id.txtTotalAnuncios);
         tabLayout = findViewById(R.id.tabLayout);
-<<<<<<< HEAD
         emptyStateText = findViewById(R.id.emptyStateText);
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         emptyStateCard = findViewById(R.id.emptyStateCard);
     }
 
@@ -140,16 +271,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Configura os RecyclerViews
      */
     private void setupRecyclerViews() {
-<<<<<<< HEAD
-
-        adapterWhitelist = new AnunciosAdapter(this, anunciosWhitelist);
-        adapterCriados = new AnunciosAdapter(this, anunciosCriados);
-
-// Usa o adapter da whitelist por default
-        recyclerViewAnuncios.setAdapter(adapterWhitelist);
-
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         // RecyclerView de Locais
         listaLocais.setLayoutManager(new LinearLayoutManager(this));
         locaisAdapter = new LocaisAdapter(new ArrayList<>());
@@ -157,9 +278,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // RecyclerView de Anúncios
         recyclerViewAnuncios.setLayoutManager(new LinearLayoutManager(this));
-        anunciosFiltrados = new ArrayList<>(); // ✅ Inicializar lista
+        anunciosFiltrados = new ArrayList<>();
         anunciosAdapter = new AnunciosAdapter(this, anunciosFiltrados);
+
+        // ✅ ADICIONAR: Listener para abrir ViewAds ao clicar
+        anunciosAdapter.setOnItemClickListener(new AnunciosAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Ads ads) {
+                // Abrir ViewAds com os dados do anúncio
+                openViewAds(ads);
+            }
+
+            @Override
+            public void onSaveClick(Ads ads, boolean isSaved) {
+                // Callback de salvar (já implementado)
+            }
+        });
+
         recyclerViewAnuncios.setAdapter(anunciosAdapter);
+    }
+
+    private void openViewAds(Ads ads) {
+        Intent intent = new Intent(MainActivity.this, ViewAds.class);
+
+        // ✅ OPÇÃO 1: Passar objeto serializado como JSON (RECOMENDADO)
+        Gson gson = new Gson();
+        String adsJson = gson.toJson(ads);
+        intent.putExtra("ads_json", adsJson);
+
+        // ✅ OPÇÃO 2: Passar apenas o ID (caso queira buscar da API)
+        // intent.putExtra("ad_id", ads.getId());
+
+        startActivity(intent);
+
+        Log.d(TAG, "🔗 Abrindo ViewAds para: " + ads.getTitulo());
     }
 
     /**
@@ -319,193 +471,287 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-
     /**
-     * Carrega e filtra os anúncios de todos os locais
+     * Carrega anúncios do local atual detectado
      */
-    private void loadAds() {
-        Log.d(TAG, "========== CARREGANDO ANÚNCIOS ==========");
+    private void loadAdsForCurrentLocal() {
+        if (currentDetectedLocalId == null) {
+            Log.w(TAG, "⚠️ Nenhum local detectado, não há anúncios para carregar");
+            anunciosFiltrados.clear();
+            runOnUiThread(() -> updateAdsUI());
+            return;
+        }
 
-        // Primeiro, buscar todos os locais
-        apiService.getAllLocals().enqueue(new retrofit2.Callback<List<Local>>() {
-            @Override
-            public void onResponse(Call<List<Local>> call, Response<List<Local>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Local> locais = response.body();
-                    Log.d(TAG, "✅ Locais encontrados: " + locais.size());
+        if (isLoadingAds) {
+            Log.d(TAG, "⏳ Já está carregando anúncios...");
+            return;
+        }
 
-                    // Limpar lista
-                    anunciosFiltrados.clear();
+        isLoadingAds = true;
 
-                    if (locais.isEmpty()) {
-                        Log.d(TAG, "⚠️ Nenhum local encontrado");
-                        runOnUiThread(() -> {
-                            updateAdsUI();
-                            Toast.makeText(MainActivity.this,
-                                    "Nenhum local encontrado",
-                                    Toast.LENGTH_SHORT).show();
-                        });
-                        return;
-                    }
+        Log.d(TAG, "========================================");
+        Log.d(TAG, "🔄 CARREGANDO ANÚNCIOS DO LOCAL");
+        Log.d(TAG, "   Local ID: " + currentDetectedLocalId);
+        Log.d(TAG, "========================================");
 
-                    // Contador para saber quando terminou todas as requisições
-                    final int totalLocais = locais.size();
-                    final int[] locaisProcessados = {0};
+        // Obter perfil do usuário
+        UserProfile userProfile = profileManager.getCurrentProfile();
 
-<<<<<<< HEAD
-                    // Teste ----------
+        // Obter ID do usuário atual para filtrar seus próprios anúncios
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        final int meuUserId = prefs.getInt("userId", -1);
 
-                    apiService.getAdsWhitelist().enqueue(new Callback<List<Ads>>() {
-                        @Override
-                        public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
-                            Log.d(TAG, "📨 Resposta getAdsWhitelist: " + response.code());
+        Log.d(TAG, "👤 Meu User ID: " + meuUserId);
+        Log.d(TAG, "📋 Perfil: " + userProfile.getProperties());
 
-                            if (response.isSuccessful() && response.body() != null) {
+        // Buscar mensagens do local
+        apiService.getMessagesByLocation(currentDetectedLocalId)
+                .enqueue(new retrofit2.Callback<List<Ads>>() {
+                    @Override
+                    public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
+                        isLoadingAds = false;
 
-                                anunciosWhitelist.clear(); // ou anunciosWhitelist, se quiser separar
-                                anunciosWhitelist.addAll(response.body());
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<Ads> todasMensagens = response.body();
 
-                                Log.d(TAG, "✅ Anúncios da whitelist carregados: " + anunciosWhitelist.size());
+                            Log.d(TAG, "📨 Mensagens recebidas: " + todasMensagens.size());
 
-                                // Log de cada anúncio
-                                for (int i = 0; i < anunciosWhitelist.size(); i++) {
-                                    Ads ads = anunciosWhitelist.get(i);
-                                    Log.d(TAG, "  " + (i + 1) + ". " + ads.getTitulo());
+                            // Filtrar mensagens de outros usuários
+                            List<Ads> mensagensDeOutros = new ArrayList<>();
+                            for (Ads ads : todasMensagens) {
+                                if (ads.getAutorId() != meuUserId) {
+                                    mensagensDeOutros.add(ads);
+                                    Log.d(TAG, "  ✅ " + ads.getTitulo() + " (Autor: " + ads.getAutorId() + ")");
+                                } else {
+                                    Log.d(TAG, "  ⏭️ Ignorada (minha): " + ads.getTitulo());
                                 }
-
-                                runOnUiThread(() -> {
-                                    if (currentTab == 0) {
-                                        updateUI();
-                                        Toast.makeText(
-                                                MainActivity.this,
-                                                anunciosWhitelist.size() + " anúncios da whitelist",
-                                                Toast.LENGTH_SHORT
-                                        ).show();
-                                    }
-                                });
-
-                            } else {
-                                Log.e(TAG, "❌ Erro ao carregar anúncios da whitelist: " + response.code());
-
-                                try {
-                                    String errorBody = response.errorBody() != null
-                                            ? response.errorBody().string()
-                                            : "Sem corpo de erro";
-                                    Log.e(TAG, "Error Body: " + errorBody);
-                                } catch (Exception e) {
-                                    Log.e(TAG, "Erro ao ler errorBody", e);
-                                }
-
-                                runOnUiThread(() -> {
-                                    if (currentTab == 0) {
-                                        updateUI();
-                                        Toast.makeText(
-                                                MainActivity.this,
-                                                "Erro ao carregar anúncios da whitelist",
-                                                Toast.LENGTH_SHORT
-                                        ).show();
-                                    }
-                                });
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<List<Ads>> call, Throwable t) {
-                            Log.e(TAG, "❌ Falha na requisição getAdsWhitelist", t);
+                            Log.d(TAG, "🔍 Mensagens de outros: " + mensagensDeOutros.size());
 
+                            // Filtrar por política
                             runOnUiThread(() -> {
-                                Toast.makeText(
-                                        MainActivity.this,
-                                        "Falha de conexão ao carregar whitelist",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                                filterAndDisplayMessages(mensagensDeOutros);
+                            });
+
+                        } else {
+                            Log.e(TAG, "❌ Erro ao buscar mensagens: " + response.code());
+                            runOnUiThread(() -> {
+                                Toast.makeText(MainActivity.this,
+                                        "Erro ao buscar anúncios",
+                                        Toast.LENGTH_SHORT).show();
+                                anunciosFiltrados.clear();
+                                updateAdsUI();
                             });
                         }
-                    });
-
-
-
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
-                    // Buscar mensagens de cada local
-                    for (Local local : locais) {
-                        apiService.getMessagesByLocation(local.getId())
-                                .enqueue(new retrofit2.Callback<List<Ads>>() {
-                                    @Override
-                                    public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
-                                        if (response.isSuccessful() && response.body() != null) {
-                                            List<Ads> mensagensDoLocal = response.body();
-                                            anunciosFiltrados.addAll(mensagensDoLocal);
-                                            Log.d(TAG, "✅ Mensagens do local " + local.getNome() +
-                                                    " (" + local.getId() + "): " + mensagensDoLocal.size());
-                                        } else {
-                                            Log.w(TAG, "⚠️ Erro ao buscar mensagens do local " +
-                                                    local.getNome() + ": " + response.code());
-                                        }
-
-                                        locaisProcessados[0]++;
-
-                                        // Se processou todos os locais, atualizar UI
-                                        if (locaisProcessados[0] == totalLocais) {
-                                            Log.d(TAG, "✅ Total de anúncios carregados: " +
-                                                    anunciosFiltrados.size());
-                                            Log.d(TAG, "=========================================");
-
-                                            runOnUiThread(() -> {
-                                                updateAdsUI();
-                                                Toast.makeText(MainActivity.this,
-                                                        anunciosFiltrados.size() + " anúncios carregados",
-                                                        Toast.LENGTH_SHORT).show();
-                                            });
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<List<Ads>> call, Throwable t) {
-                                        Log.e(TAG, "❌ Erro ao buscar mensagens do local " +
-                                                local.getNome() + ": " + t.getMessage());
-
-                                        locaisProcessados[0]++;
-
-                                        // Se processou todos os locais (mesmo com erros), atualizar UI
-                                        if (locaisProcessados[0] == totalLocais) {
-                                            Log.d(TAG, "Total de anúncios carregados (com erros): " +
-                                                    anunciosFiltrados.size());
-                                            Log.d(TAG, "=========================================");
-
-                                            runOnUiThread(() -> updateAdsUI());
-                                        }
-                                    }
-                                });
                     }
-                } else {
-                    Log.e(TAG, "❌ Erro ao buscar locais: " + response.code());
-                    Log.d(TAG, "=========================================");
 
-                    runOnUiThread(() -> {
-                        Toast.makeText(MainActivity.this,
-                                "Erro ao buscar locais",
-                                Toast.LENGTH_SHORT).show();
-                        updateAdsUI();
-                    });
-                }
-            }
+                    @Override
+                    public void onFailure(Call<List<Ads>> call, Throwable t) {
+                        isLoadingAds = false;
+                        Log.e(TAG, "❌ Falha ao buscar mensagens", t);
 
-            @Override
-            public void onFailure(Call<List<Local>> call, Throwable t) {
-                Log.e(TAG, "❌ Falha ao buscar locais: " + t.getMessage());
-                Log.d(TAG, "=========================================");
-
-                runOnUiThread(() -> {
-                    Toast.makeText(MainActivity.this,
-                            "Erro de conexão: " + t.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                    updateAdsUI();
+                        runOnUiThread(() -> {
+                            Toast.makeText(MainActivity.this,
+                                    "Erro de conexão: " + t.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            anunciosFiltrados.clear();
+                            updateAdsUI();
+                        });
+                    }
                 });
-            }
-        });
     }
 
+    /**
+     * Carregar anúncios similares do backend
+     */
+    private void loadSimilarAds() {
+        if (isLoadingAds) {
+            Log.d(TAG, "⏳ Já está carregando anúncios similares...");
+            return;
+        }
+
+        isLoadingAds = true;
+
+        Log.d(TAG, "========================================");
+        Log.d(TAG, "🔄 CARREGANDO ANÚNCIOS SIMILARES");
+        Log.d(TAG, "========================================");
+
+        // Obter ID do usuário atual
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        final int meuUserId = prefs.getInt("userId", -1);
+        Log.d(TAG, "👤 Meu User ID nas preferences: " + meuUserId);
+
+        // Buscar anúncios similares
+        apiService.getSimilarMessages()
+                .enqueue(new retrofit2.Callback<List<Ads>>() {
+                    @Override
+                    public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
+                        isLoadingAds = false;
+
+                        Log.d(TAG, "📡 RESPOSTA RECEBIDA - Código: " + response.code());
+                        Log.d(TAG, "📡 Sucesso? " + response.isSuccessful());
+                        Log.d(TAG, "📡 Body é null? " + (response.body() == null));
+
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<Ads> todasMensagens = response.body();
+                            Log.d(TAG, "✅ DADOS RECEBIDOS: " + todasMensagens.size() + " anúncios");
+
+                            // MOSTRAR TODOS OS ANÚNCIOS RECEBIDOS
+                            for (int i = 0; i < todasMensagens.size(); i++) {
+                                Ads ads = todasMensagens.get(i);
+                                Log.d(TAG, "   📌 [" + i + "] " +
+                                        "Título: " + ads.getTitulo() +
+                                        " | ID: " + ads.getId() +
+                                        " | Autor: " + ads.getAutorId() +
+                                        " | É meu? " + (ads.getAutorId() == meuUserId) +
+                                        " | Policy: " + ads.getPolicy() +
+                                        " | LocalId: " + ads.getLocalId());
+                            }
+
+                            // Filtrar anúncios de outros usuários
+                            List<Ads> mensagensDeOutros = new ArrayList<>();
+                            for (Ads ads : todasMensagens) {
+                                if (ads.getAutorId() != meuUserId) {
+                                    mensagensDeOutros.add(ads);
+                                    Log.d(TAG, "  ✅ ADICIONADO: " + ads.getTitulo() + " (Autor: " + ads.getAutorId() + ")");
+                                } else {
+                                    Log.d(TAG, "  ⏭️ IGNORADO (meu próprio anúncio): " + ads.getTitulo());
+                                }
+                            }
+
+                            Log.d(TAG, "🔍 Anúncios similares de outros: " + mensagensDeOutros.size());
+
+                            // Se ainda houver anúncios após filtrar os próprios
+                            if (mensagensDeOutros.isEmpty()) {
+                                Log.d(TAG, "⚠️ Nenhum anúncio de outros usuários encontrado!");
+                                Log.d(TAG, "💡 Possível problema: Todos os anúncios são seus ou userId está errado");
+                                Log.d(TAG, "💡 Meu userId: " + meuUserId);
+
+                                // TESTE: Mostrar todos os anúncios sem filtrar
+                                runOnUiThread(() -> {
+                                    anunciosFiltrados.clear();
+                                    anunciosFiltrados.addAll(todasMensagens);
+                                    updateAdsUI();
+                                    Toast.makeText(MainActivity.this,
+                                            "TESTE: Mostrando " + todasMensagens.size() + " anúncios (incluindo meus)",
+                                            Toast.LENGTH_LONG).show();
+                                });
+                            } else {
+                                // Filtrar por política
+                                runOnUiThread(() -> {
+                                    filterAndDisplayMessages(mensagensDeOutros, true);
+                                });
+                            }
+
+                        } else {
+                            Log.e(TAG, "❌ Erro ao buscar anúncios similares: " + response.code());
+
+                            // Mostrar erro da resposta se houver
+                            try {
+                                if (response.errorBody() != null) {
+                                    String errorBody = response.errorBody().string();
+                                    Log.e(TAG, "❌ Error Body: " + errorBody);
+                                }
+                            } catch (Exception e) {
+                                Log.e(TAG, "❌ Erro ao ler errorBody", e);
+                            }
+
+                            runOnUiThread(() -> {
+                                anunciosFiltrados.clear();
+                                updateAdsUI();
+
+                                Toast.makeText(MainActivity.this,
+                                        "Erro " + response.code() + " ao buscar anúncios similares",
+                                        Toast.LENGTH_SHORT).show();
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Ads>> call, Throwable t) {
+                        isLoadingAds = false;
+                        Log.e(TAG, "❌ FALHA NA REQUISIÇÃO: " + t.getMessage(), t);
+
+                        runOnUiThread(() -> {
+                            Toast.makeText(MainActivity.this,
+                                    "Falha de conexão: " + t.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                            anunciosFiltrados.clear();
+                            updateAdsUI();
+                        });
+                    }
+                });
+    }
+
+    /**
+     * Filtra mensagens usando o sistema de políticas
+     */
+    private void filterAndDisplayMessages(List<Ads> allMessages) {
+        filterAndDisplayMessages(allMessages, false);
+    }
+
+    /**
+     * Filtra mensagens usando o sistema de políticas
+     */
+    private void filterAndDisplayMessages(List<Ads> allMessages, boolean skipLocationCheck) {
+
+        // Adicione no início do filterAndDisplayMessages:
+        UserProfile userProfile = profileManager.getCurrentProfile();
+        Log.d(TAG, "📝 Perfil carregado: " + (userProfile != null));
+        if (userProfile != null) {
+            Log.d(TAG, "📝 Propriedades: " + userProfile.getProperties());
+            Log.d(TAG, "📝 Tamanho: " + userProfile.getProperties().size());
+        }
+        Log.d(TAG, "🎯 ========== FILTRANDO MENSAGENS ==========");
+        Log.d(TAG, "📦 Total recebido: " + allMessages.size());
+
+        if (allMessages.isEmpty()) {
+            Log.d(TAG, "⚠️ LISTA VAZIA - nada para filtrar");
+            anunciosFiltrados.clear();
+            updateAdsUI();
+            return;
+        }
+
+        // Obter meu userId
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        int meuUserId = prefs.getInt("userId", -1);
+        Log.d(TAG, "👤 Meu User ID: " + meuUserId);
+
+        // 1. Filtrar mensagens de outros usuários
+        List<Ads> mensagensDeOutros = new ArrayList<>();
+        for (Ads ads : allMessages) {
+            boolean eMeu = (ads.getAutorId() == meuUserId);
+            Log.d(TAG, "   👥 " + ads.getTitulo() +
+                    " | Autor: " + ads.getAutorId() +
+                    " | É meu? " + eMeu);
+
+            if (!eMeu) {
+                mensagensDeOutros.add(ads);
+            }
+        }
+
+        Log.d(TAG, "📋 Após filtrar meus: " + mensagensDeOutros.size() + " anúncios");
+
+        // Mostrar quais mensagens passaram
+        for (Ads msg : mensagensDeOutros) {
+            Log.d(TAG, "  ✅ Visível: " + msg.getTitulo() +
+                    " (Policy: " + msg.getPolicy() + ")");
+        }
+
+        // Atualizar lista
+        anunciosFiltrados.clear();
+        anunciosFiltrados.addAll(mensagensDeOutros);
+
+        Log.d(TAG, "=========================================");
+
+        // Atualizar UI
+        updateAdsUI();
+
+        Toast.makeText(this,
+                mensagensDeOutros.size() + " anúncios disponíveis",
+                Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * Atualiza a UI dos anúncios
@@ -529,45 +775,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
-    /**
-     * Verifica se o usuário pode ver a mensagem baseado nas regras
-     */
-    private boolean podeVerMensagem(Map<String, String> perfilUsuario,
-                                    Map<String, String> restricao,
-                                    boolean isBlacklist) {
-        if (restricao == null || restricao.isEmpty()) {
-            return true;
-        }
-
-        for (Map.Entry<String, String> regra : restricao.entrySet()) {
-            String chave = regra.getKey();
-            String valor = regra.getValue();
-
-            if (isBlacklist) {
-                if (perfilUsuario.containsKey(chave) &&
-                        perfilUsuario.get(chave).equalsIgnoreCase(valor)) {
-                    return false;
-                }
-            } else {
-                if (!perfilUsuario.containsKey(chave) ||
-                        !perfilUsuario.get(chave).equalsIgnoreCase(valor)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Callback quando o mapa está pronto
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
         Log.d("MainActivity", "===== MAPA PRONTO =====");
 
-        // Verificar permissões de localização
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
@@ -585,11 +797,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Log.d("MainActivity", "✅ Permissões concedidas");
 
-        // Habilitar localização no mapa
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        // Obter última localização conhecida
         Log.d("MainActivity", "Obtendo última localização conhecida...");
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, location -> {
@@ -612,8 +822,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 ", Lng: " + String.format("%.4f", location.getLongitude()));
 
                     } else {
-                        Log.w("MainActivity", "⚠️ Última localização é null, tentando localização em tempo real...");
-                        // Se getLastLocation retornar null, solicitar atualizações
+                        Log.w("MainActivity", "⚠️ Última localização é null");
                         requestCurrentLocation();
                     }
                 })
@@ -623,9 +832,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-    /**
-     * Callback de resultado de permissões
-     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -648,13 +854,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
-        // Recarregar anúncios quando voltar para a activity
-        loadAds();
+
+        // Reiniciar rastreamento ao voltar para o app
+        if (locationTracker != null && !locationTracker.isTracking()) {
+            Log.d(TAG, "🔄 Reiniciando rastreamento...");
+            loadLocalsAndStartTracking();
+        } else if (locationTracker != null) {
+            // Forçar atualização imediata
+            locationTracker.forceUpdate();
+        }
     }
 
-    /**
-     * Solicita a localização atual em tempo real (como no AddLocal)
-     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Não parar rastreamento - continua em background
+        // Se quiser economizar bateria, descomente a linha abaixo:
+        // if (locationTracker != null) locationTracker.stopTracking();
+    }
+
+
     private void requestCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -663,14 +882,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Log.d("MainActivity", "Solicitando localização em tempo real...");
 
-        // Criar LocationRequest
         com.google.android.gms.location.LocationRequest locationRequest =
                 new com.google.android.gms.location.LocationRequest.Builder(
                         com.google.android.gms.location.Priority.PRIORITY_HIGH_ACCURACY,
-                        5000 // 5 segundos
+                        5000
                 ).build();
 
-        // LocationCallback
         com.google.android.gms.location.LocationCallback locationCallback =
                 new com.google.android.gms.location.LocationCallback() {
                     @Override
@@ -680,15 +897,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         if (locationResult.getLastLocation() != null) {
                             android.location.Location location = locationResult.getLastLocation();
 
-                            Log.d("MainActivity", "✅ Localização em tempo real obtida: Lat=" +
-                                    location.getLatitude() + ", Lng=" + location.getLongitude());
+                            Log.d("MainActivity", "✅ Localização em tempo real obtida");
 
                             LatLng currentLocation = new LatLng(
                                     location.getLatitude(),
                                     location.getLongitude()
                             );
 
-                            // Limpar marcadores antigos e adicionar novo
                             if (mMap != null) {
                                 mMap.clear();
                                 mMap.addMarker(new MarkerOptions()
@@ -701,13 +916,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         ", Lng: " + String.format("%.4f", location.getLongitude()));
                             }
 
-                            // Parar atualizações após obter a primeira localização
                             fusedLocationClient.removeLocationUpdates(this);
                         }
                     }
                 };
 
-        // Solicitar atualizações
         fusedLocationClient.requestLocationUpdates(
                 locationRequest,
                 locationCallback,
@@ -715,9 +928,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         );
     }
 
-    /**
-     * Usa localização padrão (Luanda) se não conseguir obter GPS
-     */
     private void useDefaultLocation() {
         Log.w("MainActivity", "⚠️ Usando localização padrão (Luanda)");
 
@@ -737,38 +947,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 "Não foi possível obter sua localização. Usando Luanda como padrão.",
                 Toast.LENGTH_LONG).show();
     }
-<<<<<<< HEAD
 
-    private void updateUI() {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
-        // Segurança: evitar crash se algo não estiver pronto
-        if (recyclerViewAnuncios == null ||
-                txtTotalAnuncios == null ||
-                emptyStateCard == null ||
-                anunciosAdapter == null) {
-
-            Log.e(TAG, "❌ updateUI(): views ou adapter não inicializados");
-            return;
+        // Parar rastreamento ao destruir activity
+        if (locationTracker != null) {
+            locationTracker.stopTracking();
+            Log.d(TAG, "🛑 Rastreamento parado (Activity destruída)");
         }
-
-        // Atualizar adapter com a lista atual
-        anunciosAdapter.updateData(anunciosFiltrados);
-
-        // Atualizar contador
-        txtTotalAnuncios.setText(anunciosFiltrados.size() + " anúncios");
-
-        // Mostrar / ocultar empty state
-        if (anunciosFiltrados.isEmpty()) {
-            recyclerViewAnuncios.setVisibility(View.GONE);
-            emptyStateCard.setVisibility(View.VISIBLE);
-        } else {
-            recyclerViewAnuncios.setVisibility(View.VISIBLE);
-            emptyStateCard.setVisibility(View.GONE);
-        }
-
-        Log.d(TAG, "✅ UI atualizada com " + anunciosFiltrados.size() + " anúncios");
     }
-
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 }

@@ -205,12 +205,15 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Processar sucesso do login
      */
+    // NO MÉTODO handleLoginSuccess() do LoginActivity
+// SUBSTITUIR a partir da linha 245:
+
     private void handleLoginSuccess(LoginResponse loginResponse, String email) {
         try {
             // Extrair dados da resposta
             String token = loginResponse.getToken();
             int userId = loginResponse.getUser().getId();
-            String username = loginResponse.getUser().getNome(); // Ajuste conforme seu modelo
+            String username = loginResponse.getUser().getNome();
 
             Log.d(TAG, "✅ Login bem-sucedido");
             Log.d(TAG, "Token recebido: " + token);
@@ -223,7 +226,6 @@ public class LoginActivity extends AppCompatActivity {
             if (expiryTime > 0) {
                 Log.d(TAG, "Token expira em: " + expiryTime);
             } else {
-                // Se não conseguir extrair expiração, usar padrão de 24 horas
                 expiryTime = System.currentTimeMillis() + (24 * 60 * 60 * 1000L);
                 Log.d(TAG, "Usando expiração padrão (24h)");
             }
@@ -236,8 +238,16 @@ public class LoginActivity extends AppCompatActivity {
                     expiryTime
             );
 
-            // Também salvar no SharedPreferences antigo (para compatibilidade)
-            saveToSharedPreferences(email, token, userId);
+            // ✅ CORRIGIDO: Salvar user_id no SharedPreferences
+            SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("isLoggedIn", true);
+            editor.putString("email", email);
+            editor.putString("token", token);
+            editor.putInt("userId", userId); // ✅ Salvar com nome correto
+            editor.apply(); // ✅ Fechar editor AQUI
+
+            Log.d(TAG, "✅ Dados salvos no SharedPreferences: userId=" + userId);
 
             // Mostrar mensagem de sucesso
             String message = loginResponse.getMessage();

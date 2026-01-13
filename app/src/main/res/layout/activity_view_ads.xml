@@ -13,37 +13,20 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="100dp"
         android:background="@android:color/transparent"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingToolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="63dp"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:statusBarScrim="?attr/colorPrimaryDark">
 
-            <!-- Imagem do Anúncio -->
-            <ImageView
-                android:id="@+id/adImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/ad_image"
-                android:scaleType="centerCrop"
-                android:src="@drawable/bg_placeholder"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="0.7" />
-
-            <!-- Overlay escuro para melhor legibilidade -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/gradient_overlay"
-                app:layout_collapseMode="parallax" />
 
             <!-- Toolbar -->
             <androidx.appcompat.widget.Toolbar
@@ -179,6 +162,10 @@
                         android:textColor="@color/textPrimary"
                         android:textSize="16sp"
                         tools:text="Aproveite nossa promoção especial de verão! Descontos incríveis em todos os produtos. Válido até o final do mês." />
+
+
+
+
 
                 </LinearLayout>
 

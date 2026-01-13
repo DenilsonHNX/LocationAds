@@ -6,16 +6,24 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +37,9 @@ import java.util.TimeZone;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
+import ao.co.isptec.aplm.locationads.network.models.PerfilKeyValue;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,6 +56,11 @@ public class AddAds extends AppCompatActivity {
     private TextInputEditText inputIdadeMinima;
     private AutoCompleteTextView spinnerPolicy;
     private AutoCompleteTextView spinnerLocais;
+
+    // ✅ NOVOS: Tags e Modo Descentralizado
+    private LinearLayout tagsContainer;
+    private MaterialButton btnAdicionarTag;
+    private MaterialCheckBox checkboxDescentralizado;
 
     // Views - InputLayouts
     private TextInputLayout tituloInputLayout;
@@ -65,25 +80,35 @@ public class AddAds extends AppCompatActivity {
     private ApiService apiService;
     private List<Local> locaisList = new ArrayList<>();
 
+    // ✅ NOVOS: Dados do perfil e tags selecionadas
+    private List<PerfilKeyValue> perfilChaves = new ArrayList<>();
+    private Map<String, String> tagsSelecionadas = new HashMap<>();
+
     // Estado
     private boolean isLoading = false;
     private Calendar startDateTime = Calendar.getInstance();
     private Calendar endDateTime = Calendar.getInstance();
+    private int userId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ads);
 
+        // ✅ Obter userId
+        SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        userId = sharedPref.getInt("userId", -1);
+
         initApiService();
         initViews();
         setupListeners();
         setupSpinners();
         carregarLocais();
+        carregarChavesPerfil(); // ✅ NOVO
     }
 
     private void initApiService() {
-        apiService = ApiClient.getInstance().getApiService();
+        apiService = ApiClient.getInstance(this).getApiService();
     }
 
     private void initViews() {
@@ -95,6 +120,11 @@ public class AddAds extends AppCompatActivity {
         inputIdadeMinima = findViewById(R.id.inputIdadeMinima);
         spinnerPolicy = findViewById(R.id.spinnerPolicy);
         spinnerLocais = findViewById(R.id.spinnerLocais);
+
+        // ✅ NOVOS: Tags e Checkbox
+        tagsContainer = findViewById(R.id.tagsContainer);
+        btnAdicionarTag = findViewById(R.id.btnAdicionarTag);
+        checkboxDescentralizado = findViewById(R.id.checkboxDescentralizado);
 
         // InputLayouts
         tituloInputLayout = findViewById(R.id.tituloInputLayout);
@@ -116,6 +146,9 @@ public class AddAds extends AppCompatActivity {
         btnPublicar.setOnClickListener(v -> handlePublicarAnuncio());
         btnAtualizarLocais.setOnClickListener(v -> carregarLocais());
 
+        // ✅ NOVO: Adicionar Tag
+        btnAdicionarTag.setOnClickListener(v -> mostrarDialogoSelecionarTag());
+
         // Date/Time pickers
         inputHoraInicio.setOnClickListener(v -> showDateTimePicker(true));
         inputHoraFim.setOnClickListener(v -> showDateTimePicker(false));
@@ -132,6 +165,153 @@ public class AddAds extends AppCompatActivity {
         spinnerPolicy.setAdapter(policyAdapter);
     }
 
+    /**
+     * ✅ CORRIGIDO: Carregar chaves E valores do perfil do backend
+     */
+    private void carregarChavesPerfil() {
+        if (userId == -1) {
+            Log.e(TAG, "❌ userId inválido");
+            return;
+        }
+
+        Log.d(TAG, "🔑 Carregando perfil do usuário ID: " + userId);
+
+        // Obter token
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        String token = prefs.getString("token", "");
+
+        if (token.isEmpty()) {
+            Log.e(TAG, "❌ Token não encontrado");
+            btnAdicionarTag.setEnabled(false);
+            return;
+        }
+
+        // ✅ CORRIGIDO: userId primeiro, token depois
+        apiService.getUserPerfil(userId, "Bearer " + token)
+                .enqueue(new Callback<List<PerfilKeyValue>>() {
+                    @Override
+                    public void onResponse(Call<List<PerfilKeyValue>> call,
+                                           Response<List<PerfilKeyValue>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            List<PerfilKeyValue> perfil = response.body();
+                            Log.d(TAG, "✅ Perfil recebido: " + perfil.size() + " propriedades");
+
+                            perfilChaves.clear();
+                            perfilChaves.addAll(perfil);
+
+                            // Log de cada chave-valor
+                            for (PerfilKeyValue kv : perfil) {
+                                Log.d(TAG, "  ✅ " + kv.getKey() + " = " + kv.getValue());
+                            }
+
+                            if (perfilChaves.isEmpty()) {
+                                Toast.makeText(AddAds.this,
+                                        "Você não tem propriedades no perfil. Configure seu perfil primeiro.",
+                                        Toast.LENGTH_LONG).show();
+                                btnAdicionarTag.setEnabled(false);
+                            } else {
+                                btnAdicionarTag.setEnabled(true);
+                            }
+                        } else {
+                            Log.e(TAG, "❌ Erro ao carregar perfil: " + response.code());
+                            btnAdicionarTag.setEnabled(false);
+                            Toast.makeText(AddAds.this,
+                                    "Erro ao carregar perfil",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<PerfilKeyValue>> call, Throwable t) {
+                        Log.e(TAG, "❌ Falha ao carregar perfil", t);
+                        btnAdicionarTag.setEnabled(false);
+                        Toast.makeText(AddAds.this,
+                                "Erro de conexão ao carregar perfil",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+
+    /**
+     * ✅ NOVO: Mostrar diálogo para selecionar tag
+     */
+    private void mostrarDialogoSelecionarTag() {
+        if (perfilChaves.isEmpty()) {
+            Toast.makeText(this,
+                    "Nenhuma chave disponível no perfil",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Criar lista de strings para exibir
+        List<String> opcoes = new ArrayList<>();
+        for (PerfilKeyValue kv : perfilChaves) {
+            // Verificar se já foi selecionada
+            if (!tagsSelecionadas.containsKey(kv.getKey())) {
+                opcoes.add(kv.getKey() + " = " + kv.getValue());
+            }
+        }
+
+        if (opcoes.isEmpty()) {
+            Toast.makeText(this,
+                    "Todas as tags já foram adicionadas",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Selecionar Tag");
+        builder.setItems(opcoes.toArray(new String[0]), (dialog, which) -> {
+            PerfilKeyValue selecionada = null;
+            int contador = 0;
+            for (PerfilKeyValue kv : perfilChaves) {
+                if (!tagsSelecionadas.containsKey(kv.getKey())) {
+                    if (contador == which) {
+                        selecionada = kv;
+                        break;
+                    }
+                    contador++;
+                }
+            }
+
+            if (selecionada != null) {
+                adicionarTagView(selecionada.getKey(), selecionada.getValue());
+            }
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
+    }
+
+    /**
+     * ✅ NOVO: Adicionar tag visual no container
+     */
+    private void adicionarTagView(String chave, String valor) {
+        // Adicionar ao mapa
+        tagsSelecionadas.put(chave, valor);
+
+        // Inflar layout do chip/tag
+        View tagView = LayoutInflater.from(this)
+                .inflate(R.layout.item_tag, tagsContainer, false);
+
+        TextView textTag = tagView.findViewById(R.id.textTag);
+        ImageButton btnRemoverTag = tagView.findViewById(R.id.btnRemoverTag);
+
+        textTag.setText(chave + ": " + valor);
+
+        // Listener para remover
+        btnRemoverTag.setOnClickListener(v -> {
+            tagsSelecionadas.remove(chave);
+            tagsContainer.removeView(tagView);
+            Toast.makeText(this, "Tag removida", Toast.LENGTH_SHORT).show();
+        });
+
+        tagsContainer.addView(tagView);
+
+        Log.d(TAG, "✅ Tag adicionada: " + chave + " = " + valor);
+    }
+
     private void carregarLocais() {
         btnAtualizarLocais.setEnabled(false);
         btnAtualizarLocais.setText("Carregando...");
@@ -144,30 +324,22 @@ public class AddAds extends AppCompatActivity {
                 btnAtualizarLocais.setEnabled(true);
                 btnAtualizarLocais.setText(getString(R.string.update_locations));
 
-                Log.d(TAG, "Status Code: " + response.code());
-                Log.d(TAG, "URL: " + call.request().url());
-
                 if (response.isSuccessful() && response.body() != null) {
                     locaisList = response.body();
-
                     Log.d(TAG, "✅ Locais recebidos: " + locaisList.size());
 
                     if (locaisList.isEmpty()) {
                         Toast.makeText(AddAds.this,
                                 "Você precisa criar um local primeiro",
                                 Toast.LENGTH_LONG).show();
-                        localidadeInputLayout.setHelperText("Nenhum local disponível. Crie um local primeiro.");
                         return;
                     }
 
-                    // Criar lista de nomes para o Spinner
                     List<String> locaisNomes = new ArrayList<>();
                     for (Local local : locaisList) {
                         locaisNomes.add(local.getNome());
-                        Log.d(TAG, "Local: " + local.getNome() + " (ID: " + local.getId() + ")");
                     }
 
-                    // Configurar adapter do Spinner
                     ArrayAdapter<String> locaisAdapter = new ArrayAdapter<>(
                             AddAds.this,
                             android.R.layout.simple_dropdown_item_1line,
@@ -178,57 +350,23 @@ public class AddAds extends AppCompatActivity {
                     Toast.makeText(AddAds.this,
                             locaisList.size() + " locais carregados",
                             Toast.LENGTH_SHORT).show();
-
                 } else {
-                    Log.e(TAG, "❌ Erro ao carregar locais");
-                    try {
-                        String errorBody = response.errorBody() != null ?
-                                response.errorBody().string() : "Sem corpo de erro";
-                        Log.e(TAG, "Error Body: " + errorBody);
-                    } catch (Exception e) {
-                        Log.e(TAG, "Erro ao ler errorBody", e);
-                    }
                     handleLocaisError(response.code());
                 }
-
-                Log.d(TAG, "=====================================");
             }
 
             @Override
             public void onFailure(Call<List<Local>> call, Throwable t) {
                 btnAtualizarLocais.setEnabled(true);
                 btnAtualizarLocais.setText(getString(R.string.update_locations));
-
-                Log.e(TAG, "❌ Falha ao carregar locais: " + t.getMessage());
-                t.printStackTrace();
-
                 handleNetworkError(t, "carregar locais");
             }
         });
     }
 
-    private void handleLocaisError(int statusCode) {
-        String errorMessage;
-
-        switch (statusCode) {
-            case 404:
-                errorMessage = getString(R.string.no_locations_found);
-                break;
-            case 401:
-                errorMessage = "Não autorizado. Faça login novamente.";
-                break;
-            default:
-                errorMessage = "Erro ao carregar locais";
-        }
-
-        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Erro ao carregar locais. Status: " + statusCode);
-    }
-
     private void showDateTimePicker(boolean isStartTime) {
         Calendar calendar = isStartTime ? startDateTime : endDateTime;
 
-        // Date Picker
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this,
                 (view, year, month, dayOfMonth) -> {
@@ -236,7 +374,6 @@ public class AddAds extends AppCompatActivity {
                     calendar.set(Calendar.MONTH, month);
                     calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                    // Time Picker
                     TimePickerDialog timePickerDialog = new TimePickerDialog(
                             this,
                             (timeView, hourOfDay, minute) -> {
@@ -244,7 +381,6 @@ public class AddAds extends AppCompatActivity {
                                 calendar.set(Calendar.MINUTE, minute);
                                 calendar.set(Calendar.SECOND, 0);
 
-                                // Formatar e exibir
                                 SimpleDateFormat sdf = new SimpleDateFormat(
                                         "dd/MM/yyyy HH:mm",
                                         Locale.getDefault()
@@ -277,13 +413,7 @@ public class AddAds extends AppCompatActivity {
 
         Log.d(TAG, "========== PUBLICANDO ANÚNCIO ==========");
 
-        // Recupera autorId
-        SharedPreferences sharedPref = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        int autorId = sharedPref.getInt("userId", -1);
-
-        Log.d(TAG, "Autor ID: " + autorId);
-
-        if (autorId == -1) {
+        if (userId == -1) {
             Toast.makeText(this, "Usuário não está logado", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -297,13 +427,17 @@ public class AddAds extends AppCompatActivity {
         String localSelecionado = spinnerLocais.getText().toString().trim();
         String idadeMinimaStr = inputIdadeMinima.getText().toString().trim();
 
+        // ✅ NOVO: Modo descentralizado
+        boolean modoDescentralizado = checkboxDescentralizado.isChecked();
+        String modoEntrega = modoDescentralizado ? "descentralizado" : "centralizado";
+
         Log.d(TAG, "Título: " + titulo);
         Log.d(TAG, "Policy: " + policy);
-        Log.d(TAG, "Local selecionado: " + localSelecionado);
+        Log.d(TAG, "Tags: " + tagsSelecionadas.size());
+        Log.d(TAG, "Modo Entrega: " + modoEntrega);
 
         // Validar
         if (!validateInputs(titulo, conteudo, horaInicio, horaFim, policy, localSelecionado)) {
-            Log.e(TAG, "❌ Validação falhou");
             return;
         }
 
@@ -311,11 +445,8 @@ public class AddAds extends AppCompatActivity {
         int localId = getLocalIdByName(localSelecionado);
         if (localId == -1) {
             localidadeInputLayout.setError("Local inválido");
-            Log.e(TAG, "❌ Local inválido");
             return;
         }
-
-        Log.d(TAG, "Local ID: " + localId);
 
         // Montar restrições
         Map<String, Object> restricoes = new HashMap<>();
@@ -327,33 +458,97 @@ public class AddAds extends AppCompatActivity {
                     return;
                 }
                 restricoes.put("idadeMinima", idadeMinima);
-                Log.d(TAG, "Restrições: idadeMinima=" + idadeMinima);
             } catch (NumberFormatException e) {
                 idadeMinimaInputLayout.setError(getString(R.string.error_invalid_age));
                 return;
             }
         }
 
-        // Converter datas para ISO format
+        // Converter datas para ISO
         String horaInicioISO = convertToISOFormat(startDateTime);
         String horaFimISO = convertToISOFormat(endDateTime);
 
-        Log.d(TAG, "Hora Início ISO: " + horaInicioISO);
-        Log.d(TAG, "Hora Fim ISO: " + horaFimISO);
+        // ✅ Criar anúncio com TAGS
+        criarAnuncioComTags(titulo, conteudo, userId, localId, policy,
+                restricoes.isEmpty() ? null : restricoes,
+                tagsSelecionadas,
+                modoEntrega,
+                horaInicioISO, horaFimISO);
+    }
 
-        // Passar restricoes (ou null se estiver vazio)
-        Map<String, Object> restricoesParaEnviar = restricoes.isEmpty() ? null : restricoes;
+    private void criarAnuncioComTags(String titulo, String conteudo, int autorId, int localId,
+                                     String policy, Map<String, Object> restricoes,
+                                     Map<String, String> tags, String modoEntrega,
+                                     String horaInicio, String horaFim) {
+        setLoadingState(true);
 
-        // Criar anúncio sem imagem
-        criarAnuncio(titulo, conteudo, autorId, localId, policy,
-                restricoesParaEnviar, horaInicioISO, horaFimISO);
+        // ✅ Criar objeto Ads corretamente
+        Ads novoAnuncio = new Ads();
+        novoAnuncio.setTitulo(titulo);
+        novoAnuncio.setConteudo(conteudo);
+        novoAnuncio.setAutorId(autorId);
+        novoAnuncio.setLocalId(localId);
+        novoAnuncio.setPolicy(policy);
+        novoAnuncio.setRestricoes(restricoes);
+        novoAnuncio.setTags(tags);              // ✅ NOVO
+        novoAnuncio.setModoEntrega(modoEntrega); // ✅ NOVO
+        novoAnuncio.setHoraInicio(horaInicio);
+        novoAnuncio.setHoraFim(horaFim);
+        novoAnuncio.setImagem(null);
+
+        Log.d(TAG, "========== CRIANDO ANÚNCIO ==========");
+        Log.d(TAG, "Título: " + titulo);
+        Log.d(TAG, "Tags: " + tags);
+        Log.d(TAG, "Modo Entrega: " + modoEntrega);
+
+        // ✅ ADICIONAR: Log detalhado das tags
+        for (Map.Entry<String, String> entry : tags.entrySet()) {
+            Log.d(TAG, "  Tag: " + entry.getKey() + " = " + entry.getValue());
+        }
+
+        // ✅ Passar objeto Ads
+        apiService.addAdAlternative(novoAnuncio).enqueue(new Callback<Ads>() {
+            @Override
+            public void onResponse(Call<Ads> call, Response<Ads> response) {
+                setLoadingState(false);
+
+                Log.d(TAG, "Status Code: " + response.code());
+
+                if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "✅ Anúncio criado: ID=" + response.body().getId());
+
+                    String mensagem = tags.isEmpty() ?
+                            "Anúncio publicado!" :
+                            "Anúncio publicado com " + tags.size() + " tags!";
+
+                    Toast.makeText(AddAds.this, mensagem, Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Log.e(TAG, "❌ Erro ao criar anúncio");
+                    try {
+                        String errorBody = response.errorBody() != null ?
+                                response.errorBody().string() : "Sem corpo de erro";
+                        Log.e(TAG, "Error Body: " + errorBody);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Erro ao ler errorBody", e);
+                    }
+                    handleAdCreatedError(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Ads> call, Throwable t) {
+                setLoadingState(false);
+                Log.e(TAG, "❌ Falha", t);
+                handleNetworkError(t, "criar anúncio");
+            }
+        });
     }
 
     private boolean validateInputs(String titulo, String conteudo, String horaInicio,
                                    String horaFim, String policy, String local) {
         boolean isValid = true;
 
-        // Validar título
         if (TextUtils.isEmpty(titulo)) {
             tituloInputLayout.setError(getString(R.string.error_empty_title));
             if (isValid) inputTitulo.requestFocus();
@@ -364,39 +559,30 @@ public class AddAds extends AppCompatActivity {
             isValid = false;
         }
 
-        // Validar conteúdo
         if (TextUtils.isEmpty(conteudo)) {
             conteudoInputLayout.setError(getString(R.string.error_empty_description));
             if (isValid) inputConteudo.requestFocus();
             isValid = false;
-        } else if (conteudo.length() < 10) {
-            conteudoInputLayout.setError("Descrição deve ter pelo menos 10 caracteres");
-            if (isValid) inputConteudo.requestFocus();
-            isValid = false;
         }
 
-        // Validar política
         if (TextUtils.isEmpty(policy)) {
             policyInputLayout.setError(getString(R.string.error_empty_policy));
             if (isValid) spinnerPolicy.requestFocus();
             isValid = false;
         }
 
-        // Validar hora início
         if (TextUtils.isEmpty(horaInicio)) {
             horaInicioInputLayout.setError(getString(R.string.error_empty_start_time));
             if (isValid) inputHoraInicio.requestFocus();
             isValid = false;
         }
 
-        // Validar hora fim
         if (TextUtils.isEmpty(horaFim)) {
             horaFimInputLayout.setError(getString(R.string.error_empty_end_time));
             if (isValid) inputHoraFim.requestFocus();
             isValid = false;
         }
 
-        // Validar que hora fim é depois de hora início
         if (!TextUtils.isEmpty(horaInicio) && !TextUtils.isEmpty(horaFim)) {
             if (endDateTime.before(startDateTime)) {
                 horaFimInputLayout.setError(getString(R.string.error_end_before_start));
@@ -405,17 +591,9 @@ public class AddAds extends AppCompatActivity {
             }
         }
 
-        // Validar local
         if (TextUtils.isEmpty(local)) {
             localidadeInputLayout.setError(getString(R.string.error_empty_location));
             if (isValid) spinnerLocais.requestFocus();
-            isValid = false;
-        }
-
-        // Validar se há locais disponíveis
-        if (locaisList.isEmpty()) {
-            Toast.makeText(this, "Nenhum local disponível. Crie um local primeiro.",
-                    Toast.LENGTH_LONG).show();
             isValid = false;
         }
 
@@ -432,7 +610,6 @@ public class AddAds extends AppCompatActivity {
     }
 
     private String convertToISOFormat(Calendar calendar) {
-        // Usar UTC timezone para ISO 8601 correto
         SimpleDateFormat sdf = new SimpleDateFormat(
                 "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
                 Locale.US
@@ -441,78 +618,8 @@ public class AddAds extends AppCompatActivity {
         return sdf.format(calendar.getTime());
     }
 
-    private void criarAnuncio(String titulo, String conteudo, int autorId, int localId,
-                              String policy, Map<String, Object> restricoes,
-                              String horaInicio, String horaFim) {
-        setLoadingState(true);
-
-        // Criar anúncio SEM imagem
-        Ads novoAnuncio = new Ads(
-                titulo,
-                conteudo,
-                autorId,
-                localId,
-                policy,
-                restricoes,
-                null,  // imagemUrl = null
-                horaInicio,
-                horaFim
-        );
-
-        Log.d(TAG, "========== CRIANDO ANÚNCIO ==========");
-        Log.d(TAG, "Título: " + titulo);
-        Log.d(TAG, "Autor ID: " + autorId);
-        Log.d(TAG, "Local ID: " + localId);
-        Log.d(TAG, "Policy: " + policy);
-        Log.d(TAG, "Restrições: " + (restricoes != null ? restricoes.toString() : "nenhuma"));
-
-        apiService.addAdAlternative(novoAnuncio).enqueue(new Callback<Ads>() {
-            @Override
-            public void onResponse(Call<Ads> call, Response<Ads> response) {
-                setLoadingState(false);
-
-                Log.d(TAG, "========== RESPOSTA DA API ==========");
-                Log.d(TAG, "Status Code: " + response.code());
-                Log.d(TAG, "URL: " + call.request().url());
-
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "✅ Anúncio criado com sucesso");
-                    handleAdCreatedSuccess();
-                } else {
-                    Log.e(TAG, "❌ Erro ao criar anúncio");
-                    try {
-                        String errorBody = response.errorBody() != null ?
-                                response.errorBody().string() : "Sem corpo de erro";
-                        Log.e(TAG, "Error Body: " + errorBody);
-                    } catch (Exception e) {
-                        Log.e(TAG, "Erro ao ler errorBody", e);
-                    }
-                    handleAdCreatedError(response.code());
-                }
-
-                Log.d(TAG, "=====================================");
-            }
-
-            @Override
-            public void onFailure(Call<Ads> call, Throwable t) {
-                setLoadingState(false);
-                Log.e(TAG, "❌ Falha na requisição: " + t.getMessage());
-                t.printStackTrace();
-                handleNetworkError(t, "criar anúncio");
-            }
-        });
-    }
-
-    private void handleAdCreatedSuccess() {
-        Log.d(TAG, "✅ Anúncio criado com sucesso");
-        Toast.makeText(this, getString(R.string.ad_created_success),
-                Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
     private void handleAdCreatedError(int statusCode) {
         String errorMessage;
-
         switch (statusCode) {
             case 400:
                 errorMessage = "Dados inválidos. Verifique os campos.";
@@ -520,30 +627,19 @@ public class AddAds extends AppCompatActivity {
             case 401:
                 errorMessage = "Não autorizado. Faça login novamente.";
                 break;
-            case 500:
-                errorMessage = "Erro no servidor. Tente novamente mais tarde.";
-                break;
             default:
-                errorMessage = getString(R.string.error_creating_ad);
+                errorMessage = "Erro ao criar anúncio";
         }
-
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Erro ao criar anúncio. Status: " + statusCode);
+    }
+
+    private void handleLocaisError(int statusCode) {
+        Toast.makeText(this, "Erro ao carregar locais", Toast.LENGTH_SHORT).show();
     }
 
     private void handleNetworkError(Throwable t, String action) {
-        String errorMessage;
-
-        if (t instanceof java.net.UnknownHostException) {
-            errorMessage = "Sem conexão com a internet";
-        } else if (t instanceof java.net.SocketTimeoutException) {
-            errorMessage = "Tempo de conexão esgotado";
-        } else {
-            errorMessage = "Erro de conexão ao " + action + ": " + t.getMessage();
-        }
-
+        String errorMessage = "Erro de conexão ao " + action;
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        Log.e(TAG, "Erro de rede ao " + action, t);
     }
 
     private void clearErrors() {
@@ -558,28 +654,7 @@ public class AddAds extends AppCompatActivity {
 
     private void setLoadingState(boolean loading) {
         isLoading = loading;
-
         btnPublicar.setEnabled(!loading);
-        inputTitulo.setEnabled(!loading);
-        inputConteudo.setEnabled(!loading);
-        inputHoraInicio.setEnabled(!loading);
-        inputHoraFim.setEnabled(!loading);
-        inputIdadeMinima.setEnabled(!loading);
-        spinnerPolicy.setEnabled(!loading);
-        spinnerLocais.setEnabled(!loading);
-        btnAtualizarLocais.setEnabled(!loading);
-
-        if (loading) {
-            btnPublicar.setText("Publicando...");
-        } else {
-            btnPublicar.setText(getString(R.string.publish_ad));
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // Limpar referências
-        apiService = null;
+        btnPublicar.setText(loading ? "Publicando..." : getString(R.string.publish_ad));
     }
 }

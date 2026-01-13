@@ -113,4 +113,77 @@ public class UserProfile implements Serializable {
     public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
+
+    // ==================== MÉTODOS NOVOS ADICIONADOS ====================
+    // ✅ Compatibilidade com sistema de políticas
+
+    /**
+     * Obtém o perfil como Map<String, Object> para compatibilidade
+     * com o sistema de políticas
+     */
+    public Map<String, Object> getProfile() {
+        // Converter Map<String, String> para Map<String, Object>
+        Map<String, Object> profile = new HashMap<>();
+        if (properties != null) {
+            profile.putAll(properties);
+        }
+        return profile;
+    }
+
+    /**
+     * Define o perfil a partir de Map<String, Object>
+     * Converte para o formato interno Map<String, String>
+     */
+    public void setProfile(Map<String, Object> profile) {
+        if (profile == null) {
+            this.properties = new HashMap<>();
+            return;
+        }
+
+        // Converter Map<String, Object> para Map<String, String>
+        this.properties = new HashMap<>();
+        for (Map.Entry<String, Object> entry : profile.entrySet()) {
+            if (entry.getValue() != null) {
+                this.properties.put(entry.getKey(), entry.getValue().toString());
+            }
+        }
+        this.lastUpdated = System.currentTimeMillis();
+    }
+
+    /**
+     * Adiciona propriedade aceitando Object como valor
+     */
+    public void addProfileProperty(String key, Object value) {
+        if (key != null && value != null) {
+            addProperty(key, value.toString());
+        }
+    }
+
+    /**
+     * Remove propriedade do perfil (alias para removeProperty)
+     */
+    public void removeProfileProperty(String key) {
+        removeProperty(key);
+    }
+
+    /**
+     * Obtém propriedade do perfil como Object
+     */
+    public Object getProfileProperty(String key) {
+        return getPropertyValue(key);
+    }
+
+    /**
+     * Verifica se tem propriedade no perfil
+     */
+    public boolean hasProfileProperty(String key) {
+        return properties != null && properties.containsKey(key);
+    }
+
+    /**
+     * Limpa o perfil (alias para clearAllProperties)
+     */
+    public void clearProfile() {
+        clearAllProperties();
+    }
 }
