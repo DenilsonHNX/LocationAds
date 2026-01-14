@@ -5,16 +5,23 @@ import java.io.Serializable;
 
 public class PerfilKeyValue implements Serializable {
 
-    @SerializedName("chave")
+    @SerializedName("key")
     private String key;
 
-    @SerializedName("valor")
+    @SerializedName("value")
     private String value;
 
+    @SerializedName("timestamp")
+    private long timestamp;
+
+    public PerfilKeyValue() {
+        this.timestamp = System.currentTimeMillis();
+    }
 
     public PerfilKeyValue(String key, String value) {
         this.key = key;
         this.value = value;
+        this.timestamp = System.currentTimeMillis();
     }
 
     // Getters e Setters
@@ -32,6 +39,15 @@ public class PerfilKeyValue implements Serializable {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override

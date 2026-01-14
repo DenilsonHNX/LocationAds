@@ -63,6 +63,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Views
     private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap mMap;
+
+    private List<Ads> anunciosWhitelist = new ArrayList<>();
+    private List<Ads> anunciosCriados = new ArrayList<>();
+
+    private AnunciosAdapter adapterWhitelist;
+    private AnunciosAdapter adapterCriados;
+
     private TextView emptyStateText;
     private RecyclerView listaLocais;
     private RecyclerView recyclerViewAnuncios;
@@ -79,17 +86,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private List<Ads> anunciosFiltrados;
     private Map<String, String> perfilUsuario = new HashMap<>();
 
-    // ✅ Sistema de políticas
-    private MessageDeliveryManager deliveryManager;
-    private UserProfile currentUserProfile;
-    private int currentLocalId = -1;
-
     private int currentTab = 0;
-
-    private LocationTracker locationTracker;
-    private ProfileManager profileManager;
-    private Integer currentDetectedLocalId = null;
-    private boolean isLoadingAds = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,9 +268,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Configura os RecyclerViews
      */
     private void setupRecyclerViews() {
-        // RecyclerView de Locais
+
+        adapterWhitelist = new AnunciosAdapter(this, anunciosWhitelist);
+        adapterCriados = new AnunciosAdapter(this, anunciosCriados);
+
+// Usa o adapter da whitelist por default
+        recyclerViewAnuncios.setAdapter(adapterWhitelist);
+
+        // RecyclerView de Locais - com listener para click e delete
         listaLocais.setLayoutManager(new LinearLayoutManager(this));
-        locaisAdapter = new LocaisAdapter(new ArrayList<>());
+        locaisAdapter = new LocaisAdapter(this, new ArrayList<>(), new LocaisAdapter.OnLocalClickListener() {
+            @Override
+            public void onLocalClick(Local local) {
+                // Ir para o local no mapa
+                if (local.getLatitude() != null && local.getLongitude() != null) {
+                    LatLng posicao = new LatLng(local.getLatitude(), local.getLongitude());
+                    if (mMap != null) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posicao, 16));
+                        showMap();
+                    }
+                }
+            }
+            
+            @Override
+            public void onLocalDeleted(Local local) {
+                // Recarregar a lista de locais
+                buscarTodosLocais();
+            }
+        });
         listaLocais.setAdapter(locaisAdapter);
 
         // RecyclerView de Anúncios
@@ -497,9 +519,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Obter perfil do usuário
         UserProfile userProfile = profileManager.getCurrentProfile();
 
-        // Obter ID do usuário atual para filtrar seus próprios anúncios
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        final int meuUserId = prefs.getInt("userId", -1);
+                    // Teste ----------
 
         Log.d(TAG, "👤 Meu User ID: " + meuUserId);
         Log.d(TAG, "📋 Perfil: " + userProfile.getProperties());
@@ -544,6 +564,60 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 updateAdsUI();
                             });
                         }
+                    });
+
+
+
+                    // Buscar mensagens de cada local
+                    for (Local local : locais) {
+                        apiService.getMessagesByLocation(local.getId())
+                                .enqueue(new retrofit2.Callback<List<Ads>>() {
+                                    @Override
+                                    public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
+                                        if (response.isSuccessful() && response.body() != null) {
+                                            List<Ads> mensagensDoLocal = response.body();
+                                            anunciosFiltrados.addAll(mensagensDoLocal);
+                                            Log.d(TAG, "✅ Mensagens do local " + local.getNome() +
+                                                    " (" + local.getId() + "): " + mensagensDoLocal.size());
+                                        } else {
+                                            Log.w(TAG, "⚠️ Erro ao buscar mensagens do local " +
+                                                    local.getNome() + ": " + response.code());
+                                        }
+
+                                        locaisProcessados[0]++;
+
+                                        // Se processou todos os locais, atualizar UI
+                                        if (locaisProcessados[0] == totalLocais) {
+                                            Log.d(TAG, "✅ Total de anúncios carregados: " +
+                                                    anunciosFiltrados.size());
+                                            Log.d(TAG, "=========================================");
+
+                                            runOnUiThread(() -> {
+                                                updateAdsUI();
+                                                Toast.makeText(MainActivity.this,
+                                                        anunciosFiltrados.size() + " anúncios carregados",
+                                                        Toast.LENGTH_SHORT).show();
+                                            });
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<List<Ads>> call, Throwable t) {
+                                        Log.e(TAG, "❌ Erro ao buscar mensagens do local " +
+                                                local.getNome() + ": " + t.getMessage());
+
+                                        locaisProcessados[0]++;
+
+                                        // Se processou todos os locais (mesmo com erros), atualizar UI
+                                        if (locaisProcessados[0] == totalLocais) {
+                                            Log.d(TAG, "Total de anúncios carregados (com erros): " +
+                                                    anunciosFiltrados.size());
+                                            Log.d(TAG, "=========================================");
+
+                                            runOnUiThread(() -> updateAdsUI());
+                                        }
+                                    }
+                                });
                     }
 
                     @Override
@@ -854,14 +928,43 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
-
-        // Reiniciar rastreamento ao voltar para o app
-        if (locationTracker != null && !locationTracker.isTracking()) {
-            Log.d(TAG, "🔄 Reiniciando rastreamento...");
-            loadLocalsAndStartTracking();
-        } else if (locationTracker != null) {
-            // Forçar atualização imediata
-            locationTracker.forceUpdate();
+        // Recarregar anúncios quando voltar para a activity
+        loadAds();
+        
+        // Iniciar serviço de rastreamento de localização se tiver permissão
+        startLocationTrackingIfPermitted();
+        
+        // Iniciar sistema de notificações (FCM + fallback polling)
+        initializeNotifications();
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // O NotificationManager gerencia FCM e polling automaticamente
+        // FCM continua em background, polling para quando app não está visível
+    }
+    
+    /**
+     * Inicializa o sistema de notificações (FCM com fallback para polling)
+     */
+    private void initializeNotifications() {
+        ao.co.isptec.aplm.locationads.service.NotificationManager
+                .getInstance(this).initialize();
+        Log.d(TAG, "✅ Sistema de notificações inicializado");
+    }
+    
+    /**
+     * Inicia o serviço de rastreamento de localização se tiver permissão
+     */
+    private void startLocationTrackingIfPermitted() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            
+            if (!ao.co.isptec.aplm.locationads.service.LocationTrackingService.isRunning(this)) {
+                ao.co.isptec.aplm.locationads.service.LocationTrackingService.start(this);
+                Log.d(TAG, "✅ Serviço de rastreamento de localização iniciado");
+            }
         }
     }
 
@@ -958,4 +1061,5 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d(TAG, "🛑 Rastreamento parado (Activity destruída)");
         }
     }
+
 }

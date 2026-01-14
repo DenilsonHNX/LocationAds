@@ -257,6 +257,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Login realizado com sucesso!", Toast.LENGTH_SHORT).show();
             }
 
+            // Enviar token FCM pendente (se houver)
+            ao.co.isptec.aplm.locationads.service.NotificationManager
+                    .getInstance(this).sendPendingFcmToken();
+
             // Navegar para MainActivity
             navigateToMainActivity();
 

@@ -306,6 +306,27 @@
 
             </LinearLayout>
 
+            <!-- Botão Apagar (só visível se for o criador) -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="Apagar Anúncio"
+                android:textAllCaps="false"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="15sp"
+                android:visibility="gone"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_delete"
+                app:iconGravity="textStart"
+                app:iconTint="@android:color/holo_red_dark"
+                app:strokeColor="@android:color/holo_red_dark"
+                app:strokeWidth="2dp" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

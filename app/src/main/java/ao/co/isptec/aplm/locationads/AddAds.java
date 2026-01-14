@@ -618,6 +618,75 @@ public class AddAds extends AppCompatActivity {
         return sdf.format(calendar.getTime());
     }
 
+    private void criarAnuncio(String titulo, String conteudo, int autorId, int localId,
+                              String policy, Map<String, Object> restricoes,
+                              String horaInicio, String horaFim) {
+        setLoadingState(true);
+
+        // Criar anúncio SEM imagem
+        Ads novoAnuncio = new Ads(
+                titulo,
+                conteudo,
+                autorId,
+                localId,
+                policy,
+                restricoes,
+                null,  // imagemUrl = null
+                horaInicio,
+                horaFim
+        );
+
+        Log.d(TAG, "========== CRIANDO ANÚNCIO ==========");
+        Log.d(TAG, "Título: " + titulo);
+        Log.d(TAG, "Autor ID: " + autorId);
+        Log.d(TAG, "Local ID: " + localId);
+        Log.d(TAG, "Policy: " + policy);
+        Log.d(TAG, "Restrições: " + (restricoes != null ? restricoes.toString() : "nenhuma"));
+
+        apiService.createMessage(novoAnuncio).enqueue(new Callback<Ads>() {
+            @Override
+            public void onResponse(Call<Ads> call, Response<Ads> response) {
+                setLoadingState(false);
+
+                Log.d(TAG, "========== RESPOSTA DA API ==========");
+                Log.d(TAG, "Status Code: " + response.code());
+                Log.d(TAG, "URL: " + call.request().url());
+
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "✅ Anúncio criado com sucesso");
+                    handleAdCreatedSuccess();
+                } else {
+                    Log.e(TAG, "❌ Erro ao criar anúncio");
+                    try {
+                        String errorBody = response.errorBody() != null ?
+                                response.errorBody().string() : "Sem corpo de erro";
+                        Log.e(TAG, "Error Body: " + errorBody);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Erro ao ler errorBody", e);
+                    }
+                    handleAdCreatedError(response.code());
+                }
+
+                Log.d(TAG, "=====================================");
+            }
+
+            @Override
+            public void onFailure(Call<Ads> call, Throwable t) {
+                setLoadingState(false);
+                Log.e(TAG, "❌ Falha na requisição: " + t.getMessage());
+                t.printStackTrace();
+                handleNetworkError(t, "criar anúncio");
+            }
+        });
+    }
+
+    private void handleAdCreatedSuccess() {
+        Log.d(TAG, "✅ Anúncio criado com sucesso");
+        Toast.makeText(this, getString(R.string.ad_created_success),
+                Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
     private void handleAdCreatedError(int statusCode) {
         String errorMessage;
         switch (statusCode) {

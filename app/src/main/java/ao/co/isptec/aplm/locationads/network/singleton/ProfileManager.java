@@ -15,6 +15,10 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Gerenciador de perfil do utilizador
+ * Comunica com a API /usuarios/{userId}/perfil e /perfil/chaves
+ */
 public class ProfileManager {
 
     private static final String TAG = "ProfileManager";
@@ -41,6 +45,11 @@ public class ProfileManager {
 
     public interface PublicKeysCallback {
         void onSuccess(List<String> keys);
+        void onError(String error);
+    }
+    
+    public interface ProfilePropertiesCallback {
+        void onSuccess(List<PerfilKeyValue> properties);
         void onError(String error);
     }
 
@@ -90,26 +99,35 @@ public class ProfileManager {
         }
         return currentProfile;
     }
+    
+    /**
+     * Obter ID do utilizador atual
+     */
+    private int getCurrentUserId() {
+        String userIdStr = TokenManager.getInstance(context).getUserId();
+        try {
+            return Integer.parseInt(userIdStr);
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "Erro ao converter userId: " + userIdStr, e);
+            return 0;
+        }
+    }
 
     /**
-     * ✅ ADICIONAR PROPRIEDADE
+     * Adicionar propriedade ao perfil
      * POST /usuarios/{userId}/perfil
      */
     public void addProperty(String key, String value, ProfileCallback callback) {
-        TokenManager tokenManager = TokenManager.getInstance(context);
-        String token = tokenManager.getToken();
-        int userId = tokenManager.getUserIdFromToken();
+        PerfilKeyValue property = new PerfilKeyValue(key, value);
+        int userId = getCurrentUserId();
 
-        if (token == null || userId == -1) {
-            if (callback != null) callback.onError("Token inválido");
+        if (userId == 0) {
+            Log.e(TAG, "UserId inválido");
+            if (callback != null) callback.onError("Utilizador não autenticado");
             return;
         }
 
-        PerfilKeyValue property = new PerfilKeyValue(key, value);
-
-        Log.d(TAG, "➕ Adicionando propriedade: " + key + " = " + value);
-
-        apiService.addProfileProperty(userId, "Bearer " + token, property)
+        apiService.addProfileProperty(userId, property)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call,
@@ -137,22 +155,19 @@ public class ProfileManager {
     }
 
     /**
-     * ✅ REMOVER PROPRIEDADE
+     * Remover propriedade do perfil
      * DELETE /usuarios/{userId}/perfil/{chave}
      */
     public void removeProperty(String key, ProfileCallback callback) {
-        TokenManager tokenManager = TokenManager.getInstance(context);
-        String token = tokenManager.getToken();
-        int userId = tokenManager.getUserIdFromToken();
+        int userId = getCurrentUserId();
 
-        if (token == null || userId == -1) {
-            if (callback != null) callback.onError("Token inválido");
+        if (userId == 0) {
+            Log.e(TAG, "UserId inválido");
+            if (callback != null) callback.onError("Utilizador não autenticado");
             return;
         }
 
-        Log.d(TAG, "🗑️ Removendo propriedade: " + key);
-
-        apiService.removeProfileProperty(userId, key, "Bearer " + token)
+        apiService.removeProfileProperty(userId, key)
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(@NonNull Call<ResponseBody> call,
@@ -180,73 +195,31 @@ public class ProfileManager {
     }
 
     /**
-     * ✅ EDITAR PROPRIEDADE (DELETE + POST)
-     * Opção B: Deleta a antiga e adiciona a nova
-     */
-    public void updateProperty(String key, String newValue, ProfileCallback callback) {
-        Log.d(TAG, "✏️ Editando propriedade: " + key + " -> " + newValue);
-
-        // Passo 1: Remover propriedade antiga
-        removeProperty(key, new ProfileCallback() {
-            @Override
-            public void onSuccess() {
-                // Passo 2: Adicionar propriedade com novo valor
-                addProperty(key, newValue, new ProfileCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Log.d(TAG, "✅ Propriedade atualizada com sucesso");
-                        if (callback != null) callback.onSuccess();
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        Log.e(TAG, "❌ Erro ao adicionar nova propriedade: " + error);
-                        if (callback != null) callback.onError(error);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(String error) {
-                Log.e(TAG, "❌ Erro ao remover propriedade antiga: " + error);
-                // Tentar adicionar mesmo assim
-                addProperty(key, newValue, callback);
-            }
-        });
-    }
-
-    /**
      * Carregar perfil do servidor
      * GET /usuarios/{userId}/perfil
      */
     public void loadProfileFromServer(ProfileLoadCallback callback) {
-        TokenManager tokenManager = TokenManager.getInstance(context);
-        String token = tokenManager.getToken();
-        int userId = tokenManager.getUserIdFromToken();
+        int userId = getCurrentUserId();
 
-        if (token == null || userId == -1) {
-            if (callback != null) callback.onError("Token inválido");
+        if (userId == 0) {
+            Log.e(TAG, "UserId inválido");
+            if (callback != null) callback.onError("Utilizador não autenticado");
             return;
         }
 
-        Log.d(TAG, "🔄 Carregando perfil do servidor...");
-
-        apiService.getUserPerfil(userId, "Bearer " + token)
+        apiService.getUserProfile(userId)
                 .enqueue(new Callback<List<PerfilKeyValue>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<PerfilKeyValue>> call,
                                            @NonNull Response<List<PerfilKeyValue>> response) {
                         if (response.isSuccessful() && response.body() != null) {
+                            // Converter lista de propriedades para UserProfile
                             List<PerfilKeyValue> properties = response.body();
-
-                            // Converter lista para UserProfile
-                            currentProfile = new UserProfile();
                             for (PerfilKeyValue prop : properties) {
                                 currentProfile.addProperty(prop.getKey(), prop.getValue());
                             }
-
                             saveCachedProfile();
-                            Log.d(TAG, "✅ Perfil carregado: " + properties.size() + " propriedades");
+                            Log.d(TAG, "Perfil carregado do servidor: " + properties.size() + " propriedades");
                             if (callback != null) callback.onSuccess(currentProfile);
                         } else {
                             Log.e(TAG, "❌ Erro ao carregar perfil: " + response.code());
@@ -256,7 +229,7 @@ public class ProfileManager {
 
                     @Override
                     public void onFailure(@NonNull Call<List<PerfilKeyValue>> call, @NonNull Throwable t) {
-                        Log.e(TAG, "❌ Falha ao carregar perfil", t);
+                        Log.e(TAG, "Falha na requisição", t);
                         // Retornar perfil em cache
                         if (callback != null) callback.onSuccess(currentProfile);
                     }
@@ -264,18 +237,11 @@ public class ProfileManager {
     }
 
     /**
-     * Obter chaves públicas
+     * Obter chaves públicas disponíveis
      * GET /perfil/chaves
      */
     public void getPublicKeys(PublicKeysCallback callback) {
-        String token = TokenManager.getInstance(context).getToken();
-
-        if (token == null) {
-            if (callback != null) callback.onError("Token inválido");
-            return;
-        }
-
-        apiService.getPublicKeys("Bearer " + token)
+        apiService.getPublicProfileKeys()
                 .enqueue(new Callback<List<String>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<String>> call,
@@ -329,11 +295,54 @@ public class ProfileManager {
         saveCachedProfile();
     }
 
+    /**
+     * Salvar perfil no cache local
+     */
     public void saveProfile() {
         saveCachedProfile();
         Log.d(TAG, "Perfil salvo no cache");
     }
 
+    /**
+     * Sincronizar perfil com servidor
+     * PUT /usuarios/{userId}/perfil
+     */
+    public void syncProfileWithServer(ProfileCallback callback) {
+        int userId = getCurrentUserId();
+
+        if (userId == 0) {
+            Log.e(TAG, "UserId inválido");
+            if (callback != null) callback.onError("Utilizador não autenticado");
+            return;
+        }
+
+        List<PerfilKeyValue> properties = currentProfile.getAllPropertiesAsList();
+
+        apiService.updateUserProfile(userId, properties)
+                .enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(@NonNull Call<ResponseBody> call,
+                                           @NonNull Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "Perfil sincronizado com servidor");
+                            if (callback != null) callback.onSuccess();
+                        } else {
+                            Log.e(TAG, "Erro ao sincronizar perfil: " + response.code());
+                            if (callback != null) callback.onError("Erro: " + response.code());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                        Log.e(TAG, "Falha ao sincronizar perfil", t);
+                        if (callback != null) callback.onError("Falha na conexão: " + t.getMessage());
+                    }
+                });
+    }
+
+    /**
+     * Atualizar username do perfil
+     */
     public void setUsername(String username) {
         if (currentProfile != null) {
             currentProfile.setUsername(username);
@@ -341,6 +350,9 @@ public class ProfileManager {
         }
     }
 
+    /**
+     * Obter username do perfil
+     */
     public String getUsername() {
         if (currentProfile != null) {
             return currentProfile.getUsername();

@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.LoginResponse;
 import ao.co.isptec.aplm.locationads.network.models.RegisterRequest;
 import ao.co.isptec.aplm.locationads.network.models.VerifyEmailRequest;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
@@ -190,9 +191,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         Log.d(TAG, "Criando conta para: " + email);
 
-        apiService.register(registerRequest).enqueue(new Callback<Void>() {
+        apiService.register(registerRequest).enqueue(new Callback<LoginResponse>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 setLoadingState(false);
 
                 if (response.isSuccessful()) {
@@ -203,7 +204,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 setLoadingState(false);
                 handleNetworkError(t);
             }

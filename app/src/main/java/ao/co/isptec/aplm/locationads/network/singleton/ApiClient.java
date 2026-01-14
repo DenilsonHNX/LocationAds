@@ -21,11 +21,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
     private static final String TAG = "ApiClient";
-    private static final String BASE_URL = "https://backend-aplm-1.onrender.com/api/docs/";
+    private static final String BASE_URL = "https://backend-aplm-1.onrender.com/";
+
     private static ApiClient instance;
     private Retrofit retrofit;
     private ApiService apiService;
-    private Context context; // ✅ ADICIONAR
+    private Context context;
 
     /**
      * Construtor privado com Context

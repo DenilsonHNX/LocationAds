@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
@@ -40,6 +41,7 @@ public class ListMenu extends AppCompatActivity {
     private TextView txtTotalAnuncios;
     private TextView emptyStateText;
     private ImageButton btnVoltar;
+    private FloatingActionButton fabHome;
 
     private AnunciosAdapter adapterGuardados;
     private AnunciosAdapter adapterCriados;
@@ -56,6 +58,8 @@ public class ListMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_menu);
 
+
+        // Inicializar API
         apiService = ApiClient.getInstance(this).getApiService();
         initViews();
         initData();
@@ -128,6 +132,7 @@ public class ListMenu extends AppCompatActivity {
     }
 
     private void setupListeners() {
+        // Botão voltar
         btnVoltar.setOnClickListener(v -> {
             Intent intent = new Intent(ListMenu.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -191,25 +196,18 @@ public class ListMenu extends AppCompatActivity {
 
         apiService.getSavedMessages().enqueue(new Callback<List<SavedAd>>() {
             @Override
-            public void onResponse(Call<List<SavedAd>> call, Response<List<SavedAd>> response) {
+            public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
                 Log.d(TAG, "📨 Resposta getSavedMessages: " + response.code());
 
                 if (response.isSuccessful() && response.body() != null) {
                     anunciosGuardados.clear();
                     savedAdsIds.clear();
 
-                    // Extrair os anúncios do wrapper
-                    for (SavedAd savedAd : response.body()) {
-                        if (savedAd.getAnuncio() != null) {
-                            Ads anuncio = savedAd.getAnuncio();
-                            anunciosGuardados.add(anuncio);
-                            savedAdsIds.add(savedAd.getAnuncioId());
+                    Log.d(TAG, "✅ Anúncios guardados carregados: " + anunciosGuardados.size());
 
                             Log.d(TAG, "  ✅ " + anuncio.getTitulo() + " (ID: " + anuncio.getId() + ")");
                         }
                     }
-
-                    Log.d(TAG, "✅ Total guardados: " + anunciosGuardados.size());
 
                     runOnUiThread(() -> {
                         adapterGuardados.setSavedAdsIds(savedAdsIds);
@@ -223,22 +221,39 @@ public class ListMenu extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Log.e(TAG, "❌ Erro: " + response.code());
+                    Log.e(TAG, "❌ Erro ao carregar guardados: " + response.code());
+
+                    try {
+                        String errorBody = response.errorBody() != null ?
+                                response.errorBody().string() : "Sem corpo de erro";
+                        Log.e(TAG, "Error Body: " + errorBody);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Erro ao ler errorBody", e);
+                    }
+
                     runOnUiThread(() -> {
-                        if (currentTab == 0) updateUI();
-                        Toast.makeText(ListMenu.this,
-                                "Erro ao carregar anúncios guardados",
-                                Toast.LENGTH_SHORT).show();
+                        if (currentTab == 0) {
+                            updateUI();
+                            Toast.makeText(ListMenu.this,
+                                    "Erro ao carregar anúncios guardados",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     });
                 }
             }
 
             @Override
-            public void onFailure(Call<List<SavedAd>> call, Throwable t) {
-                Log.e(TAG, "❌ Falha: " + t.getMessage(), t);
+            public void onFailure(Call<List<Ads>> call, Throwable t) {
+                Log.e(TAG, "❌ Falha ao carregar guardados: " + t.getMessage());
+                t.printStackTrace();
+
                 runOnUiThread(() -> {
-                    Toast.makeText(ListMenu.this, "Erro de conexão", Toast.LENGTH_SHORT).show();
-                    if (currentTab == 0) updateUI();
+                    Toast.makeText(ListMenu.this,
+                            "Erro de conexão ao carregar guardados",
+                            Toast.LENGTH_SHORT).show();
+                    if (currentTab == 0) {
+                        updateUI();
+                    }
                 });
             }
         });
@@ -256,7 +271,14 @@ public class ListMenu extends AppCompatActivity {
                     anunciosCriados.clear();
                     anunciosCriados.addAll(response.body());
 
-                    Log.d(TAG, "✅ Total criados: " + anunciosCriados.size());
+                    Log.d(TAG, "✅ Anúncios criados carregados: " + anunciosCriados.size());
+
+                    // Log de cada anúncio
+                    for (int i = 0; i < anunciosCriados.size(); i++) {
+                        Ads ads = anunciosCriados.get(i);
+                        Log.d(TAG, "  " + (i + 1) + ". " + ads.getTitulo() +
+                               ", Local: " + ads.getLocalId() + ")");
+                    }
 
                     runOnUiThread(() -> {
                         if (currentTab == 1) {
@@ -267,31 +289,52 @@ public class ListMenu extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Log.e(TAG, "❌ Erro: " + response.code());
+                    Log.e(TAG, "❌ Erro ao carregar criados: " + response.code());
+
+                    try {
+                        String errorBody = response.errorBody() != null ?
+                                response.errorBody().string() : "Sem corpo de erro";
+                        Log.e(TAG, "Error Body: " + errorBody);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Erro ao ler errorBody", e);
+                    }
+
                     runOnUiThread(() -> {
-                        if (currentTab == 1) updateUI();
+                        if (currentTab == 1) {
+                            updateUI();
+                            Toast.makeText(ListMenu.this,
+                                    "Erro ao carregar seus anúncios",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     });
                 }
             }
 
             @Override
             public void onFailure(Call<List<Ads>> call, Throwable t) {
-                Log.e(TAG, "❌ Falha: " + t.getMessage(), t);
+                Log.e(TAG, "❌ Falha ao carregar criados: " + t.getMessage());
+                t.printStackTrace();
+
                 runOnUiThread(() -> {
-                    if (currentTab == 1) updateUI();
+                    Toast.makeText(ListMenu.this,
+                            "Erro de conexão ao carregar seus anúncios",
+                            Toast.LENGTH_SHORT).show();
+                    if (currentTab == 1) {
+                        updateUI();
+                    }
                 });
             }
         });
     }
 
     private void showGuardados() {
-        Log.d(TAG, "👁️ Mostrando guardados");
+        Log.d(TAG, "👁️ Mostrando anúncios guardados");
         recyclerViewAnuncios.setAdapter(adapterGuardados);
         updateUI();
     }
 
     private void showCriados() {
-        Log.d(TAG, "👁️ Mostrando criados");
+        Log.d(TAG, "👁️ Mostrando anúncios criados");
         recyclerViewAnuncios.setAdapter(adapterCriados);
         updateUI();
     }
@@ -307,20 +350,24 @@ public class ListMenu extends AppCompatActivity {
         emptyStateText.setText(emptyMessage);
         currentAdapter.updateData(currentList);
 
+        // Mostrar/ocultar empty state
         if (currentList.isEmpty()) {
             recyclerViewAnuncios.setVisibility(View.GONE);
             emptyStateCard.setVisibility(View.VISIBLE);
+            Log.d(TAG, "📭 Empty state visível");
         } else {
             recyclerViewAnuncios.setVisibility(View.VISIBLE);
             emptyStateCard.setVisibility(View.GONE);
+            Log.d(TAG, "📋 Lista visível com " + currentList.size() + " itens");
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "🔄 onResume - Recarregando dados");
-        loadData(); // Recarregar ao voltar do ViewAds (caso tenha salvado/removido)
+        Log.d(TAG, "🔄 onResume - Recarregando dados...");
+        // Recarregar dados quando voltar para a activity
+        loadData();
     }
 
     @Override

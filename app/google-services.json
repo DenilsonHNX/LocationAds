@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "117582913449",
+    "project_id": "anunciosloc-98420",
+    "storage_bucket": "anunciosloc-98420.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:117582913449:android:locationads",
+        "android_client_info": {
+          "package_name": "ao.co.isptec.aplm.locationads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqTh-pQJZZgGp-raNhdqgVsb8VV3rM-t4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
