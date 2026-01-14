@@ -1,0 +1,446 @@
+[
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_gradient_overlay.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/gradient_overlay.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_network.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_network.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_add_ads.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_add_ads.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_age.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_age.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_logout.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_logout.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_arrow_back.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_arrow_back.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_back.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_back.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_ads.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_ads.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_idea.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_idea.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_badge_background.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/badge_background.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-hdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_bookmark.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_bookmark.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_favorite_filled.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_favorite_filled.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_home.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_home.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_close.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_delete.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_delete.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/xml_backup_rules.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/xml/backup_rules.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_favorite_border.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_favorite_border.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_list.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_list.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_edit.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_edit.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_add_photo.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_add_photo.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_perfil_account.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_perfil_account.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_publish.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_publish.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_dialog_background.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/dialog_background.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_email.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_email.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_send.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_send.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_about_app.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_about_app.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_person.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_person.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_campaign.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_campaign.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_bookmark_filled.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_bookmark_filled.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_key.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_key.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_info.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_info.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_share.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_share.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_list_menu.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_list_menu.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/xml_network_security_config.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/xml/network_security_config.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_eye.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_eye.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_business.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_business.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_calendar.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_calendar.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_item_perfil_property.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/item_perfil_property.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_description.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_description.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_time.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_time.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_login.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_login.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_empty.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_empty.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_check.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_check.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_add.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_item_tag.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/item_tag.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_add_opctions.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_add_opctions.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_button_background.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/button_background.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_bookmark_border.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_bookmark_border.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_splash.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_register.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_register.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_camera.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_camera.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_account.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_account.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/xml_data_extraction_rules.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/xml/data_extraction_rules.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_launcher_background.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_add_circle.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_add_circle.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_email_large.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_email_large.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_lock.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_lock.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_bg_circle_white.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/bg_circle_white.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_badge_blacklist.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/badge_blacklist.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_save.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_save.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_item_local.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/item_local.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_edit_perfil_account.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_edit_perfil_account.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_edittext_background.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/edittext_background.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_bg_placeholder.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/bg_placeholder.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_schedule.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_schedule.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_badge_whitelist.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/badge_whitelist.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_map.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_map.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_add_location.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_add_location.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_activity.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_activity.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_bg_card.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/bg_card.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_location.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_location.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_button_background_pressed.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/button_background_pressed.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_dialog_add_property.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/dialog_add_property.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_view_ads.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_view_ads.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_rounded_button.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/rounded_button.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_arrow_forward.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_arrow_forward.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_refresh.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_refresh.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_item_key_value.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/item_key_value.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/anim_fade_in.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/anim/fade_in.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_policy.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_policy.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_phone.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_phone.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_settings.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_label.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_label.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_star.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_star.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_title.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_title.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_recovery.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_recovery.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_text.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_text.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_item_anuncio.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/item_anuncio.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_activity_add_local.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/activity_add_local.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/layout_home_activity.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/layout/home_activity.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_gradient_primary.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/gradient_primary.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_ic_location_pin.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/ic_location_pin.xml"
+    },
+    {
+        "merged": "ao.co.isptec.aplm.locationads.app-debug-37:/drawable_bg_button.xml.flat",
+        "source": "ao.co.isptec.aplm.locationads.app-main-39:/drawable/bg_button.xml"
+    }
+]

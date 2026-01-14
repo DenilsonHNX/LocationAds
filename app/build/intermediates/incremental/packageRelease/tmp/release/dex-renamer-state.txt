@@ -1,0 +1,7 @@
+#Tue Jan 13 02:09:29 WAT 2026
+base.0=C\:\\Users\\DELL\\Documents\\LocationAds v7 1 addAds recebendo bem chave-valor\\LocationAds\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes.dex
+base.1=C\:\\Users\\DELL\\Documents\\LocationAds v7 1 addAds recebendo bem chave-valor\\LocationAds\\app\\build\\intermediates\\dex\\release\\mergeDexRelease\\classes2.dex
+path.0=classes.dex
+path.1=classes2.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

@@ -1,0 +1,3440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<incidents format="6" by="lint 8.13.1" type="incidents">
+
+    <incident
+        id="ApplySharedPref"
+        severity="warning"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <fix-replace
+            description="Replace commit() with apply()"
+            oldPattern="(commit)\s*\("
+            replacement="apply"
+            priority="0"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/PerfilAccount.java"
+            line="238"
+            column="34"
+            startOffset="7364"
+            endLine="238"
+            endColumn="42"
+            endOffset="7372"/>
+    </incident>
+
+    <incident
+        id="ApplySharedPref"
+        severity="warning"
+        message="Consider using `apply()` instead; `commit` writes its data to persistent storage immediately, whereas `apply` will handle it in the background">
+        <fix-replace
+            description="Replace commit() with apply()"
+            oldPattern="(commit)\s*\("
+            replacement="apply"
+            priority="0"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/network/singleton/TokenManager.java"
+            line="177"
+            column="16"
+            startOffset="5871"
+            endLine="177"
+            endColumn="24"
+            endOffset="5879"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/utils/GpsUtils.java"
+            line="98"
+            column="20"
+            startOffset="3284"
+            endLine="98"
+            endColumn="59"
+            endOffset="3323"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/utils/GpsUtils.java"
+            line="100"
+            column="20"
+            startOffset="3361"
+            endLine="100"
+            endColumn="67"
+            endOffset="3408"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="187"
+            column="49"
+            startOffset="6745"
+            endLine="187"
+            endColumn="94"
+            endOffset="6790"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="188"
+            column="41"
+            startOffset="6833"
+            endLine="188"
+            endColumn="87"
+            endOffset="6879"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="765"
+            column="53"
+            startOffset="28885"
+            endLine="765"
+            endColumn="98"
+            endOffset="28930"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="766"
+            column="45"
+            startOffset="28977"
+            endLine="766"
+            endColumn="91"
+            endOffset="29023"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="859"
+            column="61"
+            startOffset="32831"
+            endLine="859"
+            endColumn="106"
+            endOffset="32876"/>
+    </incident>
+
+    <incident
+        id="DefaultLocale"
+        severity="warning"
+        message="Implicitly using the default locale is a common source of bugs: Use `String.format(Locale, ...)` instead">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="860"
+            column="53"
+            startOffset="32931"
+            endLine="860"
+            endColumn="99"
+            endOffset="32977"/>
+    </incident>
+
+    <incident
+        id="FragmentTagUsage"
+        severity="warning"
+        message="Replace the &lt;fragment> tag with FragmentContainerView.">
+        <fix-replace
+            description="Replace with androidx.fragment.app.FragmentContainerView"
+            oldString="fragment"
+            replacement="androidx.fragment.app.FragmentContainerView"
+            priority="0"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="120"
+            column="22"
+            startOffset="4981"
+            endLine="120"
+            endColumn="30"
+            endOffset="4989"/>
+    </incident>
+
+    <incident
+        id="AndroidGradlePluginVersion"
+        severity="warning"
+        message="A newer version of Gradle than 8.13 is available: 8.14.3">
+        <fix-replace
+            description="Update to 8.14.3"
+            oldString="8.13"
+            replacement="8.14.3"
+            priority="0"/>
+        <location
+            file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/wrapper/gradle-wrapper.properties"
+            line="4"
+            column="17"
+            startOffset="111"
+            endLine="4"
+            endColumn="79"
+            endOffset="173"/>
+    </incident>
+
+    <incident
+        id="AndroidGradlePluginVersion"
+        severity="warning"
+        message="A newer version of com.android.application than 8.13.1 is available: 8.13.2">
+        <fix-replace
+            description="Replace with 8.13.2"
+            family="Update versions"
+            robot="true"
+            independent="true"
+            oldString="8.13.1"
+            replacement="8.13.2"
+            priority="0"/>
+        <location
+            file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+            line="2"
+            column="7"
+            startOffset="17"
+            endLine="2"
+            endColumn="15"
+            endOffset="25"/>
+        <map>
+            <entry
+                name="coordinate"
+                string="com.android.application"/>
+            <entry
+                name="revision"
+                string="8.13.2"/>
+        </map>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of com.google.android.gms:play-services-location than 21.0.1 is available: 21.3.0">
+        <fix-replace
+            description="Change to 21.3.0"
+            family="Update versions"
+            oldString="21.0.1"
+            replacement="21.3.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="46"
+            column="20"
+            startOffset="1275"
+            endLine="46"
+            endColumn="74"
+            endOffset="1329"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.appcompat:appcompat than 1.6.1 is available: 1.7.1">
+        <fix-replace
+            description="Change to 1.7.1"
+            family="Update versions"
+            oldString="1.6.1"
+            replacement="1.7.1"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="47"
+            column="20"
+            startOffset="1350"
+            endLine="47"
+            endColumn="56"
+            endOffset="1386"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of com.google.android.material:material than 1.11.0 is available: 1.13.0">
+        <fix-replace
+            description="Change to 1.13.0"
+            family="Update versions"
+            oldString="1.11.0"
+            replacement="1.13.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="48"
+            column="20"
+            startOffset="1407"
+            endLine="48"
+            endColumn="65"
+            endOffset="1452"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.constraintlayout:constraintlayout than 2.1.4 is available: 2.2.1">
+        <fix-replace
+            description="Change to 2.2.1"
+            family="Update versions"
+            oldString="2.1.4"
+            replacement="2.2.1"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="49"
+            column="20"
+            startOffset="1473"
+            endLine="49"
+            endColumn="70"
+            endOffset="1523"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of com.google.android.material:material than 1.10.0 is available: 1.13.0">
+        <fix-replace
+            description="Change to 1.13.0"
+            family="Update versions"
+            oldString="1.10.0"
+            replacement="1.13.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="50"
+            column="20"
+            startOffset="1544"
+            endLine="50"
+            endColumn="65"
+            endOffset="1589"/>
+    </incident>
+
+    <incident
+        id="GradleDependency"
+        severity="warning"
+        message="A newer version of androidx.activity:activity than 1.11.0 is available: 1.12.2">
+        <fix-replace
+            description="Change to 1.12.2"
+            family="Update versions"
+            oldString="1.11.0"
+            replacement="1.12.2"
+            priority="0"/>
+        <location
+            file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+            line="8"
+            column="12"
+            startOffset="140"
+            endLine="8"
+            endColumn="20"
+            endOffset="148"/>
+    </incident>
+
+    <incident
+        id="NewerVersionAvailable"
+        severity="warning"
+        message="A newer version of com.squareup.retrofit2:retrofit than 2.9.0 is available: 3.0.0">
+        <fix-replace
+            description="Change to 3.0.0"
+            family="Update versions"
+            oldString="2.9.0"
+            replacement="3.0.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="44"
+            column="20"
+            startOffset="1149"
+            endLine="44"
+            endColumn="59"
+            endOffset="1188"/>
+    </incident>
+
+    <incident
+        id="NewerVersionAvailable"
+        severity="warning"
+        message="A newer version of com.squareup.retrofit2:converter-gson than 2.9.0 is available: 3.0.0">
+        <fix-replace
+            description="Change to 3.0.0"
+            family="Update versions"
+            oldString="2.9.0"
+            replacement="3.0.0"
+            priority="0"/>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="45"
+            column="20"
+            startOffset="1209"
+            endLine="45"
+            endColumn="65"
+            endOffset="1254"/>
+    </incident>
+
+    <incident
+        id="UseAppTint"
+        severity="error"
+        message="Must use `app:tint` instead of `android:tint`">
+        <fix-composite
+            description="Use `app:tint` instead of `android:tint`">
+            <fix-attribute
+                description="Set tint=&quot;@color/colorPrimary&quot;"
+                namespace="http://schemas.android.com/apk/res-auto"
+                attribute="tint"
+                value="@color/colorPrimary"/>
+            <fix-attribute
+                description="Delete tint"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="tint"/>
+        </fix-composite>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_recovery.xml"
+            line="25"
+            column="13"
+            startOffset="994"
+            endLine="25"
+            endColumn="47"
+            endOffset="1028"/>
+    </incident>
+
+    <incident
+        id="UseAppTint"
+        severity="error"
+        message="Must use `app:tint` instead of `android:tint`">
+        <fix-composite
+            description="Use `app:tint` instead of `android:tint`">
+            <fix-attribute
+                description="Set tint=&quot;@color/colorPrimary&quot;"
+                namespace="http://schemas.android.com/apk/res-auto"
+                attribute="tint"
+                value="@color/colorPrimary"/>
+            <fix-attribute
+                description="Delete tint"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="tint"/>
+        </fix-composite>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_recovery.xml"
+            line="37"
+            column="13"
+            startOffset="1498"
+            endLine="37"
+            endColumn="47"
+            endOffset="1532"/>
+    </incident>
+
+    <incident
+        id="UseAppTint"
+        severity="error"
+        message="Must use `app:tint` instead of `android:tint`">
+        <fix-composite
+            description="Use `app:tint` instead of `android:tint`">
+            <fix-attribute
+                description="Set tint=&quot;@color/colorPrimary&quot;"
+                namespace="http://schemas.android.com/apk/res-auto"
+                attribute="tint"
+                value="@color/colorPrimary"/>
+            <fix-attribute
+                description="Delete tint"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="tint"/>
+        </fix-composite>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_recovery.xml"
+            line="149"
+            column="21"
+            startOffset="6552"
+            endLine="149"
+            endColumn="55"
+            endOffset="6586"/>
+    </incident>
+
+    <incident
+        id="UseAppTint"
+        severity="error"
+        message="Must use `app:tint` instead of `android:tint`">
+        <fix-composite
+            description="Use `app:tint` instead of `android:tint`">
+            <fix-attribute
+                description="Set tint=&quot;@color/colorPrimary&quot;"
+                namespace="http://schemas.android.com/apk/res-auto"
+                attribute="tint"
+                value="@color/colorPrimary"/>
+            <fix-attribute
+                description="Delete tint"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="tint"/>
+        </fix-composite>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="25"
+            column="13"
+            startOffset="988"
+            endLine="25"
+            endColumn="47"
+            endOffset="1022"/>
+    </incident>
+
+    <incident
+        id="Typos"
+        severity="warning"
+        message="&quot;autor&quot; is a common misspelling; did you mean &quot;author&quot;?">
+        <fix-replace
+            description="Replace with &quot;author&quot;"
+            oldString="autor"
+            replacement="author"
+            priority="0"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="33"
+            column="41"
+            startOffset="1618"
+            endLine="33"
+            endColumn="46"
+            endOffset="1623"/>
+    </incident>
+
+    <incident
+        id="PluralsCandidate"
+        severity="warning"
+        message="Formatting %d followed by words (&quot;anúncios&quot;): This should probably be a plural rather than a string">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="248"
+            column="5"
+            startOffset="13274"
+            endLine="248"
+            endColumn="52"
+            endOffset="13321"/>
+    </incident>
+
+    <incident
+        id="PluralsCandidate"
+        severity="warning"
+        message="Formatting %d followed by words (&quot;guardados&quot;): This should probably be a plural rather than a string">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="249"
+            column="5"
+            startOffset="13326"
+            endLine="249"
+            endColumn="55"
+            endOffset="13376"/>
+    </incident>
+
+    <incident
+        id="PluralsCandidate"
+        severity="warning"
+        message="Formatting %d followed by words (&quot;criados&quot;): This should probably be a plural rather than a string">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/values/strings.xml"
+            line="250"
+            column="5"
+            startOffset="13381"
+            endLine="250"
+            endColumn="55"
+            endOffset="13431"/>
+    </incident>
+
+    <incident
+        id="InsecureBaseConfiguration"
+        severity="warning"
+        message="Insecure Base Configuration">
+        <fix-replace
+            description="Replace with false"
+            replacement="false"
+            priority="0">
+            <range
+                file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/xml/network_security_config.xml"
+                startOffset="627"
+                endOffset="631"/>
+        </fix-replace>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/xml/network_security_config.xml"
+            line="15"
+            column="45"
+            startOffset="627"
+            endLine="15"
+            endColumn="49"
+            endOffset="631"/>
+    </incident>
+
+    <incident
+        id="NotifyDataSetChanged"
+        severity="warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/adapter/AnunciosAdapter.java"
+            line="61"
+            column="9"
+            startOffset="1888"
+            endLine="61"
+            endColumn="31"
+            endOffset="1910"/>
+    </incident>
+
+    <incident
+        id="NotifyDataSetChanged"
+        severity="warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/adapter/AnunciosAdapter.java"
+            line="172"
+            column="9"
+            startOffset="5764"
+            endLine="172"
+            endColumn="31"
+            endOffset="5786"/>
+    </incident>
+
+    <incident
+        id="NotifyDataSetChanged"
+        severity="warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/EditPerfilAccount.java"
+            line="196"
+            column="37"
+            startOffset="6913"
+            endLine="196"
+            endColumn="73"
+            endOffset="6949"/>
+    </incident>
+
+    <incident
+        id="NotifyDataSetChanged"
+        severity="warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/KeyValueAdapter.java"
+            line="54"
+            column="13"
+            startOffset="1568"
+            endLine="54"
+            endColumn="35"
+            endOffset="1590"/>
+    </incident>
+
+    <incident
+        id="NotifyDataSetChanged"
+        severity="warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/KeyValueAdapter.java"
+            line="78"
+            column="9"
+            startOffset="2271"
+            endLine="78"
+            endColumn="31"
+            endOffset="2293"/>
+    </incident>
+
+    <incident
+        id="NotifyDataSetChanged"
+        severity="warning"
+        message="It will always be more efficient to use more specific change events if you can. Rely on `notifyDataSetChanged` as a last resort.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/adapter/LocaisAdapter.java"
+            line="48"
+            column="9"
+            startOffset="1469"
+            endLine="48"
+            endColumn="31"
+            endOffset="1491"/>
+    </incident>
+
+    <incident
+        id="ObsoleteSdkInt"
+        severity="warning"
+        message="This folder configuration (`v26`) is unnecessary; `minSdkVersion` is 29. Merge all the resources in this folder into `mipmap-anydpi`.">
+        <fix-data file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/mipmap-anydpi-v26" folderName="mipmap-anydpi" requiresApi="29"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/mipmap-anydpi-v26"/>
+    </incident>
+
+    <incident
+        id="StaticFieldLeak"
+        severity="warning"
+        message="Do not place Android context classes in static fields (static reference to `ProfileManager` which has field `context` pointing to `Context`); this is a memory leak">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/network/singleton/ProfileManager.java"
+            line="22"
+            column="13"
+            startOffset="747"
+            endLine="22"
+            endColumn="19"
+            endOffset="753"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_about_app.xml"
+            line="122"
+            column="26"
+            startOffset="5263"
+            endLine="122"
+            endColumn="38"
+            endOffset="5275"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_about_app.xml"
+            line="146"
+            column="26"
+            startOffset="6512"
+            endLine="146"
+            endColumn="38"
+            endOffset="6524"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_about_app.xml"
+            line="169"
+            column="26"
+            startOffset="7688"
+            endLine="169"
+            endColumn="38"
+            endOffset="7700"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_about_app.xml"
+            line="207"
+            column="26"
+            startOffset="9551"
+            endLine="207"
+            endColumn="38"
+            endOffset="9563"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_about_app.xml"
+            line="259"
+            column="14"
+            startOffset="12041"
+            endLine="259"
+            endColumn="26"
+            endOffset="12053"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="144"
+            column="22"
+            startOffset="6001"
+            endLine="144"
+            endColumn="34"
+            endOffset="6013"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="307"
+            column="22"
+            startOffset="13396"
+            endLine="307"
+            endColumn="34"
+            endOffset="13408"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_recovery.xml"
+            line="137"
+            column="14"
+            startOffset="6036"
+            endLine="137"
+            endColumn="26"
+            endOffset="6048"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="94"
+            column="22"
+            startOffset="3896"
+            endLine="94"
+            endColumn="34"
+            endOffset="3908"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="130"
+            column="22"
+            startOffset="5578"
+            endLine="130"
+            endColumn="34"
+            endOffset="5590"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="348"
+            column="14"
+            startOffset="14596"
+            endLine="348"
+            endColumn="26"
+            endOffset="14608"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="410"
+            column="14"
+            startOffset="17030"
+            endLine="410"
+            endColumn="26"
+            endOffset="17042"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="76"
+            column="14"
+            startOffset="2899"
+            endLine="76"
+            endColumn="26"
+            endOffset="2911"/>
+    </incident>
+
+    <incident
+        id="UseCompoundDrawables"
+        severity="warning"
+        message="This tag and its children can be replaced by one `&lt;TextView/>` and a compound drawable">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="105"
+            column="14"
+            startOffset="4083"
+            endLine="105"
+            endColumn="26"
+            endOffset="4095"/>
+    </incident>
+
+    <incident
+        id="DisableBaselineAlignment"
+        severity="warning"
+        message="Set `android:baselineAligned=&quot;false&quot;` on this element for better performance">
+        <fix-attribute
+            description="Set baselineAligned=&quot;false&quot;"
+            robot="true"
+            independent="true"
+            namespace="http://schemas.android.com/apk/res/android"
+            attribute="baselineAligned"
+            value="false"/>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="334"
+            column="22"
+            startOffset="14673"
+            endLine="334"
+            endColumn="34"
+            endOffset="14685"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_about_app.xml"
+            line="8"
+            column="5"
+            startOffset="334"
+            endLine="8"
+            endColumn="43"
+            endOffset="372"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="9"
+            column="5"
+            startOffset="361"
+            endLine="9"
+            endColumn="43"
+            endOffset="399"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="9"
+            column="5"
+            startOffset="374"
+            endLine="9"
+            endColumn="43"
+            endOffset="412"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_login.xml"
+            line="8"
+            column="5"
+            startOffset="334"
+            endLine="8"
+            endColumn="43"
+            endOffset="372"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="9"
+            column="5"
+            startOffset="374"
+            endLine="9"
+            endColumn="43"
+            endOffset="412"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_recovery.xml"
+            line="8"
+            column="5"
+            startOffset="334"
+            endLine="8"
+            endColumn="43"
+            endOffset="372"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="8"
+            column="5"
+            startOffset="334"
+            endLine="8"
+            endColumn="43"
+            endOffset="372"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/white` with a theme that also paints a background (inferred theme is `@style/SplashTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_splash.xml"
+            line="8"
+            column="5"
+            startOffset="368"
+            endLine="8"
+            endColumn="38"
+            endOffset="401"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="9"
+            column="5"
+            startOffset="374"
+            endLine="9"
+            endColumn="43"
+            endOffset="412"/>
+    </incident>
+
+    <incident
+        id="Overdraw"
+        severity="warning"
+        message="Possible overdraw: Root element paints background `@color/background` with a theme that also paints a background (inferred theme is `@style/AppTheme`)">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="9"
+            column="5"
+            startOffset="374"
+            endLine="9"
+            endColumn="43"
+            endOffset="412"/>
+    </incident>
+
+    <incident
+        id="MonochromeLauncherIcon"
+        severity="warning"
+        message="The application adaptive icon is missing a monochrome tag">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/mipmap-anydpi-v26/ic_launcher.xml"
+            line="2"
+            column="1"
+            startOffset="39"
+            endLine="5"
+            endColumn="17"
+            endOffset="268"/>
+    </incident>
+
+    <incident
+        id="MonochromeLauncherIcon"
+        severity="warning"
+        message="The application adaptive roundIcon is missing a monochrome tag">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/mipmap-anydpi-v26/ic_launcher_round.xml"
+            line="2"
+            column="1"
+            startOffset="39"
+            endLine="5"
+            endColumn="17"
+            endOffset="268"/>
+    </incident>
+
+    <incident
+        id="SmallSp"
+        severity="warning"
+        message="Avoid using sizes smaller than `11sp`: `10sp`">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="343"
+            column="21"
+            startOffset="14492"
+            endLine="343"
+            endColumn="44"
+            endOffset="14515"/>
+    </incident>
+
+    <incident
+        id="SmallSp"
+        severity="warning"
+        message="Avoid using sizes smaller than `11sp`: `10sp`">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="371"
+            column="21"
+            startOffset="15611"
+            endLine="371"
+            endColumn="44"
+            endOffset="15634"/>
+    </incident>
+
+    <incident
+        id="SmallSp"
+        severity="warning"
+        message="Avoid using sizes smaller than `11sp`: `10sp`">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="405"
+            column="21"
+            startOffset="16925"
+            endLine="405"
+            endColumn="44"
+            endOffset="16948"/>
+    </incident>
+
+    <incident
+        id="SmallSp"
+        severity="warning"
+        message="Avoid using sizes smaller than `11sp`: `10sp`">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="433"
+            column="21"
+            startOffset="18054"
+            endLine="433"
+            endColumn="44"
+            endOffset="18077"/>
+    </incident>
+
+    <incident
+        id="SmallSp"
+        severity="warning"
+        message="Avoid using sizes smaller than `11sp`: `10sp`">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="139"
+            column="17"
+            startOffset="5464"
+            endLine="139"
+            endColumn="40"
+            endOffset="5487"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for google-play-services-maps"
+            robot="true">
+            <fix-replace
+                description="Replace with googlePlayServicesMaps = &quot;19.2.0&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="googlePlayServicesMaps = &quot;19.2.0&quot;&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="26"
+                    endOffset="26"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with google-play-services-maps = { module = &quot;com.google.android.gms:play-services-maps&quot;, version.ref = &quot;googlePlayServicesMaps&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="google-play-services-maps = { module = &quot;com.google.android.gms:play-services-maps&quot;, version.ref = &quot;googlePlayServicesMaps&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="189"
+                    endOffset="189"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.google.play.services.maps"
+                robot="true"
+                replacement="libs.google.play.services.maps"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1078"
+                    endOffset="1128"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="43"
+            column="20"
+            startOffset="1078"
+            endLine="43"
+            endColumn="70"
+            endOffset="1128"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for squareup-retrofit"
+            robot="true">
+            <fix-replace
+                description="Replace with squareupRetrofit = &quot;2.9.0&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="squareupRetrofit = &quot;2.9.0&quot;&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="176"
+                    endOffset="176"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with squareup-retrofit = { module = &quot;com.squareup.retrofit2:retrofit&quot;, version.ref = &quot;squareupRetrofit&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="squareup-retrofit = { module = &quot;com.squareup.retrofit2:retrofit&quot;, version.ref = &quot;squareupRetrofit&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="851"
+                    endOffset="851"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.squareup.retrofit"
+                robot="true"
+                replacement="libs.squareup.retrofit"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1149"
+                    endOffset="1188"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="44"
+            column="20"
+            startOffset="1149"
+            endLine="44"
+            endColumn="59"
+            endOffset="1188"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for squareup-converter-gson"
+            robot="true">
+            <fix-replace
+                description="Replace with squareupConverterGson = &quot;2.9.0&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="squareupConverterGson = &quot;2.9.0&quot;&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="176"
+                    endOffset="176"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with squareup-converter-gson = { module = &quot;com.squareup.retrofit2:converter-gson&quot;, version.ref = &quot;squareupConverterGson&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="squareup-converter-gson = { module = &quot;com.squareup.retrofit2:converter-gson&quot;, version.ref = &quot;squareupConverterGson&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="851"
+                    endOffset="851"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.squareup.converter.gson"
+                robot="true"
+                replacement="libs.squareup.converter.gson"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1209"
+                    endOffset="1254"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="45"
+            column="20"
+            startOffset="1209"
+            endLine="45"
+            endColumn="65"
+            endOffset="1254"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead">
+        <fix-composite
+            description="Replace with new library catalog declaration for google-play-services-location"
+            robot="true">
+            <fix-replace
+                description="Replace with googlePlayServicesLocation = &quot;21.0.1&quot;..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="googlePlayServicesLocation = &quot;21.0.1&quot;&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="26"
+                    endOffset="26"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with google-play-services-location = { module = &quot;com.google.android.gms:play-services-location&quot;, version.ref = &quot;googlePlayServicesLocation&quot; }..."
+                robot="true"
+                oldString="_lint_insert_begin_"
+                replacement="google-play-services-location = { module = &quot;com.google.android.gms:play-services-location&quot;, version.ref = &quot;googlePlayServicesLocation&quot; }&#xA;"
+                priority="0">
+                <range
+                    file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                    startOffset="189"
+                    endOffset="189"/>
+            </fix-replace>
+            <fix-replace
+                description="Replace with libs.google.play.services.location"
+                robot="true"
+                replacement="libs.google.play.services.location"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1275"
+                    endOffset="1329"/>
+            </fix-replace>
+        </fix-composite>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="46"
+            column="20"
+            startOffset="1275"
+            endLine="46"
+            endColumn="74"
+            endOffset="1329"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead (androidx.appcompat:appcompat is already available as `appcompat`, but using version 1.7.1 instead)">
+        <fix-alternatives>
+            <fix-composite
+                description="Replace with new library catalog declaration for androidx-appcompat-appcompat-v161"
+                robot="true"
+                independent="true">
+                <fix-replace
+                    description="Replace with androidxAppcompatVersion = &quot;1.6.1&quot;..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="androidxAppcompatVersion = &quot;1.6.1&quot;&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="26"
+                        endOffset="26"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with androidx-appcompat-appcompat-v161 = { module = &quot;androidx.appcompat:appcompat&quot;, version.ref = &quot;androidxAppcompatVersion&quot; }..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="androidx-appcompat-appcompat-v161 = { module = &quot;androidx.appcompat:appcompat&quot;, version.ref = &quot;androidxAppcompatVersion&quot; }&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="189"
+                        endOffset="189"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with libs.androidx.appcompat.appcompat.v161"
+                    robot="true"
+                    independent="true"
+                    replacement="libs.androidx.appcompat.appcompat.v161"
+                    priority="0">
+                    <range
+                        file="${:app*projectDir}/build.gradle.kts"
+                        startOffset="1350"
+                        endOffset="1386"/>
+                </fix-replace>
+            </fix-composite>
+            <fix-replace
+                description="Replace with existing version catalog reference `appcompat` (version 1.7.1)"
+                replacement="libs.appcompat"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1350"
+                    endOffset="1386"/>
+            </fix-replace>
+        </fix-alternatives>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="47"
+            column="20"
+            startOffset="1350"
+            endLine="47"
+            endColumn="56"
+            endOffset="1386"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead (com.google.android.material:material is already available as `material`, but using version 1.13.0 instead)">
+        <fix-alternatives>
+            <fix-composite
+                description="Replace with new library catalog declaration for com-google-android-material-material-v1110"
+                robot="true"
+                independent="true">
+                <fix-replace
+                    description="Replace with comGoogleAndroidMaterialMaterial2 = &quot;1.11.0&quot;..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="comGoogleAndroidMaterialMaterial2 = &quot;1.11.0&quot;&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="26"
+                        endOffset="26"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with com-google-android-material-material-v1110 = { module = &quot;com.google.android.material:material&quot;, version.ref = &quot;comGoogleAndroidMaterialMaterial2&quot; }..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="com-google-android-material-material-v1110 = { module = &quot;com.google.android.material:material&quot;, version.ref = &quot;comGoogleAndroidMaterialMaterial2&quot; }&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="189"
+                        endOffset="189"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with libs.com.google.android.material.material.v1110"
+                    robot="true"
+                    independent="true"
+                    replacement="libs.com.google.android.material.material.v1110"
+                    priority="0">
+                    <range
+                        file="${:app*projectDir}/build.gradle.kts"
+                        startOffset="1407"
+                        endOffset="1452"/>
+                </fix-replace>
+            </fix-composite>
+            <fix-replace
+                description="Replace with existing version catalog reference `material` (version 1.13.0)"
+                replacement="libs.material"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1407"
+                    endOffset="1452"/>
+            </fix-replace>
+        </fix-alternatives>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="48"
+            column="20"
+            startOffset="1407"
+            endLine="48"
+            endColumn="65"
+            endOffset="1452"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead (androidx.constraintlayout:constraintlayout is already available as `constraintlayout`, but using version 2.2.1 instead)">
+        <fix-alternatives>
+            <fix-composite
+                description="Replace with new library catalog declaration for androidx-constraintlayout-constraintlayout-v214"
+                robot="true"
+                independent="true">
+                <fix-replace
+                    description="Replace with androidxConstraintlayoutVersion = &quot;2.1.4&quot;..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="androidxConstraintlayoutVersion = &quot;2.1.4&quot;&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="26"
+                        endOffset="26"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with androidx-constraintlayout-constraintlayout-v214 = { module = &quot;androidx.constraintlayout:constraintlayout&quot;, version.ref = &quot;androidxConstraintlayoutVersion&quot; }..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="androidx-constraintlayout-constraintlayout-v214 = { module = &quot;androidx.constraintlayout:constraintlayout&quot;, version.ref = &quot;androidxConstraintlayoutVersion&quot; }&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="189"
+                        endOffset="189"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with libs.androidx.constraintlayout.constraintlayout.v214"
+                    robot="true"
+                    independent="true"
+                    replacement="libs.androidx.constraintlayout.constraintlayout.v214"
+                    priority="0">
+                    <range
+                        file="${:app*projectDir}/build.gradle.kts"
+                        startOffset="1473"
+                        endOffset="1523"/>
+                </fix-replace>
+            </fix-composite>
+            <fix-replace
+                description="Replace with existing version catalog reference `constraintlayout` (version 2.2.1)"
+                replacement="libs.constraintlayout"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1473"
+                    endOffset="1523"/>
+            </fix-replace>
+        </fix-alternatives>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="49"
+            column="20"
+            startOffset="1473"
+            endLine="49"
+            endColumn="70"
+            endOffset="1523"/>
+    </incident>
+
+    <incident
+        id="UseTomlInstead"
+        severity="warning"
+        message="Use version catalog instead (com.google.android.material:material is already available as `material`, but using version 1.13.0 instead)">
+        <fix-alternatives>
+            <fix-composite
+                description="Replace with new library catalog declaration for com-google-android-material-material-v1100"
+                robot="true"
+                independent="true">
+                <fix-replace
+                    description="Replace with comGoogleAndroidMaterialMaterial3 = &quot;1.10.0&quot;..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="comGoogleAndroidMaterialMaterial3 = &quot;1.10.0&quot;&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="26"
+                        endOffset="26"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with com-google-android-material-material-v1100 = { module = &quot;com.google.android.material:material&quot;, version.ref = &quot;comGoogleAndroidMaterialMaterial3&quot; }..."
+                    robot="true"
+                    independent="true"
+                    oldString="_lint_insert_begin_"
+                    replacement="com-google-android-material-material-v1100 = { module = &quot;com.google.android.material:material&quot;, version.ref = &quot;comGoogleAndroidMaterialMaterial3&quot; }&#xA;"
+                    priority="0">
+                    <range
+                        file="$HOME/Documents/LocationAds v7 1 addAds recebendo bem chave-valor/LocationAds/gradle/libs.versions.toml"
+                        startOffset="189"
+                        endOffset="189"/>
+                </fix-replace>
+                <fix-replace
+                    description="Replace with libs.com.google.android.material.material.v1100"
+                    robot="true"
+                    independent="true"
+                    replacement="libs.com.google.android.material.material.v1100"
+                    priority="0">
+                    <range
+                        file="${:app*projectDir}/build.gradle.kts"
+                        startOffset="1544"
+                        endOffset="1589"/>
+                </fix-replace>
+            </fix-composite>
+            <fix-replace
+                description="Replace with existing version catalog reference `material` (version 1.13.0)"
+                replacement="libs.material"
+                priority="0">
+                <range
+                    file="${:app*projectDir}/build.gradle.kts"
+                    startOffset="1544"
+                    endOffset="1589"/>
+            </fix-replace>
+        </fix-alternatives>
+        <location
+            file="${:app*projectDir}/build.gradle.kts"
+            line="50"
+            column="20"
+            startOffset="1544"
+            endLine="50"
+            endColumn="65"
+            endOffset="1589"/>
+    </incident>
+
+    <incident
+        id="ContentDescription"
+        severity="warning"
+        message="Missing `contentDescription` attribute on image">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set contentDescription"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="contentDescription"
+                value="TODO"
+                point="4"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAccessibility=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAccessibility"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="429"
+            column="30"
+            startOffset="20461"
+            endLine="429"
+            endColumn="39"
+            endOffset="20470"/>
+    </incident>
+
+    <incident
+        id="ContentDescription"
+        severity="warning"
+        message="Missing `contentDescription` attribute on image">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set contentDescription"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="contentDescription"
+                value="TODO"
+                point="4"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAccessibility=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAccessibility"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="429"
+            column="26"
+            startOffset="20358"
+            endLine="429"
+            endColumn="35"
+            endOffset="20367"/>
+    </incident>
+
+    <incident
+        id="ContentDescription"
+        severity="warning"
+        message="Missing `contentDescription` attribute on image">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set contentDescription"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="contentDescription"
+                value="TODO"
+                point="4"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAccessibility=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAccessibility"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_list_menu.xml"
+            line="120"
+            column="22"
+            startOffset="5046"
+            endLine="120"
+            endColumn="31"
+            endOffset="5055"/>
+    </incident>
+
+    <incident
+        id="ContentDescription"
+        severity="warning"
+        message="Missing `contentDescription` attribute on image">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set contentDescription"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="contentDescription"
+                value="TODO"
+                point="4"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAccessibility=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAccessibility"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_perfil_property.xml"
+            line="30"
+            column="14"
+            startOffset="1089"
+            endLine="30"
+            endColumn="23"
+            endOffset="1098"/>
+    </incident>
+
+    <incident
+        id="ContentDescription"
+        severity="warning"
+        message="Missing `contentDescription` attribute on image">
+        <fix-alternatives>
+            <fix-attribute
+                description="Set contentDescription"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="contentDescription"
+                value="TODO"
+                point="4"
+                mark="0"/>
+            <fix-attribute
+                description="Set importantForAccessibility=&quot;no&quot;"
+                namespace="http://schemas.android.com/apk/res/android"
+                attribute="importantForAccessibility"
+                value="no"/>
+        </fix-alternatives>
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_tag.xml"
+            line="24"
+            column="10"
+            startOffset="847"
+            endLine="24"
+            endColumn="19"
+            endOffset="856"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/AddAds.java"
+            line="301"
+            column="25"
+            startOffset="11338"
+            endLine="301"
+            endColumn="45"
+            endOffset="11358"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/AddAds.java"
+            line="317"
+            column="36"
+            startOffset="11855"
+            endLine="317"
+            endColumn="51"
+            endOffset="11870"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/AddLocal.java"
+            line="352"
+            column="33"
+            startOffset="12665"
+            endLine="352"
+            endColumn="45"
+            endOffset="12677"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/adapter/AnunciosAdapter.java"
+            line="87"
+            column="39"
+            startOffset="2674"
+            endLine="87"
+            endColumn="51"
+            endOffset="2686"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/adapter/AnunciosAdapter.java"
+            line="94"
+            column="41"
+            startOffset="2922"
+            endLine="94"
+            endColumn="56"
+            endOffset="2937"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/adapter/AnunciosAdapter.java"
+            line="98"
+            column="40"
+            startOffset="3013"
+            endLine="98"
+            endColumn="75"
+            endOffset="3048"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/adapter/AnunciosAdapter.java"
+            line="98"
+            column="40"
+            startOffset="3013"
+            endLine="98"
+            endColumn="52"
+            endOffset="3025"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/ListMenu.java"
+            line="306"
+            column="34"
+            startOffset="11059"
+            endLine="306"
+            endColumn="66"
+            endOffset="11091"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/ListMenu.java"
+            line="306"
+            column="55"
+            startOffset="11080"
+            endLine="306"
+            endColumn="66"
+            endOffset="11091"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/LoginActivity.java"
+            line="379"
+            column="30"
+            startOffset="11854"
+            endLine="379"
+            endColumn="43"
+            endOffset="11867"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/LoginActivity.java"
+            line="381"
+            column="30"
+            startOffset="11916"
+            endLine="381"
+            endColumn="38"
+            endOffset="11924"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="171"
+            column="39"
+            startOffset="6147"
+            endLine="171"
+            endColumn="67"
+            endOffset="6175"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="187"
+            column="39"
+            startOffset="6735"
+            endLine="188"
+            endColumn="87"
+            endOffset="6879"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="187"
+            column="39"
+            startOffset="6735"
+            endLine="187"
+            endColumn="46"
+            endOffset="6742"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="188"
+            column="29"
+            startOffset="6821"
+            endLine="188"
+            endColumn="38"
+            endOffset="6830"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="765"
+            column="43"
+            startOffset="28875"
+            endLine="766"
+            endColumn="91"
+            endOffset="29023"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="765"
+            column="43"
+            startOffset="28875"
+            endLine="765"
+            endColumn="50"
+            endOffset="28882"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="766"
+            column="33"
+            startOffset="28965"
+            endLine="766"
+            endColumn="42"
+            endOffset="28974"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="859"
+            column="51"
+            startOffset="32821"
+            endLine="860"
+            endColumn="99"
+            endOffset="32977"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="859"
+            column="51"
+            startOffset="32821"
+            endLine="859"
+            endColumn="58"
+            endOffset="32828"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="860"
+            column="41"
+            startOffset="32919"
+            endLine="860"
+            endColumn="50"
+            endOffset="32928"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/MainActivity.java"
+            line="888"
+            column="27"
+            startOffset="33829"
+            endLine="888"
+            endColumn="55"
+            endOffset="33857"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/RecoveryActivity.java"
+            line="216"
+            column="33"
+            startOffset="7091"
+            endLine="216"
+            endColumn="46"
+            endOffset="7104"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/RegisterActivity.java"
+            line="290"
+            column="38"
+            startOffset="10367"
+            endLine="290"
+            endColumn="56"
+            endOffset="10385"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/ViewAds.java"
+            line="211"
+            column="33"
+            startOffset="7089"
+            endLine="211"
+            endColumn="45"
+            endOffset="7101"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/ViewAds.java"
+            line="219"
+            column="40"
+            startOffset="7374"
+            endLine="219"
+            endColumn="55"
+            endOffset="7389"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/ViewAds.java"
+            line="232"
+            column="30"
+            startOffset="7920"
+            endLine="232"
+            endColumn="51"
+            endOffset="7941"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="Do not concatenate text displayed with `setText`. Use resource string with placeholders.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/ViewAds.java"
+            line="278"
+            column="26"
+            startOffset="9337"
+            endLine="278"
+            endColumn="46"
+            endOffset="9357"/>
+    </incident>
+
+    <incident
+        id="SetTextI18n"
+        severity="warning"
+        message="String literal in `setText` can not be translated. Use Android resources instead.">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*javaDir*0}/ao/co/isptec/aplm/locationads/ViewAds.java"
+            line="278"
+            column="26"
+            startOffset="9337"
+            endLine="278"
+            endColumn="36"
+            endOffset="9347"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Tags (Interesses)&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="326"
+            column="21"
+            startOffset="15647"
+            endLine="326"
+            endColumn="53"
+            endOffset="15679"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Adicione tags do seu perfil para ajudar outros usuários a descobrir seu anúncio&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="341"
+            column="21"
+            startOffset="16280"
+            endLine="341"
+            endColumn="115"
+            endOffset="16374"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Nenhuma tag adicionada ainda&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="369"
+            column="29"
+            startOffset="17712"
+            endLine="369"
+            endColumn="72"
+            endOffset="17755"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Adicionar Tag do Perfil&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="384"
+            column="21"
+            startOffset="18418"
+            endLine="384"
+            endColumn="59"
+            endOffset="18456"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Configurações Avançadas&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="397"
+            column="21"
+            startOffset="19016"
+            endLine="397"
+            endColumn="59"
+            endOffset="19054"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Modo Descentralizado&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="445"
+            column="37"
+            startOffset="21306"
+            endLine="445"
+            endColumn="72"
+            endOffset="21341"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Usar rede peer-to-peer para distribuição&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="453"
+            column="37"
+            startOffset="21765"
+            endLine="453"
+            endColumn="92"
+            endOffset="21820"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;ℹ️ O modo descentralizado será implementado em breve. Use o modo centralizado (padrão) por enquanto.&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_add_ads.xml"
+            line="472"
+            column="29"
+            startOffset="22714"
+            endLine="472"
+            endColumn="144"
+            endOffset="22829"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Editar Perfil&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="46"
+            column="21"
+            startOffset="1914"
+            endLine="46"
+            endColumn="49"
+            endOffset="1942"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Alterar foto de perfil&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="119"
+            column="25"
+            startOffset="5010"
+            endLine="119"
+            endColumn="62"
+            endOffset="5047"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Informações Básicas&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="163"
+            column="29"
+            startOffset="6958"
+            endLine="163"
+            endColumn="63"
+            endOffset="6992"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Nome completo&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="176"
+            column="25"
+            startOffset="7612"
+            endLine="176"
+            endColumn="53"
+            endOffset="7640"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Telefone&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="199"
+            column="25"
+            startOffset="8826"
+            endLine="199"
+            endColumn="48"
+            endOffset="8849"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Propriedades&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="246"
+            column="29"
+            startOffset="10959"
+            endLine="246"
+            endColumn="70"
+            endOffset="11000"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Propriedades Personalizadas&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="255"
+            column="29"
+            startOffset="11426"
+            endLine="255"
+            endColumn="71"
+            endOffset="11468"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="269"
+            column="29"
+            startOffset="12195"
+            endLine="269"
+            endColumn="45"
+            endOffset="12211"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Adicione propriedades para filtrar as mensagens que deseja receber&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="280"
+            column="25"
+            startOffset="12633"
+            endLine="280"
+            endColumn="106"
+            endOffset="12714"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Nova Propriedade&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="296"
+            column="25"
+            startOffset="13424"
+            endLine="296"
+            endColumn="56"
+            endOffset="13455"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Chave (ex: profissao, clube, cidade)&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="308"
+            column="25"
+            startOffset="14092"
+            endLine="308"
+            endColumn="76"
+            endOffset="14143"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Valor (ex: Estudante, Real Madrid, Luanda)&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="334"
+            column="25"
+            startOffset="15542"
+            endLine="334"
+            endColumn="82"
+            endOffset="15599"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Adicionar&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="368"
+            column="29"
+            startOffset="17351"
+            endLine="368"
+            endColumn="53"
+            endOffset="17375"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Chaves&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="382"
+            column="29"
+            startOffset="18152"
+            endLine="382"
+            endColumn="50"
+            endOffset="18173"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Minhas Propriedades&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="403"
+            column="25"
+            startOffset="19078"
+            endLine="403"
+            endColumn="59"
+            endOffset="19112"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Nenhuma Propriedade&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="439"
+            column="29"
+            startOffset="20845"
+            endLine="439"
+            endColumn="63"
+            endOffset="20879"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Adicione propriedades para\npersonalizar seu perfil&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="448"
+            column="29"
+            startOffset="21309"
+            endLine="448"
+            endColumn="95"
+            endOffset="21375"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Salvar Alterações&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_edit_perfil_account.xml"
+            line="466"
+            column="17"
+            startOffset="22063"
+            endLine="466"
+            endColumn="49"
+            endOffset="22095"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Meus Anúncios&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_list_menu.xml"
+            line="30"
+            column="17"
+            startOffset="1248"
+            endLine="30"
+            endColumn="45"
+            endOffset="1276"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Guardados&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_list_menu.xml"
+            line="72"
+            column="25"
+            startOffset="3041"
+            endLine="72"
+            endColumn="49"
+            endOffset="3065"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Criados por Mim&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_list_menu.xml"
+            line="77"
+            column="25"
+            startOffset="3282"
+            endLine="77"
+            endColumn="55"
+            endOffset="3312"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;0 anúncios&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_list_menu.xml"
+            line="88"
+            column="17"
+            startOffset="3681"
+            endLine="88"
+            endColumn="42"
+            endOffset="3706"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Nenhum anúncio encontrado&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_list_menu.xml"
+            line="133"
+            column="25"
+            startOffset="5673"
+            endLine="133"
+            endColumn="65"
+            endOffset="5713"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Explore anúncios na tela inicial&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_list_menu.xml"
+            line="143"
+            column="25"
+            startOffset="6172"
+            endLine="143"
+            endColumn="72"
+            endOffset="6219"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Meu Perfil&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="46"
+            column="21"
+            startOffset="1908"
+            endLine="46"
+            endColumn="46"
+            endOffset="1933"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Nome do Usuário&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="117"
+            column="25"
+            startOffset="4831"
+            endLine="117"
+            endColumn="55"
+            endOffset="4861"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;email@exemplo.com&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="129"
+            column="25"
+            startOffset="5403"
+            endLine="129"
+            endColumn="57"
+            endOffset="5435"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Informações da Conta&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="174"
+            column="29"
+            startOffset="7398"
+            endLine="174"
+            endColumn="64"
+            endOffset="7433"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Email&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="223"
+            column="33"
+            startOffset="9740"
+            endLine="223"
+            endColumn="53"
+            endOffset="9760"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;email@email.com&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="232"
+            column="33"
+            startOffset="10225"
+            endLine="232"
+            endColumn="63"
+            endOffset="10255"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Telefone&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="265"
+            column="33"
+            startOffset="11726"
+            endLine="265"
+            endColumn="56"
+            endOffset="11749"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;999 999 999&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="274"
+            column="33"
+            startOffset="12217"
+            endLine="274"
+            endColumn="59"
+            endOffset="12243"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Suas Atividades&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="326"
+            column="29"
+            startOffset="14358"
+            endLine="326"
+            endColumn="59"
+            endOffset="14388"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="360"
+            column="33"
+            startOffset="15974"
+            endLine="360"
+            endColumn="49"
+            endOffset="15990"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Visualizados&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="370"
+            column="33"
+            startOffset="16497"
+            endLine="370"
+            endColumn="60"
+            endOffset="16524"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="398"
+            column="33"
+            startOffset="17892"
+            endLine="398"
+            endColumn="49"
+            endOffset="17908"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Guardados&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="408"
+            column="33"
+            startOffset="18415"
+            endLine="408"
+            endColumn="57"
+            endOffset="18439"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="436"
+            column="33"
+            startOffset="19805"
+            endLine="436"
+            endColumn="49"
+            endOffset="19821"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Publicados&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="446"
+            column="33"
+            startOffset="20327"
+            endLine="446"
+            endColumn="58"
+            endOffset="20352"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Terminar Sessão&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_perfil_account.xml"
+            line="467"
+            column="17"
+            startOffset="21160"
+            endLine="467"
+            endColumn="47"
+            endOffset="21190"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Criação de conta&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="47"
+            column="13"
+            startOffset="1879"
+            endLine="47"
+            endColumn="44"
+            endOffset="1910"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Insira os dados para que seja criado a sua conta&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="62"
+            column="13"
+            startOffset="2486"
+            endLine="62"
+            endColumn="76"
+            endOffset="2549"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Digite seu nome completo&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="93"
+            column="21"
+            startOffset="3972"
+            endLine="93"
+            endColumn="60"
+            endOffset="4011"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Digite o número de telefone&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="113"
+            column="21"
+            startOffset="5069"
+            endLine="113"
+            endColumn="63"
+            endOffset="5111"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Senha&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="157"
+            column="21"
+            startOffset="7318"
+            endLine="157"
+            endColumn="41"
+            endOffset="7338"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Confirmar a senha&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="184"
+            column="21"
+            startOffset="8761"
+            endLine="184"
+            endColumn="53"
+            endOffset="8793"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Já tem uma conta?&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="232"
+            column="17"
+            startOffset="10934"
+            endLine="232"
+            endColumn="49"
+            endOffset="10966"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Entrar&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_register.xml"
+            line="245"
+            column="17"
+            startOffset="11494"
+            endLine="245"
+            endColumn="38"
+            endOffset="11515"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Título do Anúncio&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="87"
+            column="25"
+            startOffset="3573"
+            endLine="87"
+            endColumn="57"
+            endOffset="3605"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Localização&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="114"
+            column="29"
+            startOffset="4911"
+            endLine="114"
+            endColumn="55"
+            endOffset="4937"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Descrição&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="147"
+            column="29"
+            startOffset="6441"
+            endLine="147"
+            endColumn="53"
+            endOffset="6465"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Descrição completa do anúncio aparecerá aqui...&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="161"
+            column="25"
+            startOffset="7072"
+            endLine="161"
+            endColumn="87"
+            endOffset="7134"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Publicado em:&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="210"
+            column="29"
+            startOffset="9208"
+            endLine="210"
+            endColumn="57"
+            endOffset="9236"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;01/12/2024&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="220"
+            column="29"
+            startOffset="9712"
+            endLine="220"
+            endColumn="54"
+            endOffset="9737"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Publicado por:&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="246"
+            column="29"
+            startOffset="10928"
+            endLine="246"
+            endColumn="58"
+            endOffset="10957"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Empresa XYZ&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="256"
+            column="29"
+            startOffset="11435"
+            endLine="256"
+            endColumn="55"
+            endOffset="11461"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Compartilhar&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="284"
+            column="21"
+            startOffset="12596"
+            endLine="284"
+            endColumn="48"
+            endOffset="12623"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Mais Informações&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/activity_view_ads.xml"
+            line="300"
+            column="21"
+            startOffset="13342"
+            endLine="300"
+            endColumn="52"
+            endOffset="13373"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Chave&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/dialog_add_property.xml"
+            line="15"
+            column="9"
+            startOffset="614"
+            endLine="15"
+            endColumn="29"
+            endOffset="634"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Valor&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/dialog_add_property.xml"
+            line="34"
+            column="9"
+            startOffset="1350"
+            endLine="34"
+            endColumn="29"
+            endOffset="1370"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;LocationAds&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="38"
+            column="21"
+            startOffset="1530"
+            endLine="38"
+            endColumn="47"
+            endOffset="1556"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Mapa&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="91"
+            column="25"
+            startOffset="3761"
+            endLine="91"
+            endColumn="44"
+            endOffset="3780"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Locais Próximos&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="98"
+            column="25"
+            startOffset="4105"
+            endLine="98"
+            endColumn="55"
+            endOffset="4135"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Atualmente em:&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="176"
+            column="29"
+            startOffset="7512"
+            endLine="176"
+            endColumn="58"
+            endOffset="7541"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Talatona&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="185"
+            column="29"
+            startOffset="7973"
+            endLine="185"
+            endColumn="52"
+            endOffset="7996"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Anúncios Próximos&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="216"
+            column="21"
+            startOffset="9185"
+            endLine="216"
+            endColumn="53"
+            endOffset="9217"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;0&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="230"
+            column="21"
+            startOffset="9839"
+            endLine="230"
+            endColumn="37"
+            endOffset="9855"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Nenhum anúncio próximo&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="276"
+            column="25"
+            startOffset="11810"
+            endLine="276"
+            endColumn="62"
+            endOffset="11847"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Não há anúncios disponíveis\nna sua localização atual&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="286"
+            column="25"
+            startOffset="12293"
+            endLine="286"
+            endColumn="93"
+            endOffset="12361"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Home&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="341"
+            column="21"
+            startOffset="14392"
+            endLine="341"
+            endColumn="40"
+            endOffset="14411"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Lista&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="369"
+            column="21"
+            startOffset="15509"
+            endLine="369"
+            endColumn="41"
+            endOffset="15529"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Ideias&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="403"
+            column="21"
+            startOffset="16822"
+            endLine="403"
+            endColumn="42"
+            endOffset="16843"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Perfil&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/home_activity.xml"
+            line="431"
+            column="21"
+            startOffset="17951"
+            endLine="431"
+            endColumn="42"
+            endOffset="17972"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Título do Anúncio&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="35"
+            column="17"
+            startOffset="1296"
+            endLine="35"
+            endColumn="49"
+            endOffset="1328"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Conteúdo do anúncio&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="63"
+            column="13"
+            startOffset="2430"
+            endLine="63"
+            endColumn="47"
+            endOffset="2464"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Localização&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="96"
+            column="21"
+            startOffset="3779"
+            endLine="96"
+            endColumn="47"
+            endOffset="3805"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Período&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="125"
+            column="21"
+            startOffset="4951"
+            endLine="125"
+            endColumn="43"
+            endOffset="4973"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;WHITELIST&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_anuncio.xml"
+            line="138"
+            column="17"
+            startOffset="5423"
+            endLine="138"
+            endColumn="41"
+            endOffset="5447"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Remover&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_key_value.xml"
+            line="29"
+            column="9"
+            startOffset="969"
+            endLine="29"
+            endColumn="45"
+            endOffset="1005"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Chave&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_perfil_property.xml"
+            line="51"
+            column="17"
+            startOffset="1859"
+            endLine="51"
+            endColumn="37"
+            endOffset="1879"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Valor&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_perfil_property.xml"
+            line="62"
+            column="17"
+            startOffset="2284"
+            endLine="62"
+            endColumn="37"
+            endOffset="2304"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Editar propriedade&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_perfil_property.xml"
+            line="84"
+            column="17"
+            startOffset="3085"
+            endLine="84"
+            endColumn="64"
+            endOffset="3132"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Remover propriedade&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_perfil_property.xml"
+            line="95"
+            column="17"
+            startOffset="3559"
+            endLine="95"
+            endColumn="65"
+            endOffset="3607"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;hobby: futebol&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_tag.xml"
+            line="36"
+            column="13"
+            startOffset="1280"
+            endLine="36"
+            endColumn="42"
+            endOffset="1309"/>
+    </incident>
+
+    <incident
+        id="HardcodedText"
+        severity="warning"
+        message="Hardcoded string &quot;Remover tag&quot;, should use `@string` resource">
+        <location
+            file="${:app*debug*MAIN*sourceProvider*0*resDir*0}/layout/item_tag.xml"
+            line="49"
+            column="13"
+            startOffset="1803"
+            endLine="49"
+            endColumn="53"
+            endOffset="1843"/>
+    </incident>
+
+</incidents>
