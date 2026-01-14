@@ -167,43 +167,67 @@ https://backend-aplm-1.onrender.com
 
 ### Endpoints Disponíveis
 
-#### Autenticação
+#### AUTH - Autenticação
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
-| POST | `/auth/register` | Registar novo utilizador |
-| POST | `/auth/login` | Login |
-| GET | `/auth/me` | Obter dados do utilizador autenticado |
+| POST | `/auth/register` | Registrar novo usuário |
+| POST | `/auth/login` | Fazer login e receber token JWT |
+| POST | `/auth/forgot-password` | Alterar senha do usuário |
+| GET | `/auth/profile` | Obter perfil do usuário autenticado |
+| POST | `/auth/update-fcm-token` | Atualizar token FCM do usuário |
+| POST | `/auth/usuarios/{userId}/fcm-token` | Salvar token FCM (compatível Android) |
 
-#### Mensagens (Anúncios)
+#### HEALTH - Verificação de Saúde
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
-| GET | `/messages` | Listar todas as mensagens |
-| POST | `/messages` | Criar nova mensagem |
-| GET | `/messages/{id}` | Obter mensagem por ID |
-| DELETE | `/messages/{id}` | Apagar mensagem |
-| GET | `/messages/whitelist` | Mensagens na whitelist |
-| GET | `/messages/blacklist` | Mensagens na blacklist |
+| GET | `/health` | Verificar se o servidor está funcionando |
 
-#### Locais
+#### LOCATION - Gestão de Locais
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
+| POST | `/locais` | Criar novo local (GPS ou WiFi) |
 | GET | `/locais` | Listar todos os locais |
-| POST | `/locais` | Criar novo local |
 | GET | `/locais/{id}` | Obter local por ID |
-| DELETE | `/locais/{id}` | Apagar local |
-| GET | `/locais/user` | Locais do utilizador |
+| DELETE | `/locais/{id}` | Apagar local (apenas criador) |
 
-#### Perfil
+#### MESSAGES - Gestão de Anúncios
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
-| GET | `/perfil` | Obter perfil |
-| PUT | `/perfil` | Atualizar perfil |
+| POST | `/messages` | Criar novo anúncio |
+| GET | `/messages` | Listar anúncios (com filtros opcionais) |
+| GET | `/messages/my-messages` | Listar anúncios do utilizador autenticado |
+| GET | `/messages/all-public` | Listar TODOS os anúncios públicos |
+| GET | `/messages/debug` | Debug: Ver informações sobre anúncios |
+| GET | `/messages/notifications` | Listar notificações do utilizador |
+| GET | `/messages/saved` | Listar anúncios salvos nos favoritos |
+| GET | `/messages/whitelist` | Anúncios onde o usuário está na whitelist |
+| GET | `/messages/blacklist` | Anúncios onde o usuário está na blacklist |
+| GET | `/messages/similar` | Anúncios similares baseados no perfil |
+| GET | `/messages/{id}` | Obter anúncio por ID |
+| POST | `/messages/{id}/save` | Salvar anúncio nos favoritos |
+| DELETE | `/messages/{id}/save` | Remover anúncio dos favoritos |
+| DELETE | `/messages/{id}` | Apagar anúncio (apenas autor) |
 
-#### Notificações
+#### MENSAGENS-TRANSITO - Sistema de Mulas
 | Método | Endpoint | Descrição |
 |--------|----------|-----------|
-| GET | `/messages/notifications` | Listar notificações |
-| POST | `/messages/notifications/register` | Registar token FCM |
+| POST | `/mensagens-transito/assign/{anuncioId}/{mulaId}` | Atribuir anúncio a uma mula |
+| GET | `/mensagens-transito/mula` | Mensagens que a mula está transportando |
+| PUT | `/mensagens-transito/deliver/{transitoId}` | Marcar mensagem como entregue |
+| GET | `/mensagens-transito/local/{localId}` | Mensagens disponíveis para entrega |
+
+#### PERFIL - Gestão de Perfil do Utilizador
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/usuarios/{userId}/perfil` | Obter perfil do usuário |
+| POST | `/usuarios/{userId}/perfil` | Adicionar par chave-valor ao perfil |
+| PUT | `/usuarios/{userId}/perfil` | Atualizar perfil completo |
+| DELETE | `/usuarios/{userId}/perfil/{chave}` | Remover par chave-valor |
+
+#### PERFIL PUBLIC - Chaves Públicas
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/perfil/chaves` | Listar todas as chaves públicas do sistema |
 
 ---
 
