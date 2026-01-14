@@ -1,6 +1,7 @@
 package ao.co.isptec.aplm.locationads.network.interfaces;
 
 import java.util.List;
+import java.util.Map;
 
 import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.models.LoginRequest;
@@ -10,192 +11,324 @@ import ao.co.isptec.aplm.locationads.network.models.PerfilKeyValue;
 import ao.co.isptec.aplm.locationads.network.models.RecoveryRequest;
 import ao.co.isptec.aplm.locationads.network.models.RecoveryResponse;
 import ao.co.isptec.aplm.locationads.network.models.RegisterRequest;
-import ao.co.isptec.aplm.locationads.network.models.UploadResponse;
 import ao.co.isptec.aplm.locationads.network.models.UserProfile;
 import ao.co.isptec.aplm.locationads.network.models.VerifyEmailRequest;
-import okhttp3.MultipartBody;
+import ao.co.isptec.aplm.locationads.network.models.LocationUpdate;
+import ao.co.isptec.aplm.locationads.network.models.Notificacao;
+import ao.co.isptec.aplm.locationads.network.models.MensagemTransito;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+/**
+ * Interface de API para comunicação com o backend AnunciosLoc
+ * Backend: NestJS + Prisma + PostgreSQL
+ * Base URL: https://backend-aplm-1.onrender.com
+ */
 public interface ApiService {
-    @POST("/auth/register")
-    Call<Void> register(@Body RegisterRequest request);
 
-    @POST("/auth/verify-email")
+    // ==================== AUTENTICAÇÃO ====================
+
+    /**
+     * Registar novo utilizador
+     * POST /auth/register
+     */
+    @POST("auth/register")
+    Call<LoginResponse> register(@Body RegisterRequest request);
+
+    /**
+     * Verificar email com código
+     * POST /auth/verify-email
+     */
+    @POST("auth/verify-email")
     Call<Void> verifyEmail(@Body VerifyEmailRequest request);
 
-    @POST("/auth/login")
+    /**
+     * Login do utilizador
+     * POST /auth/login
+     * Retorna JWT token para autenticação
+     */
+    @POST("auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
 
-    @POST("/locais")
+    /**
+     * Recuperar password - enviar código
+     * POST /auth/forgot-password
+     */
+    @POST("auth/forgot-password")
+    Call<RecoveryResponse> sendRecoveryCode(@Body RecoveryRequest request);
+
+    /**
+     * Atualizar FCM token para notificações push
+     * PUT /auth/fcm-token
+     */
+    @PUT("auth/fcm-token")
+    Call<ResponseBody> updateFcmToken(@Body Map<String, String> fcmToken);
+
+    // ==================== LOCAIS ====================
+
+    /**
+     * Criar novo local (GPS ou WiFi)
+     * POST /locais
+     */
+    @POST("locais")
     Call<Local> addLocal(@Body Local request);
 
-    @GET("/locais")
+    /**
+     * Listar todos os locais
+     * GET /locais
+     */
+    @GET("locais")
     Call<List<Local>> getAllLocals();
 
-    @GET("/locais/{id}")
-    Call<Local> getLocalById(@Path("id") String id);
+    /**
+     * Obter local por ID
+     * GET /locais/{id}
+     */
+    @GET("locais/{id}")
+    Call<Local> getLocalById(@Path("id") int id);
 
-    @DELETE("/locais/{id}")
-    Call<Void> removeLocalById(@Path("id") String id);
+    /**
+     * Remover local (apenas criador pode remover)
+     * DELETE /locais/{id}
+     */
+    @DELETE("locais/{id}")
+    Call<Void> removeLocalById(@Path("id") int id);
+
+    /**
+     * Listar locais criados pelo utilizador
+     * GET /locais/user/{userId}
+     */
+    @GET("locais/user/{userId}")
+    Call<List<Local>> getLocaisByUser(@Path("userId") int userId);
 
     // ==================== MENSAGENS/ANÚNCIOS ====================
 
     /**
      * Criar novo anúncio/mensagem
-     * Endpoint: POST /messages
+     * POST /messages
+     * Body: { titulo, conteudo, localId, modoEntrega, policy, restricoes, horaInicio, horaFim }
      */
     @POST("messages")
-    Call<Ads> addAd(@Body Ads ads);
-
-<<<<<<< HEAD
-    @POST("https://backend-aplm-1.onrender.com/messages")
-=======
-    @POST("https://backend-aplm-segq.onrender.com/messages")
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
-    Call<Ads> addAdAlternative(@Body Ads ads);
+    Call<Ads> createMessage(@Body Ads ads);
 
     /**
-     * Buscar mensagens por localId (OBRIGATÓRIO)
-     * Endpoint: GET /messages?localId={localId}
-     *
-     * ATENÇÃO: O backend EXIGE o parâmetro localId
+     * Listar anúncios ativos (com paginação)
+     * GET /messages?localId={localId}&page={page}&limit={limit}
      */
-<<<<<<< HEAD
-    @GET("https://backend-aplm-1.onrender.com/messages")
+    @GET("messages")
+    Call<List<Ads>> getMessages(
+            @Query("localId") Integer localId,
+            @Query("page") Integer page,
+            @Query("limit") Integer limit
+    );
+
+    /**
+     * Buscar mensagens por localização
+     * GET /messages?localId={localId}
+     */
+    @GET("messages")
     Call<List<Ads>> getMessagesByLocation(@Query("localId") int localId);
 
-    @GET("https://backend-aplm-1.onrender.com/messages/whitelist")
-    Call<List<Ads>> getAdsWhitelist();
-
-    @GET("https://backend-aplm-1.onrender.com/messages/BLACKlist")
-    Call<List<Ads>> getAdsBlacklist();
-
-=======
-    @GET("https://backend-aplm-segq.onrender.com/messages")
-    Call<List<Ads>> getMessagesByLocation(@Query("localId") int localId);
-
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     /**
-     * Buscar minhas mensagens (do usuário autenticado)
-     * Endpoint: GET /messages/my-messages
-     */
-<<<<<<< HEAD
-    @GET("https://backend-aplm-1.onrender.com/messages/my-messages")
-=======
-    @GET("messages/my-messages")
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
-    Call<List<Ads>> getMyMessages();
-
-    /**
-     * Buscar mensagem específica por ID
-     * Endpoint: GET /messages/{id}
+     * Obter anúncio por ID
+     * GET /messages/{id}
      */
     @GET("messages/{id}")
     Call<Ads> getMessageById(@Path("id") int id);
 
     /**
-     * Buscar notificações
-     * Endpoint: GET /messages/notifications
+     * Listar anúncios criados pelo utilizador autenticado
+     * GET /messages/my-messages
      */
-    @GET("messages/notifications")
-    Call<List<Ads>> getNotifications();
+    @GET("messages/my-messages")
+    Call<List<Ads>> getMyMessages();
 
     /**
-     * Buscar mensagens salvas (favoritos)
-     * Endpoint: GET /messages/saved
+     * Remover anúncio (soft-delete, apenas autor)
+     * DELETE /messages/{id}
+     */
+    @DELETE("messages/{id}")
+    Call<Void> deleteMessage(@Path("id") int id);
+
+    /**
+     * Marcar notificação como recebida
+     * POST /messages/{id}/receive
+     */
+    @POST("messages/{id}/receive")
+    Call<ResponseBody> receiveMessage(@Path("id") int id);
+
+    // ==================== WHITELIST/BLACKLIST ====================
+
+    /**
+     * Listar anúncios onde o utilizador está na whitelist
+     * GET /messages/whitelist?page={page}&limit={limit}
+     */
+    @GET("messages/whitelist")
+    Call<List<Ads>> getAdsWhitelist(
+            @Query("page") Integer page,
+            @Query("limit") Integer limit
+    );
+
+    /**
+     * Listar anúncios onde o utilizador está na whitelist (sem paginação)
+     * GET /messages/whitelist
+     */
+    @GET("messages/whitelist")
+    Call<List<Ads>> getAdsWhitelist();
+
+    /**
+     * Listar anúncios com política blacklist
+     * GET /messages/blacklist?page={page}&limit={limit}
+     */
+    @GET("messages/blacklist")
+    Call<List<Ads>> getAdsBlacklist(
+            @Query("page") Integer page,
+            @Query("limit") Integer limit
+    );
+
+    /**
+     * Listar anúncios blacklist (sem paginação)
+     * GET /messages/blacklist
+     */
+    @GET("messages/blacklist")
+    Call<List<Ads>> getAdsBlacklist();
+
+    // ==================== SALVOS/FAVORITOS ====================
+
+    /**
+     * Listar mensagens salvas (favoritos)
+     * GET /messages/saved?page={page}&limit={limit}
+     */
+    @GET("messages/saved")
+    Call<List<Ads>> getSavedMessages(
+            @Query("page") Integer page,
+            @Query("limit") Integer limit
+    );
+
+    /**
+     * Listar mensagens salvas (sem paginação)
+     * GET /messages/saved
      */
     @GET("messages/saved")
     Call<List<Ads>> getSavedMessages();
 
     /**
      * Salvar mensagem nos favoritos
-     * Endpoint: POST /messages/{id}/save
+     * POST /messages/{id}/save
      */
     @POST("messages/{id}/save")
     Call<ResponseBody> saveMessage(@Path("id") int id);
 
     /**
      * Remover mensagem dos favoritos
-     * Endpoint: DELETE /messages/{id}/save
+     * DELETE /messages/{id}/save
      */
     @DELETE("messages/{id}/save")
     Call<ResponseBody> unsaveMessage(@Path("id") int id);
 
-    @GET("/locais/user/{userId}")
-    Call<List<Local>> getLocaisByUser(@Path("userId") int userId);
+    // ==================== NOTIFICAÇÕES ====================
 
-    @POST("/auth/forgot-password")
-    Call<RecoveryResponse> sendRecoveryCode(@Body RecoveryRequest request);
+    /**
+     * Listar notificações do utilizador
+     * GET /messages/notifications
+     */
+    @GET("messages/notifications")
+    Call<List<Notificacao>> getNotifications();
 
+    /**
+     * Atualizar localização do utilizador (para receber notificações)
+     * PUT /messages/update-location
+     * Body: { latitude, longitude, wifiIds }
+     */
+    @PUT("messages/update-location")
+    Call<ResponseBody> updateLocation(@Body LocationUpdate locationUpdate);
 
-<<<<<<< HEAD
-    @POST("https://backend-aplm-1.onrender.com/usuarios/{userId}/perfil")
+    // ==================== PERFIL DO UTILIZADOR ====================
+
+    /**
+     * Obter perfil do utilizador
+     * GET /usuarios/{userId}/perfil
+     */
+    @GET("usuarios/{userId}/perfil")
+    Call<List<PerfilKeyValue>> getUserProfile(@Path("userId") int userId);
+
+    /**
+     * Adicionar propriedade ao perfil
+     * POST /usuarios/{userId}/perfil
+     * Body: { chave, valor }
+     */
+    @POST("usuarios/{userId}/perfil")
     Call<ResponseBody> addProfileProperty(
-            @Header("Authorization") String token,
-            @Body PerfilKeyValue property,
-            @Path("userId") String userId
-=======
-    @POST("profile/add")
-    Call<ResponseBody> addProfileProperty(
-            @Header("Authorization") String token,
+            @Path("userId") int userId,
             @Body PerfilKeyValue property
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     );
 
     /**
-     * Remover propriedade do perfil do utilizador
-     * DELETE /profile/remove/{key}
+     * Atualizar perfil completo
+     * PUT /usuarios/{userId}/perfil
+     * Body: [{ chave, valor }, ...]
      */
-    @DELETE("profile/remove/{key}")
-    Call<ResponseBody> removeProfileProperty(
-            @Header("Authorization") String token,
-            @Path("key") String key
-    );
-
-    /**
-     * Obter perfil completo do utilizador
-     * GET /profile/get
-     */
-    @GET("profile/get")
-    Call<UserProfile> getUserProfile(
-            @Header("Authorization") String token
-    );
-
-    /**
-     * Atualizar perfil completo do utilizador
-     * PUT /profile/update
-     */
-    @PUT("profile/update")
+    @PUT("usuarios/{userId}/perfil")
     Call<ResponseBody> updateUserProfile(
-            @Header("Authorization") String token,
-            @Body UserProfile profile
+            @Path("userId") int userId,
+            @Body List<PerfilKeyValue> properties
     );
 
     /**
-     * Obter lista de todas as chaves públicas
-     * GET /profile/public-keys
+     * Remover propriedade do perfil
+     * DELETE /usuarios/{userId}/perfil/{chave}
      */
-<<<<<<< HEAD
-    @GET("https://backend-aplm-1.onrender.com/perfil/chaves")
-=======
-    @GET("profile/public-keys")
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
-    Call<List<String>> getPublicKeys(
-            @Header("Authorization") String token
+    @DELETE("usuarios/{userId}/perfil/{chave}")
+    Call<ResponseBody> removeProfileProperty(
+            @Path("userId") int userId,
+            @Path("chave") String chave
     );
 
-    // Buscar todos os anúncios
+    /**
+     * Listar chaves públicas de perfis
+     * GET /perfil/chaves
+     */
+    @GET("perfil/chaves")
+    Call<List<String>> getPublicProfileKeys();
 
+    // ==================== SISTEMA DE MULAS ====================
 
+    /**
+     * Atribuir anúncio a uma mula
+     * POST /mensagens-transito/assign/{anuncioId}/{mulaId}
+     */
+    @POST("mensagens-transito/assign/{anuncioId}/{mulaId}")
+    Call<MensagemTransito> assignMessageToMula(
+            @Path("anuncioId") int anuncioId,
+            @Path("mulaId") int mulaId
+    );
+
+    /**
+     * Listar mensagens que a mula está transportando
+     * GET /mensagens-transito/mula
+     */
+    @GET("mensagens-transito/mula")
+    Call<List<MensagemTransito>> getMulaMessages();
+
+    /**
+     * Marcar mensagem como entregue pela mula
+     * PUT /mensagens-transito/deliver/{transitoId}
+     */
+    @PUT("mensagens-transito/deliver/{transitoId}")
+    Call<ResponseBody> deliverMessage(@Path("transitoId") int transitoId);
+
+    /**
+     * Listar mensagens disponíveis para entrega em um local
+     * GET /mensagens-transito/local/{localId}
+     */
+    @GET("mensagens-transito/local/{localId}")
+    Call<List<MensagemTransito>> getMessagesForLocation(@Path("localId") int localId);
 }

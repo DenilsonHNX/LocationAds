@@ -1,6 +1,7 @@
 package ao.co.isptec.aplm.locationads.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ao.co.isptec.aplm.locationads.R;
+import ao.co.isptec.aplm.locationads.ViewAds;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 
 public class AnunciosAdapter extends RecyclerView.Adapter<AnunciosAdapter.ViewHolder> {
@@ -49,20 +51,52 @@ public class AnunciosAdapter extends RecyclerView.Adapter<AnunciosAdapter.ViewHo
         holder.textConteudo.setText(anuncio.getConteudo());
 
         // Localização (se disponível)
-        // Nota: Você precisará buscar o nome do local pela localId
-        holder.textLocalizacao.setText("Local ID: " + anuncio.getLocalId());
+        if (anuncio.getLocal() != null && anuncio.getLocal().getNome() != null) {
+            holder.textLocalizacao.setText(anuncio.getLocal().getNome());
+        } else {
+            holder.textLocalizacao.setText("Local ID: " + anuncio.getLocalId());
+        }
 
         // Período de validade
         String periodo = formatarPeriodo(anuncio.getHoraInicio(), anuncio.getHoraFim());
         holder.textPeriodo.setText(periodo);
 
         // Política (badge)
-        holder.textPolicy.setText(anuncio.getPolicy());
-        if ("WHITELIST".equals(anuncio.getPolicy())) {
-            holder.textPolicy.setBackgroundResource(R.drawable.badge_whitelist);
-        } else {
-            holder.textPolicy.setBackgroundResource(R.drawable.badge_blacklist);
+        String policy = anuncio.getPolicy();
+        if (policy != null) {
+            holder.textPolicy.setText(policy.toUpperCase());
+            if ("whitelist".equalsIgnoreCase(policy)) {
+                holder.textPolicy.setBackgroundResource(R.drawable.badge_whitelist);
+            } else if ("blacklist".equalsIgnoreCase(policy)) {
+                holder.textPolicy.setBackgroundResource(R.drawable.badge_blacklist);
+            } else {
+                holder.textPolicy.setBackgroundResource(R.drawable.badge_background);
+            }
         }
+
+        // Click para abrir detalhes
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ViewAds.class);
+            intent.putExtra("ad_id", anuncio.getId());
+            intent.putExtra("autor_id", anuncio.getAutorId());
+            intent.putExtra("is_saved", anuncio.isSalvo());
+            intent.putExtra("title", anuncio.getTitulo());
+            intent.putExtra("description", anuncio.getConteudo());
+            
+            if (anuncio.getLocal() != null) {
+                intent.putExtra("location", anuncio.getLocal().getNome());
+            }
+            
+            if (anuncio.getCriadoEm() != null && anuncio.getCriadoEm().length() >= 10) {
+                intent.putExtra("date", anuncio.getCriadoEm().substring(0, 10));
+            }
+            
+            if (anuncio.getAutor() != null) {
+                intent.putExtra("author", anuncio.getAutor().getUsername());
+            }
+            
+            context.startActivity(intent);
+        });
     }
 
     @Override

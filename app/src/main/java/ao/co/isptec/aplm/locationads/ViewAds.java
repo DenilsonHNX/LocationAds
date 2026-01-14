@@ -1,19 +1,34 @@
 package ao.co.isptec.aplm.locationads;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
+import ao.co.isptec.aplm.locationads.network.models.Ads;
+import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ViewAds extends AppCompatActivity {
+
+    private static final String TAG = "ViewAds";
 
     // Views
     private ImageButton btnVoltar;
@@ -25,16 +40,28 @@ public class ViewAds extends AppCompatActivity {
     private TextView adAuthor;
     private MaterialButton btnShare;
     private MaterialButton btnContact;
+    private MaterialButton btnDelete;
     private FloatingActionButton fabFavorite;
     private CollapsingToolbarLayout collapsingToolbar;
 
     // Data
     private boolean isFavorite = false;
+    private int adId = -1;
+    private int autorId = -1;
+    private int currentUserId = -1;
+    private ApiService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_ads);
+
+        // Inicializar API
+        apiService = ApiClient.getInstance(this).getApiService();
+
+        // Obter ID do utilizador atual
+        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
+        currentUserId = prefs.getInt("userId", -1);
 
         // Inicializar views
         initViews();
@@ -59,6 +86,7 @@ public class ViewAds extends AppCompatActivity {
         adAuthor = findViewById(R.id.adAuthor);
         btnShare = findViewById(R.id.btnShare);
         btnContact = findViewById(R.id.btnContact);
+        btnDelete = findViewById(R.id.btnDelete);
         fabFavorite = findViewById(R.id.fabFavorite);
         collapsingToolbar = findViewById(R.id.collapsingToolbar);
     }
@@ -68,9 +96,7 @@ public class ViewAds extends AppCompatActivity {
      */
     private void setupListeners() {
         // Botão Voltar
-        btnVoltar.setOnClickListener(v -> {
-            finish(); // Melhor usar finish() em vez de criar nova Intent
-        });
+        btnVoltar.setOnClickListener(v -> finish());
 
         // Botão Compartilhar
         btnShare.setOnClickListener(v -> shareAd());
@@ -78,18 +104,26 @@ public class ViewAds extends AppCompatActivity {
         // Botão Contato/Mais Informações
         btnContact.setOnClickListener(v -> showContactInfo());
 
+        // Botão Apagar (só visível se for o criador)
+        if (btnDelete != null) {
+            btnDelete.setOnClickListener(v -> confirmDeleteAd());
+        }
+
         // FAB Favorito
         fabFavorite.setOnClickListener(v -> toggleFavorite());
     }
 
     /**
      * Carrega os dados do anúncio
-     * Em produção, estes dados viriam de uma Intent ou API
      */
     private void loadAdData() {
-        // Receber dados da Intent
         Intent intent = getIntent();
         if (intent != null) {
+            // Obter dados básicos
+            adId = intent.getIntExtra("ad_id", -1);
+            autorId = intent.getIntExtra("autor_id", -1);
+            isFavorite = intent.getBooleanExtra("is_saved", false);
+            
             String title = intent.getStringExtra("title");
             String location = intent.getStringExtra("location");
             String description = intent.getStringExtra("description");
@@ -107,27 +141,185 @@ public class ViewAds extends AppCompatActivity {
             if (date != null) adDate.setText(date);
             if (author != null) adAuthor.setText(author);
             adImage.setImageResource(imageResId);
+
+            // Atualizar estado do favorito
+            updateFavoriteIcon();
+
+            // Mostrar botão de apagar se for o criador
+            checkIfCreator();
+
+            Log.d(TAG, "Ad ID: " + adId + ", Autor ID: " + autorId + ", Current User: " + currentUserId);
         }
 
-        // Dados de exemplo (caso não venha nada da Intent)
-        if (adTitle.getText().toString().equals("Título do Anúncio")) {
-            loadSampleData();
+        // Se não tiver dados, carregar da API
+        if (adId > 0 && adTitle.getText().toString().isEmpty()) {
+            loadAdFromApi();
         }
     }
 
     /**
-     * Carrega dados de exemplo
+     * Carrega dados do anúncio da API
      */
-    private void loadSampleData() {
-        adTitle.setText("Promoção Especial de Verão");
-        collapsingToolbar.setTitle("Promoção Especial");
-        adLocation.setText("Talatona, Luanda");
-        adsDescription.setText("Aproveite nossa promoção especial de verão! " +
-                "Descontos incríveis em todos os produtos. " +
-                "Válido até o final do mês. Venha conferir nossas ofertas " +
-                "e aproveite os melhores preços da cidade!");
-        adDate.setText("17/12/2024");
-        adAuthor.setText("LocationAds Store");
+    private void loadAdFromApi() {
+        apiService.getMessageById(adId).enqueue(new Callback<Ads>() {
+            @Override
+            public void onResponse(@NonNull Call<Ads> call, @NonNull Response<Ads> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Ads ad = response.body();
+                    
+                    adTitle.setText(ad.getTitulo());
+                    collapsingToolbar.setTitle(ad.getTitulo());
+                    adsDescription.setText(ad.getConteudo());
+                    
+                    if (ad.getLocal() != null) {
+                        adLocation.setText(ad.getLocal().getNome());
+                    }
+                    
+                    if (ad.getCriadoEm() != null) {
+                        adDate.setText(ad.getCriadoEm().substring(0, 10));
+                    }
+                    
+                    if (ad.getAutor() != null) {
+                        adAuthor.setText(ad.getAutor().getUsername());
+                    }
+                    
+                    autorId = ad.getAutorId();
+                    isFavorite = ad.isSalvo();
+                    
+                    updateFavoriteIcon();
+                    checkIfCreator();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Ads> call, @NonNull Throwable t) {
+                Log.e(TAG, "Erro ao carregar anúncio", t);
+            }
+        });
+    }
+
+    /**
+     * Verifica se o utilizador atual é o criador do anúncio
+     */
+    private void checkIfCreator() {
+        if (btnDelete != null) {
+            if (currentUserId > 0 && autorId > 0 && currentUserId == autorId) {
+                btnDelete.setVisibility(View.VISIBLE);
+                Log.d(TAG, "✅ Utilizador é o criador - mostrando botão apagar");
+            } else {
+                btnDelete.setVisibility(View.GONE);
+                Log.d(TAG, "❌ Utilizador não é o criador - escondendo botão apagar");
+            }
+        }
+    }
+
+    /**
+     * Confirma antes de apagar o anúncio
+     */
+    private void confirmDeleteAd() {
+        new AlertDialog.Builder(this)
+                .setTitle("Apagar Anúncio")
+                .setMessage("Tem certeza que deseja apagar este anúncio? Esta ação não pode ser desfeita.")
+                .setPositiveButton("Apagar", (dialog, which) -> deleteAd())
+                .setNegativeButton("Cancelar", null)
+                .setIcon(R.drawable.ic_delete)
+                .show();
+    }
+
+    /**
+     * Apaga o anúncio
+     */
+    private void deleteAd() {
+        if (adId <= 0) {
+            Toast.makeText(this, "Erro: ID do anúncio inválido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Log.d(TAG, "Apagando anúncio ID: " + adId);
+
+        apiService.deleteMessage(adId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(ViewAds.this, "Anúncio apagado com sucesso", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "✅ Anúncio apagado");
+                    
+                    // Voltar para a tela anterior
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    Log.e(TAG, "Erro ao apagar: " + response.code());
+                    if (response.code() == 403) {
+                        Toast.makeText(ViewAds.this, "Sem permissão para apagar este anúncio", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ViewAds.this, "Erro ao apagar anúncio", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                Log.e(TAG, "Falha ao apagar anúncio", t);
+                Toast.makeText(ViewAds.this, "Erro de conexão", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    /**
+     * Atualiza o ícone de favorito
+     */
+    private void updateFavoriteIcon() {
+        if (isFavorite) {
+            fabFavorite.setImageResource(R.drawable.ic_favorite_filled);
+        } else {
+            fabFavorite.setImageResource(R.drawable.ic_favorite_border);
+        }
+    }
+
+    /**
+     * Alterna estado de favorito
+     */
+    private void toggleFavorite() {
+        if (adId <= 0) {
+            Toast.makeText(this, "Erro: ID do anúncio inválido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (isFavorite) {
+            // Remover dos favoritos
+            apiService.unsaveMessage(adId).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        isFavorite = false;
+                        updateFavoriteIcon();
+                        Toast.makeText(ViewAds.this, "Removido dos favoritos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    Toast.makeText(ViewAds.this, "Erro ao remover dos favoritos", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            // Adicionar aos favoritos
+            apiService.saveMessage(adId).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        isFavorite = true;
+                        updateFavoriteIcon();
+                        Toast.makeText(ViewAds.this, "Adicionado aos favoritos", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                    Toast.makeText(ViewAds.this, "Erro ao adicionar aos favoritos", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     /**
@@ -136,7 +328,8 @@ public class ViewAds extends AppCompatActivity {
     private void shareAd() {
         String shareText = adTitle.getText().toString() + "\n" +
                 adLocation.getText().toString() + "\n\n" +
-                adsDescription.getText().toString();
+                adsDescription.getText().toString() + "\n\n" +
+                "Enviado via LocationAds";
 
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
@@ -146,8 +339,7 @@ public class ViewAds extends AppCompatActivity {
         try {
             startActivity(Intent.createChooser(shareIntent, "Compartilhar via"));
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(this, "Nenhum app de compartilhamento encontrado",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nenhum app de compartilhamento encontrado", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -155,84 +347,6 @@ public class ViewAds extends AppCompatActivity {
      * Mostra informações de contato
      */
     private void showContactInfo() {
-        // Aqui você pode:
-        // 1. Abrir um dialog com informações de contato
-        // 2. Abrir WhatsApp
-        // 3. Fazer uma ligação
-        // 4. Enviar email
-        // 5. Abrir tela de detalhes da empresa
-
-        Toast.makeText(this,
-                "Entrando em contato com " + adAuthor.getText().toString(),
-                Toast.LENGTH_SHORT).show();
-
-        // Exemplo: Abrir WhatsApp (descomente se quiser usar)
-        // openWhatsApp("244999999999", "Olá, vi seu anúncio no LocationAds!");
-    }
-
-    /**
-     * Abre WhatsApp com número e mensagem
-     */
-    private void openWhatsApp(String phoneNumber, String message) {
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            String url = "https://api.whatsapp.com/send?phone=" + phoneNumber +
-                    "&text=" + android.net.Uri.encode(message);
-            intent.setData(android.net.Uri.parse(url));
-            startActivity(intent);
-        } catch (Exception e) {
-            Toast.makeText(this, "WhatsApp não instalado", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**
-     * Alterna estado de favorito
-     */
-    private void toggleFavorite() {
-        isFavorite = !isFavorite;
-
-        if (isFavorite) {
-            // Adicionar aos favoritos
-            fabFavorite.setImageResource(R.drawable.ic_favorite_filled);
-            Toast.makeText(this, "Adicionado aos favoritos", Toast.LENGTH_SHORT).show();
-
-            // Aqui você salvaria no banco de dados ou SharedPreferences
-            // saveFavorite();
-        } else {
-            // Remover dos favoritos
-            fabFavorite.setImageResource(R.drawable.ic_favorite_border);
-            Toast.makeText(this, "Removido dos favoritos", Toast.LENGTH_SHORT).show();
-
-            // Aqui você removeria do banco de dados
-            // removeFavorite();
-        }
-    }
-
-    /**
-     * Salva o anúncio como favorito
-     */
-    private void saveFavorite() {
-        // Implementar salvamento em banco de dados ou SharedPreferences
-        // Exemplo com SharedPreferences:
-        /*
-        SharedPreferences prefs = getSharedPreferences("favorites", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        String adId = getIntent().getStringExtra("adId");
-        editor.putBoolean("fav_" + adId, true);
-        editor.apply();
-        */
-    }
-
-    /**
-     * Remove o anúncio dos favoritos
-     */
-    private void removeFavorite() {
-        // Implementar remoção do banco de dados ou SharedPreferences
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+        Toast.makeText(this, "Entrando em contato com " + adAuthor.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 }

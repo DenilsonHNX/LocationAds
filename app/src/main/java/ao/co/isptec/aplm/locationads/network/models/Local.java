@@ -6,7 +6,10 @@ import java.util.List;
 public class Local {
 
     @SerializedName("id")
-    private Integer id; // Será usado apenas ao RECEBER da API
+    private Integer id;
+
+    @SerializedName("userId")
+    private Integer userId;
 
     @SerializedName("nome")
     private String nome;
@@ -29,7 +32,6 @@ public class Local {
     // Construtor para CRIAR local (sem ID) - não seta o ID
     public Local(String nome, String tipo, Double latitude, Double longitude,
                  Integer raio, List<String> wifiIds) {
-        // NÃO setar o ID aqui
         this.nome = nome;
         this.tipo = tipo;
         this.latitude = latitude;
@@ -57,6 +59,14 @@ public class Local {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getNome() {

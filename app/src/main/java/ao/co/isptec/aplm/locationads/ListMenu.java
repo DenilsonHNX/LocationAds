@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
-<<<<<<< HEAD
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -39,13 +36,9 @@ public class ListMenu extends AppCompatActivity {
     private RecyclerView recyclerViewAnuncios;
     private MaterialCardView emptyStateCard;
     private TextView txtTotalAnuncios;
-<<<<<<< HEAD
     private TextView emptyStateText;
     private ImageButton btnVoltar;
     private FloatingActionButton fabHome;
-=======
-    private ImageButton btnVoltar;
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
     // Adapters
     private AnunciosAdapter adapterGuardados;
@@ -64,10 +57,7 @@ public class ListMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_menu);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         // Inicializar API
         apiService = ApiClient.getInstance(this).getApiService();
 
@@ -92,10 +82,7 @@ public class ListMenu extends AppCompatActivity {
         recyclerViewAnuncios = findViewById(R.id.recyclerViewAnuncios);
         emptyStateCard = findViewById(R.id.emptyStateCard);
         txtTotalAnuncios = findViewById(R.id.txtTotalAnuncios);
-<<<<<<< HEAD
         emptyStateText = findViewById(R.id.emptyStateText);
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         btnVoltar = findViewById(R.id.btnVoltar);
 
         // Configurar RecyclerView
@@ -123,16 +110,12 @@ public class ListMenu extends AppCompatActivity {
      */
     private void setupListeners() {
         // Botão voltar
-<<<<<<< HEAD
         btnVoltar.setOnClickListener(v -> {
             Intent intent = new Intent(ListMenu.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
             finish();
         });
-=======
-        btnVoltar.setOnClickListener(v -> finish());
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
         // TabLayout - Alternar entre Guardados e Criados
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -161,10 +144,7 @@ public class ListMenu extends AppCompatActivity {
      * Carrega os dados da API
      */
     private void loadData() {
-<<<<<<< HEAD
         Log.d(TAG, "========== CARREGANDO DADOS ==========");
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         loadAnunciosGuardados();
         loadAnunciosCriados();
     }
@@ -173,25 +153,17 @@ public class ListMenu extends AppCompatActivity {
      * Carrega anúncios guardados/salvos
      */
     private void loadAnunciosGuardados() {
-<<<<<<< HEAD
         Log.d(TAG, "📥 Carregando anúncios guardados...");
-=======
-        Log.d(TAG, "Carregando anúncios guardados...");
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
         apiService.getSavedMessages().enqueue(new Callback<List<Ads>>() {
             @Override
             public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
-<<<<<<< HEAD
                 Log.d(TAG, "📨 Resposta getSavedMessages: " + response.code());
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                 if (response.isSuccessful() && response.body() != null) {
                     anunciosGuardados.clear();
                     anunciosGuardados.addAll(response.body());
 
-<<<<<<< HEAD
                     Log.d(TAG, "✅ Anúncios guardados carregados: " + anunciosGuardados.size());
 
                     // Log de cada anúncio
@@ -199,24 +171,17 @@ public class ListMenu extends AppCompatActivity {
                         Ads ads = anunciosGuardados.get(i);
                         Log.d(TAG, "  " + (i + 1) + ". " + ads.getTitulo());
                     }
-=======
-                    Log.d(TAG, "✅ Anúncios guardados: " + anunciosGuardados.size());
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
                     runOnUiThread(() -> {
                         if (currentTab == 0) {
                             updateUI();
-<<<<<<< HEAD
                             Toast.makeText(ListMenu.this,
                                     anunciosGuardados.size() + " anúncios guardados",
                                     Toast.LENGTH_SHORT).show();
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                         }
                     });
                 } else {
                     Log.e(TAG, "❌ Erro ao carregar guardados: " + response.code());
-<<<<<<< HEAD
 
                     try {
                         String errorBody = response.errorBody() != null ?
@@ -232,11 +197,6 @@ public class ListMenu extends AppCompatActivity {
                             Toast.makeText(ListMenu.this,
                                     "Erro ao carregar anúncios guardados",
                                     Toast.LENGTH_SHORT).show();
-=======
-                    runOnUiThread(() -> {
-                        if (currentTab == 0) {
-                            updateUI();
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                         }
                     });
                 }
@@ -245,17 +205,11 @@ public class ListMenu extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Ads>> call, Throwable t) {
                 Log.e(TAG, "❌ Falha ao carregar guardados: " + t.getMessage());
-<<<<<<< HEAD
                 t.printStackTrace();
 
                 runOnUiThread(() -> {
                     Toast.makeText(ListMenu.this,
                             "Erro de conexão ao carregar guardados",
-=======
-                runOnUiThread(() -> {
-                    Toast.makeText(ListMenu.this,
-                            "Erro ao carregar anúncios guardados",
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                             Toast.LENGTH_SHORT).show();
                     if (currentTab == 0) {
                         updateUI();
@@ -269,25 +223,17 @@ public class ListMenu extends AppCompatActivity {
      * Carrega anúncios criados pelo usuário
      */
     private void loadAnunciosCriados() {
-<<<<<<< HEAD
         Log.d(TAG, "📥 Carregando anúncios criados...");
-=======
-        Log.d(TAG, "Carregando anúncios criados...");
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
         apiService.getMyMessages().enqueue(new Callback<List<Ads>>() {
             @Override
             public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
-<<<<<<< HEAD
                 Log.d(TAG, "📨 Resposta getMyMessages: " + response.code());
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                 if (response.isSuccessful() && response.body() != null) {
                     anunciosCriados.clear();
                     anunciosCriados.addAll(response.body());
 
-<<<<<<< HEAD
                     Log.d(TAG, "✅ Anúncios criados carregados: " + anunciosCriados.size());
 
                     // Log de cada anúncio
@@ -296,24 +242,17 @@ public class ListMenu extends AppCompatActivity {
                         Log.d(TAG, "  " + (i + 1) + ". " + ads.getTitulo() +
                                ", Local: " + ads.getLocalId() + ")");
                     }
-=======
-                    Log.d(TAG, "✅ Anúncios criados: " + anunciosCriados.size());
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
                     runOnUiThread(() -> {
                         if (currentTab == 1) {
                             updateUI();
-<<<<<<< HEAD
                             Toast.makeText(ListMenu.this,
                                     anunciosCriados.size() + " anúncios criados por você",
                                     Toast.LENGTH_SHORT).show();
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                         }
                     });
                 } else {
                     Log.e(TAG, "❌ Erro ao carregar criados: " + response.code());
-<<<<<<< HEAD
 
                     try {
                         String errorBody = response.errorBody() != null ?
@@ -329,11 +268,6 @@ public class ListMenu extends AppCompatActivity {
                             Toast.makeText(ListMenu.this,
                                     "Erro ao carregar seus anúncios",
                                     Toast.LENGTH_SHORT).show();
-=======
-                    runOnUiThread(() -> {
-                        if (currentTab == 1) {
-                            updateUI();
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                         }
                     });
                 }
@@ -342,17 +276,11 @@ public class ListMenu extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Ads>> call, Throwable t) {
                 Log.e(TAG, "❌ Falha ao carregar criados: " + t.getMessage());
-<<<<<<< HEAD
                 t.printStackTrace();
 
                 runOnUiThread(() -> {
                     Toast.makeText(ListMenu.this,
                             "Erro de conexão ao carregar seus anúncios",
-=======
-                runOnUiThread(() -> {
-                    Toast.makeText(ListMenu.this,
-                            "Erro ao carregar anúncios criados",
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                             Toast.LENGTH_SHORT).show();
                     if (currentTab == 1) {
                         updateUI();
@@ -366,11 +294,7 @@ public class ListMenu extends AppCompatActivity {
      * Mostra a aba de anúncios guardados
      */
     private void showGuardados() {
-<<<<<<< HEAD
         Log.d(TAG, "👁️ Mostrando anúncios guardados");
-=======
-        Log.d(TAG, "Mostrando anúncios guardados");
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         recyclerViewAnuncios.setAdapter(adapterGuardados);
         updateUI();
     }
@@ -379,11 +303,7 @@ public class ListMenu extends AppCompatActivity {
      * Mostra a aba de anúncios criados
      */
     private void showCriados() {
-<<<<<<< HEAD
         Log.d(TAG, "👁️ Mostrando anúncios criados");
-=======
-        Log.d(TAG, "Mostrando anúncios criados");
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         recyclerViewAnuncios.setAdapter(adapterCriados);
         updateUI();
     }
@@ -394,7 +314,6 @@ public class ListMenu extends AppCompatActivity {
     private void updateUI() {
         List<Ads> currentList = currentTab == 0 ? anunciosGuardados : anunciosCriados;
         AnunciosAdapter currentAdapter = currentTab == 0 ? adapterGuardados : adapterCriados;
-<<<<<<< HEAD
         String emptyMessage = currentTab == 0 ?
                 "Você ainda não guardou nenhum anúncio" :
                 "Você ainda não criou nenhum anúncio";
@@ -410,37 +329,22 @@ public class ListMenu extends AppCompatActivity {
 
         // Notificar adapter
         currentAdapter.updateData(currentList);
-=======
-
-        // Atualizar contador
-        txtTotalAnuncios.setText(String.valueOf(currentList.size()));
-
-        // Notificar adapter
-        currentAdapter.notifyDataSetChanged();
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 
         // Mostrar/ocultar empty state
         if (currentList.isEmpty()) {
             recyclerViewAnuncios.setVisibility(View.GONE);
             emptyStateCard.setVisibility(View.VISIBLE);
-<<<<<<< HEAD
             Log.d(TAG, "📭 Empty state visível");
         } else {
             recyclerViewAnuncios.setVisibility(View.VISIBLE);
             emptyStateCard.setVisibility(View.GONE);
             Log.d(TAG, "📋 Lista visível com " + currentList.size() + " itens");
-=======
-        } else {
-            recyclerViewAnuncios.setVisibility(View.VISIBLE);
-            emptyStateCard.setVisibility(View.GONE);
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-<<<<<<< HEAD
         Log.d(TAG, "🔄 onResume - Recarregando dados...");
         // Recarregar dados quando voltar para a activity
         loadData();
@@ -452,9 +356,4 @@ public class ListMenu extends AppCompatActivity {
         // Limpar referências
         apiService = null;
     }
-=======
-        // Recarregar dados quando voltar para a activity
-        loadData();
-    }
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 }

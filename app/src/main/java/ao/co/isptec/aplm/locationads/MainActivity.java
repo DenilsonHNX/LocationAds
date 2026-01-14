@@ -44,10 +44,7 @@ import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
 import retrofit2.Call;
-<<<<<<< HEAD
 import retrofit2.Callback;
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -59,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Views
     private FusedLocationProviderClient fusedLocationClient;
     private GoogleMap mMap;
-<<<<<<< HEAD
 
     private List<Ads> anunciosWhitelist = new ArrayList<>();
     private List<Ads> anunciosCriados = new ArrayList<>();
@@ -68,8 +64,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private AnunciosAdapter adapterCriados;
 
     private TextView emptyStateText;
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     private RecyclerView listaLocais;
     private RecyclerView recyclerViewAnuncios;
     private LocaisAdapter locaisAdapter;
@@ -87,11 +81,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     // Data
     private Map<String, String> perfilUsuario = new HashMap<>();
 
-<<<<<<< HEAD
     private int currentTab = 0;
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,10 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         locActual = findViewById(R.id.locActual);
         txtTotalAnuncios = findViewById(R.id.txtTotalAnuncios);
         tabLayout = findViewById(R.id.tabLayout);
-<<<<<<< HEAD
         emptyStateText = findViewById(R.id.emptyStateText);
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
         emptyStateCard = findViewById(R.id.emptyStateCard);
     }
 
@@ -140,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
      * Configura os RecyclerViews
      */
     private void setupRecyclerViews() {
-<<<<<<< HEAD
 
         adapterWhitelist = new AnunciosAdapter(this, anunciosWhitelist);
         adapterCriados = new AnunciosAdapter(this, anunciosCriados);
@@ -148,11 +135,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 // Usa o adapter da whitelist por default
         recyclerViewAnuncios.setAdapter(adapterWhitelist);
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
-        // RecyclerView de Locais
+        // RecyclerView de Locais - com listener para click e delete
         listaLocais.setLayoutManager(new LinearLayoutManager(this));
-        locaisAdapter = new LocaisAdapter(new ArrayList<>());
+        locaisAdapter = new LocaisAdapter(this, new ArrayList<>(), new LocaisAdapter.OnLocalClickListener() {
+            @Override
+            public void onLocalClick(Local local) {
+                // Ir para o local no mapa
+                if (local.getLatitude() != null && local.getLongitude() != null) {
+                    LatLng posicao = new LatLng(local.getLatitude(), local.getLongitude());
+                    if (mMap != null) {
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(posicao, 16));
+                        showMap();
+                    }
+                }
+            }
+            
+            @Override
+            public void onLocalDeleted(Local local) {
+                // Recarregar a lista de locais
+                buscarTodosLocais();
+            }
+        });
         listaLocais.setAdapter(locaisAdapter);
 
         // RecyclerView de Anúncios
@@ -352,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     final int totalLocais = locais.size();
                     final int[] locaisProcessados = {0};
 
-<<<<<<< HEAD
                     // Teste ----------
 
                     apiService.getAdsWhitelist().enqueue(new Callback<List<Ads>>() {
@@ -425,8 +427,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
                     // Buscar mensagens de cada local
                     for (Local local : locais) {
                         apiService.getMessagesByLocation(local.getId())
@@ -650,6 +650,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onResume();
         // Recarregar anúncios quando voltar para a activity
         loadAds();
+        
+        // Iniciar serviço de rastreamento de localização se tiver permissão
+        startLocationTrackingIfPermitted();
+        
+        // Iniciar sistema de notificações (FCM + fallback polling)
+        initializeNotifications();
+    }
+    
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // O NotificationManager gerencia FCM e polling automaticamente
+        // FCM continua em background, polling para quando app não está visível
+    }
+    
+    /**
+     * Inicializa o sistema de notificações (FCM com fallback para polling)
+     */
+    private void initializeNotifications() {
+        ao.co.isptec.aplm.locationads.service.NotificationManager
+                .getInstance(this).initialize();
+        Log.d(TAG, "✅ Sistema de notificações inicializado");
+    }
+    
+    /**
+     * Inicia o serviço de rastreamento de localização se tiver permissão
+     */
+    private void startLocationTrackingIfPermitted() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            
+            if (!ao.co.isptec.aplm.locationads.service.LocationTrackingService.isRunning(this)) {
+                ao.co.isptec.aplm.locationads.service.LocationTrackingService.start(this);
+                Log.d(TAG, "✅ Serviço de rastreamento de localização iniciado");
+            }
+        }
     }
 
     /**
@@ -737,7 +773,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 "Não foi possível obter sua localização. Usando Luanda como padrão.",
                 Toast.LENGTH_LONG).show();
     }
-<<<<<<< HEAD
 
     private void updateUI() {
 
@@ -769,6 +804,4 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "✅ UI atualizada com " + anunciosFiltrados.size() + " anúncios");
     }
 
-=======
->>>>>>> 20b503b5e93938c1d66742394c6a98ea2edecf31
 }

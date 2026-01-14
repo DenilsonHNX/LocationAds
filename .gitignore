@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+firebase-service-account.json
+build.log
+*.json.bak
