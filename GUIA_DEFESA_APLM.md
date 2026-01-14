@@ -47,14 +47,78 @@ Implementamos uma estratégia robusta:
 - Usamos **ConstraintLayout** na maioria dos layouts. Isso permite que a interface seja fluída e se ajuste a diferentes tamanhos de ecrã sem aninhamento excessivo de Views (o que melhora a performance de renderização).
 - **RecyclerView**: Usa o padrão **ViewHolder**. Em vez de criar centenas de Views para uma lista, ele reaproveita as Views que saem do ecrã para mostrar novos dados.
 
-### F. Persistência de Dados (SharedPreferences)
-- Nem tudo precisa de uma Base de Dados SQLite. Para dados simples como o **Token JWT** e o **ID do utilizador**, usamos `SharedPreferences`.
-- É um sistema de armazenamento chave-valor persistente no ficheiro XML privado da aplicação.
-- *Local de uso*: `ProfileManager.java` e `LoginActivity.java`.
+### G. Intents: Explícitas vs Implícitas
+- **Intent Explícita**: Usada para navegar internamente na app (ex: de `LoginActivity` para `MainActivity`). Nós dizemos exatamente qual classe deve ser aberta.
+```java
+Intent intent = new Intent(this, MainActivity.class);
+startActivity(intent);
+```
+- **Intent Implícita**: Usada para solicitar uma ação ao sistema (ex: compartilhar um anúncio). O sistema Android decide qual app pode resolver essa intenção.
+```java
+// No AnunciosAdapter para partilhar:
+Intent shareIntent = new Intent(Intent.ACTION_SEND);
+shareIntent.setType("text/plain");
+shareIntent.putExtra(Intent.EXTRA_TEXT, "Veja este anúncio...");
+context.startActivity(Intent.createChooser(shareIntent, "Partilhar via"));
+```
 
 ---
 
-## 💻 3. Trechos de Código para Explicar
+## 💻 3. Detalhes de Implementação (Onde está no código?)
+
+### 🕒 Frequência de Atualização de Localização
+**Pergunta: De quanto em quanto tempo a localização é atualizada?**
+- **Resposta**: O intervalo de atualização é de **30 segundos** (`LOCATION_UPDATE_INTERVAL`). No entanto, o Android pode fornecer atualizações mais rápidas se outra app as solicitar, até um limite de **15 segundos** (`LOCATION_FASTEST_INTERVAL`). Além disso, o código só envia para o servidor se o utilizador se mover mais de **10 metros** para poupar bateria e dados.
+- **Onde ver**: No ficheiro `LocationTrackingService.java`, linhas 56-57 (constantes) e linha 185 (lógica de distância).
+
+### 📡 Como funciona o reconhecimento de Local? (GPS vs WiFi)
+**Pergunta: Como é que a app sabe que estás "num local específicas"?**
+- **Resposta**: Existem dois modos:
+  1. **GPS**: O `LocationTrackingService` obtém as coordenadas e o servidor verifica se estás dentro do **raio** definido para aquele local.
+  2. **WiFi**: A app faz um scan das redes próximas (`scanNearbyWifi`). Se o **BSSID** (endereço MAC do router) de uma rede captada coincidir com um dos IDs registados no local, o servidor confirma a presença.
+- **Onde ver**: Método `scanNearbyWifi()` em `LocationTrackingService.java`.
+
+### 🗂️ Gestão de Listas Dinâmicas (RecyclerView)
+**Pergunta: Onde está a lógica de cliques e eliminação de itens?**
+- **Resposta**: Está nos Adapters. O `AnunciosAdapter` trata do clique para ver detalhes. O `LocaisAdapter` contém a lógica de visibilidade do botão de apagar baseado no ID do utilizador.
+- **Onde ver**: `ao.co.isptec.aplm.locationads.adapter.LocaisAdapter`, método `onBindViewHolder`.
+
+---
+
+## ❓ 4. Questões Prováveis na Defesa (Q&A) - Parte 2
+
+**P: Por que não usaste o GPS nativo do Android (`LocationManager`)?**
+*R:* Usamos o `FusedLocationProviderClient` do Google Play Services. Ele é superior porque funde dados de GPS, Wi-Fi e sensores para dar uma localização mais precisa com **menor consumo de bateria**. É a recomendação atual da Google para aplicações modernas.
+
+**P: O que é o Lifecycle (Ciclo de Vida) de uma Activity e como o usaste?**
+*R:* O ciclo de vida define estados como `onCreate`, `onStart`, `onResume`, `onPause`, `onStop` e `onDestroy`. No projeto:
+- `onCreate`: Inicializamos as Views e o Retrofit.
+- `onDestroy`: No Serviço, chamamos `stopLocationUpdates()` para garantir que o GPS para de funcionar quando o app é fechado, evitando gastos desnecessários.
+
+**P: Como é que a app lida com a mudança de orientação (telemóvel deitado)?**
+*R:* Por padrão, o Android destrói e recria a Activity. Para este projeto, focamos na adaptabilidade via **ConstraintLayout** para garantir que a UI não quebre, mas mantemos o estado via `SharedPreferences` para que o login não se perca.
+
+**P: Onde vejo as permissões no código?**
+*R:* Estão no `AndroidManifest.xml`. Mas como são permissões **Perigosas** (Location), o pedido real ao utilizador acontece na `MainActivity.java` através do método `requestPermissions`.
+
+**P: O que é um 'Callback' no teu código de rede?**
+*R:* É uma interface que "chama de volta" quando o servidor responde. O Retrofit corre o pedido numa thread de rede e, quando termina, executa o `onResponse` (se correu bem) ou `onFailure` (se houve erro) na thread principal.
+
+**P: Como funciona o sistema de Mulas (Descentralizado)?**
+*R:* É um conceito de Redes Oportunísticas. Se não houver internet num local, o utilizador pode "atribuir" uma mensagem a outro utilizador (`assignToMula`). A "mula" carrega os dados e, quando encontrar conexão ou chegar ao destino, faz o `deliverMessage`. Os endpoints estão prontos no `ApiService.java`.
+
+---
+
+## 📈 5. Mais Conceitos Académicos (Dicionário de Defesa)
+
+| Conceito | Explicação para o Professor |
+|----------|-----------------------------|
+| **ANR** | *Application Not Responding*. Ocorre se bloquearmos a Main Thread por mais de 5s. Evitamos isso usando Retrofit assíncrono. |
+| **Material Design** | Linguagem visual da Google usada no app (FloatingActionButtons, Cards, Elevation). |
+| **JWT** | *JSON Web Token*. Método seguro de autenticação. O servidor envia este token após o login e a app anexa-o nos headers de cada pedido subsequente. |
+| **BSSID** | Identificador único físico de um access point WiFi. Usado para localização indoor precisa. |
+| **ViewHolder** | Padrão usado no RecyclerView para evitar chamadas excessivas ao `findViewById()`, o que é custoso em termos de CPU. |
+
 
 ### Chamada à API (Retrofit)
 ```java

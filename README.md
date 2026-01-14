@@ -1,488 +1,3 @@
-# 📍 LocationAds
-
-Aplicação Android para gerenciamento de anúncios baseados em localização. Permite criar, visualizar e gerenciar anúncios que são exibidos para utilizadores em locais específicos.
-
----
-
-## 📋 Índice
-
-- [Visão Geral](#-visão-geral)
-- [Funcionalidades](#-funcionalidades)
-- [Arquitetura](#-arquitetura)
-- [Configuração](#-configuração)
-- [API Backend](#-api-backend)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [Modelos de Dados](#-modelos-de-dados)
-- [Serviços](#-serviços)
-- [Permissões](#-permissões)
-- [Build e Instalação](#-build-e-instalação)
-
----
-
-## 🎯 Visão Geral
-
-O **LocationAds** é uma aplicação Android que conecta utilizadores a anúncios relevantes com base na sua localização geográfica. Empresas e indivíduos podem criar locais e associar anúncios a esses locais, que serão exibidos para outros utilizadores quando estiverem nas proximidades.
-
-### Tecnologias Utilizadas
-
-| Componente | Tecnologia |
-|------------|------------|
-| **Plataforma** | Android (SDK 29-36) |
-| **Linguagem** | Java 17 |
-| **Build** | Gradle 8.13.1 (Kotlin DSL) |
-| **Mapas** | Google Maps SDK 19.2.0 |
-| **Networking** | Retrofit 2.9.0 + OkHttp |
-| **Push Notifications** | Firebase Cloud Messaging |
-| **Backend** | NestJS + Prisma + PostgreSQL |
-
----
-
-## ✨ Funcionalidades
-
-### 🔐 Autenticação
-- **Registo** de novos utilizadores com nome, email e password
-- **Login** com email e password
-- **Gestão de sessão** com tokens JWT armazenados em SharedPreferences
-- **Logout** seguro
-
-### 📍 Gestão de Locais
-- **Criar locais** baseados em:
-  - Coordenadas GPS (latitude, longitude, raio)
-  - Redes WiFi (lista de SSIDs)
-- **Visualizar** todos os locais no mapa ou lista
-- **Apagar** locais criados pelo próprio utilizador
-- Os locais são visíveis para **todos** os utilizadores
-
-### 📢 Gestão de Anúncios
-- **Criar anúncios** associados a locais
-- **Visualizar** anúncios em lista ou detalhes
-- **Filtrar** por whitelist/blacklist
-- **Apagar** anúncios criados pelo próprio utilizador
-- **Partilhar** anúncios com outros
-
-### 🔔 Notificações Push
-- **Firebase Cloud Messaging (FCM)** para notificações em tempo real
-- **Polling Fallback** automático quando FCM não está disponível
-- Notificações de novos anúncios em locais próximos
-
-### 📊 Rastreamento de Localização
-- **Serviço em background** para tracking contínuo
-- Atualização de localização a cada 30 segundos
-- Notificação de foreground para Android 8.0+
-
-### 👤 Perfil do Utilizador
-- Visualizar e editar dados do perfil
-- Ver estatísticas (anúncios criados, locais, etc.)
-
----
-
-## 🏗 Arquitetura
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        PRESENTATION                          │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐│
-│  │MainActivity│ │LoginActivity│ │ViewAds │ │ AddAds/AddLocal ││
-│  └──────────┘ └──────────┘ └──────────┘ └──────────────────┘│
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                         ADAPTERS                             │
-│  ┌──────────────────┐         ┌──────────────────┐          │
-│  │  AnunciosAdapter │         │   LocaisAdapter  │          │
-│  └──────────────────┘         └──────────────────┘          │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                         NETWORK                              │
-│  ┌──────────┐    ┌──────────┐    ┌──────────────────┐       │
-│  │ApiClient │───▶│ApiService│───▶│ Backend (Render) │       │
-│  └──────────┘    └──────────┘    └──────────────────┘       │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                         SERVICES                             │
-│  ┌─────────────────────┐  ┌─────────────────┐  ┌──────────┐ │
-│  │LocationTrackingService│  │NotificationPoller│  │FCMService│ │
-│  └─────────────────────┘  └─────────────────┘  └──────────┘ │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## ⚙️ Configuração
-
-### 1. Pré-requisitos
-
-```bash
-# Android SDK
-SDK 29 (mínimo)
-SDK 36 (compilação/target)
-
-# Java
-JDK 17 ou superior
-
-# Gradle
-8.13.1 (incluído via wrapper)
-```
-
-### 2. Configurar Google Maps
-
-1. Obter uma API Key no [Google Cloud Console](https://console.cloud.google.com/)
-2. Ativar "Maps SDK for Android"
-3. Adicionar a key em `app/src/main/res/values/google_maps_api.xml`:
-
-```xml
-<resources>
-    <string name="google_maps_key">SUA_API_KEY_AQUI</string>
-</resources>
-```
-
-### 3. Configurar Firebase
-
-1. Criar projeto no [Firebase Console](https://console.firebase.google.com/)
-2. Adicionar app Android com package `ao.co.isptec.aplm.locationads`
-3. Baixar `google-services.json` e colocar em `app/`
-4. Ativar Cloud Messaging
-
-### 4. Variáveis de Ambiente
-
-O backend está configurado em:
-```java
-// ApiClient.java
-private static final String BASE_URL = "https://backend-aplm-1.onrender.com/";
-```
-
----
-
-## 🌐 API Backend
-
-### Base URL
-```
-https://backend-aplm-1.onrender.com
-```
-
-### Endpoints Disponíveis
-
-#### AUTH - Autenticação
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/auth/register` | Registrar novo usuário |
-| POST | `/auth/login` | Fazer login e receber token JWT |
-| POST | `/auth/forgot-password` | Alterar senha do usuário |
-| GET | `/auth/profile` | Obter perfil do usuário autenticado |
-| POST | `/auth/update-fcm-token` | Atualizar token FCM do usuário |
-| POST | `/auth/usuarios/{userId}/fcm-token` | Salvar token FCM (compatível Android) |
-
-#### HEALTH - Verificação de Saúde
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/health` | Verificar se o servidor está funcionando |
-
-#### LOCATION - Gestão de Locais
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/locais` | Criar novo local (GPS ou WiFi) |
-| GET | `/locais` | Listar todos os locais |
-| GET | `/locais/{id}` | Obter local por ID |
-| DELETE | `/locais/{id}` | Apagar local (apenas criador) |
-
-#### MESSAGES - Gestão de Anúncios
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/messages` | Criar novo anúncio |
-| GET | `/messages` | Listar anúncios (com filtros opcionais) |
-| GET | `/messages/my-messages` | Listar anúncios do utilizador autenticado |
-| GET | `/messages/all-public` | Listar TODOS os anúncios públicos |
-| GET | `/messages/debug` | Debug: Ver informações sobre anúncios |
-| GET | `/messages/notifications` | Listar notificações do utilizador |
-| GET | `/messages/saved` | Listar anúncios salvos nos favoritos |
-| GET | `/messages/whitelist` | Anúncios onde o usuário está na whitelist |
-| GET | `/messages/blacklist` | Anúncios onde o usuário está na blacklist |
-| GET | `/messages/similar` | Anúncios similares baseados no perfil |
-| GET | `/messages/{id}` | Obter anúncio por ID |
-| POST | `/messages/{id}/save` | Salvar anúncio nos favoritos |
-| DELETE | `/messages/{id}/save` | Remover anúncio dos favoritos |
-| DELETE | `/messages/{id}` | Apagar anúncio (apenas autor) |
-
-#### MENSAGENS-TRANSITO - Sistema de Mulas
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| POST | `/mensagens-transito/assign/{anuncioId}/{mulaId}` | Atribuir anúncio a uma mula |
-| GET | `/mensagens-transito/mula` | Mensagens que a mula está transportando |
-| PUT | `/mensagens-transito/deliver/{transitoId}` | Marcar mensagem como entregue |
-| GET | `/mensagens-transito/local/{localId}` | Mensagens disponíveis para entrega |
-
-#### PERFIL - Gestão de Perfil do Utilizador
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/usuarios/{userId}/perfil` | Obter perfil do usuário |
-| POST | `/usuarios/{userId}/perfil` | Adicionar par chave-valor ao perfil |
-| PUT | `/usuarios/{userId}/perfil` | Atualizar perfil completo |
-| DELETE | `/usuarios/{userId}/perfil/{chave}` | Remover par chave-valor |
-
-#### PERFIL PUBLIC - Chaves Públicas
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/perfil/chaves` | Listar todas as chaves públicas do sistema |
-
----
-
-## 📁 Estrutura do Projeto
-
-```
-app/src/main/java/ao/co/isptec/aplm/locationads/
-├── MainActivity.java              # Activity principal com mapa e listas
-├── LoginActivity.java             # Tela de login
-├── RegisterActivity.java          # Tela de registo
-├── ViewAds.java                   # Visualizar detalhes de anúncio
-├── AddAds.java                    # Criar novo anúncio
-├── AddLocal.java                  # Criar novo local
-├── ProfileActivity.java           # Perfil do utilizador
-├── AboutActivity.java             # Sobre a aplicação
-│
-├── adapter/
-│   ├── AnunciosAdapter.java       # Adapter para lista de anúncios
-│   └── LocaisAdapter.java         # Adapter para lista de locais
-│
-├── network/
-│   ├── interfaces/
-│   │   └── ApiService.java        # Interface Retrofit com endpoints
-│   ├── models/
-│   │   ├── Ads.java               # Modelo de anúncio
-│   │   ├── Local.java             # Modelo de local
-│   │   ├── User.java              # Modelo de utilizador
-│   │   ├── Notificacao.java       # Modelo de notificação
-│   │   ├── LocationUpdate.java    # Modelo de atualização de localização
-│   │   └── MensagemTransito.java  # Modelo de mensagem em trânsito (mulas)
-│   └── singleton/
-│       ├── ApiClient.java         # Cliente Retrofit singleton
-│       └── ProfileManager.java    # Gestor de perfil
-│
-└── service/
-    ├── FCMService.java            # Serviço Firebase Cloud Messaging
-    ├── NotificationPoller.java    # Polling fallback para notificações
-    ├── NotificationManager.java   # Gestor central de notificações
-    └── LocationTrackingService.java # Serviço de rastreamento GPS
-```
-
----
-
-## 📊 Modelos de Dados
-
-### User (Utilizador)
-```java
-{
-    "id": Integer,
-    "nome": String,
-    "email": String,
-    "password": String  // Apenas no registo
-}
-```
-
-### Local
-```java
-{
-    "id": Integer,
-    "userId": Integer,      // ID do criador
-    "nome": String,
-    "tipo": String,         // "gps" ou "wifi"
-    "latitude": Double,
-    "longitude": Double,
-    "raio": Integer,        // Raio em metros
-    "wifiIds": List<String> // Lista de SSIDs (se tipo=wifi)
-}
-```
-
-### Ads (Anúncio/Mensagem)
-```java
-{
-    "id": Integer,
-    "autorId": Integer,     // ID do criador
-    "localId": Integer,     // Local associado
-    "titulo": String,
-    "conteudo": String,
-    "dataCriacao": String,
-    "dataExpiracao": String,
-    "imagemUrl": String
-}
-```
-
----
-
-## 🔧 Serviços
-
-### LocationTrackingService
-Serviço de foreground que rastreia a localização do utilizador em background.
-
-```java
-// Iniciar o serviço
-Intent intent = new Intent(context, LocationTrackingService.class);
-ContextCompat.startForegroundService(context, intent);
-
-// Parar o serviço
-stopService(new Intent(context, LocationTrackingService.class));
-```
-
-**Características:**
-- Atualiza localização a cada 30 segundos
-- Envia atualizações para o backend via `POST /locais/update-location`
-- Mostra notificação persistente (required para foreground service)
-
-### FCMService
-Recebe notificações push do Firebase.
-
-```java
-// Token é registado automaticamente
-// Notificações são exibidas via NotificationManager
-```
-
-### NotificationPoller
-Fallback quando FCM não está disponível.
-
-```java
-// Inicia polling a cada 60 segundos
-NotificationPoller.getInstance(context).startPolling();
-
-// Para o polling
-NotificationPoller.getInstance(context).stopPolling();
-```
-
-### NotificationManager
-Gestor central que combina FCM + Polling.
-
-```java
-NotificationManager manager = NotificationManager.getInstance(context);
-manager.initialize();  // Inicia FCM e configura fallback
-manager.shutdown();    // Para todos os serviços
-```
-
----
-
-## 🔒 Permissões
-
-```xml
-<!-- Localização -->
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-
-<!-- Rede -->
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
-<!-- Notificações -->
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-<uses-permission android:name="android.permission.VIBRATE" />
-
-<!-- Serviços em Background -->
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
-<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-```
-
----
-
-## 🔨 Build e Instalação
-
-### Compilar o Projeto
-
-```bash
-# Compilar apenas
-./gradlew compileDebugJavaWithJavac
-
-# Compilar e verificar
-./gradlew assembleDebug
-```
-
-### Gerar APK
-
-```bash
-# APK Debug
-./gradlew assembleDebug
-# Resultado: app/build/outputs/apk/debug/app-debug.apk
-
-# APK Release (requer keystore configurada)
-./gradlew assembleRelease
-```
-
-### Instalar no Dispositivo
-
-```bash
-# Via ADB
-adb install app/build/outputs/apk/debug/app-debug.apk
-
-# Ou via Gradle
-./gradlew installDebug
-```
-
----
-
-## 🧪 Testes
-
-### Executar Testes Unitários
-
-```bash
-./gradlew test
-```
-
-### Executar Testes Instrumentados
-
-```bash
-./gradlew connectedAndroidTest
-```
-
----
-
-## 🚀 Funcionalidades Futuras (Sistema Mulas)
-
-O backend já suporta um sistema descentralizado de entrega de mensagens ("mulas") para áreas sem conectividade:
-
-### Endpoints Disponíveis
-```
-POST /mensagens-transito          # Criar mensagem em trânsito
-GET  /mensagens-transito/destino  # Mensagens para entregar
-POST /mensagens-transito/{id}/entregar  # Confirmar entrega
-```
-
-### Como Funciona
-1. Utilizador A cria mensagem para local sem cobertura
-2. Mensagem fica em "trânsito"
-3. Utilizador B (mula) passa pelo local de origem
-4. Mula carrega mensagem
-5. Mula passa pelo local de destino
-6. Mensagem é entregue
-
----
-
-## 📝 Changelog
-
-### v1.0.0 (Janeiro 2026)
-- ✅ Autenticação (login, registo, logout)
-- ✅ CRUD de Locais (GPS e WiFi)
-- ✅ CRUD de Anúncios
-- ✅ Visualização em mapa e lista
-- ✅ Notificações Push (FCM + Polling)
-- ✅ Rastreamento de localização em background
-- ✅ Apagar anúncios/locais (apenas criador)
-- ✅ Visualizar locais de todos os utilizadores
-
----
-
-## 👥 Equipa
-
-Desenvolvido para a disciplina de **APLM** no **ISPTEC**.
-
----
-
-## 📄 Licença
-
-Este projeto é para fins educacionais.
 # 🎓 Guia de Preparação para Defesa - APLM (Android)
 
 Este documento foi criado para ajudar na defesa do projeto **LocationAds**. Ele cobre os conceitos teóricos exigidos na cadeira de Aplicações Móveis, explica a arquitetura do projeto e antecipa perguntas que professores rígidos costumam fazer.
@@ -532,14 +47,78 @@ Implementamos uma estratégia robusta:
 - Usamos **ConstraintLayout** na maioria dos layouts. Isso permite que a interface seja fluída e se ajuste a diferentes tamanhos de ecrã sem aninhamento excessivo de Views (o que melhora a performance de renderização).
 - **RecyclerView**: Usa o padrão **ViewHolder**. Em vez de criar centenas de Views para uma lista, ele reaproveita as Views que saem do ecrã para mostrar novos dados.
 
-### F. Persistência de Dados (SharedPreferences)
-- Nem tudo precisa de uma Base de Dados SQLite. Para dados simples como o **Token JWT** e o **ID do utilizador**, usamos `SharedPreferences`.
-- É um sistema de armazenamento chave-valor persistente no ficheiro XML privado da aplicação.
-- *Local de uso*: `ProfileManager.java` e `LoginActivity.java`.
+### G. Intents: Explícitas vs Implícitas
+- **Intent Explícita**: Usada para navegar internamente na app (ex: de `LoginActivity` para `MainActivity`). Nós dizemos exatamente qual classe deve ser aberta.
+```java
+Intent intent = new Intent(this, MainActivity.class);
+startActivity(intent);
+```
+- **Intent Implícita**: Usada para solicitar uma ação ao sistema (ex: compartilhar um anúncio). O sistema Android decide qual app pode resolver essa intenção.
+```java
+// No AnunciosAdapter para partilhar:
+Intent shareIntent = new Intent(Intent.ACTION_SEND);
+shareIntent.setType("text/plain");
+shareIntent.putExtra(Intent.EXTRA_TEXT, "Veja este anúncio...");
+context.startActivity(Intent.createChooser(shareIntent, "Partilhar via"));
+```
 
 ---
 
-## 💻 3. Trechos de Código para Explicar
+## 💻 3. Detalhes de Implementação (Onde está no código?)
+
+### 🕒 Frequência de Atualização de Localização
+**Pergunta: De quanto em quanto tempo a localização é atualizada?**
+- **Resposta**: O intervalo de atualização é de **30 segundos** (`LOCATION_UPDATE_INTERVAL`). No entanto, o Android pode fornecer atualizações mais rápidas se outra app as solicitar, até um limite de **15 segundos** (`LOCATION_FASTEST_INTERVAL`). Além disso, o código só envia para o servidor se o utilizador se mover mais de **10 metros** para poupar bateria e dados.
+- **Onde ver**: No ficheiro `LocationTrackingService.java`, linhas 56-57 (constantes) e linha 185 (lógica de distância).
+
+### 📡 Como funciona o reconhecimento de Local? (GPS vs WiFi)
+**Pergunta: Como é que a app sabe que estás "num local específicas"?**
+- **Resposta**: Existem dois modos:
+  1. **GPS**: O `LocationTrackingService` obtém as coordenadas e o servidor verifica se estás dentro do **raio** definido para aquele local.
+  2. **WiFi**: A app faz um scan das redes próximas (`scanNearbyWifi`). Se o **BSSID** (endereço MAC do router) de uma rede captada coincidir com um dos IDs registados no local, o servidor confirma a presença.
+- **Onde ver**: Método `scanNearbyWifi()` em `LocationTrackingService.java`.
+
+### 🗂️ Gestão de Listas Dinâmicas (RecyclerView)
+**Pergunta: Onde está a lógica de cliques e eliminação de itens?**
+- **Resposta**: Está nos Adapters. O `AnunciosAdapter` trata do clique para ver detalhes. O `LocaisAdapter` contém a lógica de visibilidade do botão de apagar baseado no ID do utilizador.
+- **Onde ver**: `ao.co.isptec.aplm.locationads.adapter.LocaisAdapter`, método `onBindViewHolder`.
+
+---
+
+## ❓ 4. Questões Prováveis na Defesa (Q&A) - Parte 2
+
+**P: Por que não usaste o GPS nativo do Android (`LocationManager`)?**
+*R:* Usamos o `FusedLocationProviderClient` do Google Play Services. Ele é superior porque funde dados de GPS, Wi-Fi e sensores para dar uma localização mais precisa com **menor consumo de bateria**. É a recomendação atual da Google para aplicações modernas.
+
+**P: O que é o Lifecycle (Ciclo de Vida) de uma Activity e como o usaste?**
+*R:* O ciclo de vida define estados como `onCreate`, `onStart`, `onResume`, `onPause`, `onStop` e `onDestroy`. No projeto:
+- `onCreate`: Inicializamos as Views e o Retrofit.
+- `onDestroy`: No Serviço, chamamos `stopLocationUpdates()` para garantir que o GPS para de funcionar quando o app é fechado, evitando gastos desnecessários.
+
+**P: Como é que a app lida com a mudança de orientação (telemóvel deitado)?**
+*R:* Por padrão, o Android destrói e recria a Activity. Para este projeto, focamos na adaptabilidade via **ConstraintLayout** para garantir que a UI não quebre, mas mantemos o estado via `SharedPreferences` para que o login não se perca.
+
+**P: Onde vejo as permissões no código?**
+*R:* Estão no `AndroidManifest.xml`. Mas como são permissões **Perigosas** (Location), o pedido real ao utilizador acontece na `MainActivity.java` através do método `requestPermissions`.
+
+**P: O que é um 'Callback' no teu código de rede?**
+*R:* É uma interface que "chama de volta" quando o servidor responde. O Retrofit corre o pedido numa thread de rede e, quando termina, executa o `onResponse` (se correu bem) ou `onFailure` (se houve erro) na thread principal.
+
+**P: Como funciona o sistema de Mulas (Descentralizado)?**
+*R:* É um conceito de Redes Oportunísticas. Se não houver internet num local, o utilizador pode "atribuir" uma mensagem a outro utilizador (`assignToMula`). A "mula" carrega os dados e, quando encontrar conexão ou chegar ao destino, faz o `deliverMessage`. Os endpoints estão prontos no `ApiService.java`.
+
+---
+
+## 📈 5. Mais Conceitos Académicos (Dicionário de Defesa)
+
+| Conceito | Explicação para o Professor |
+|----------|-----------------------------|
+| **ANR** | *Application Not Responding*. Ocorre se bloquearmos a Main Thread por mais de 5s. Evitamos isso usando Retrofit assíncrono. |
+| **Material Design** | Linguagem visual da Google usada no app (FloatingActionButtons, Cards, Elevation). |
+| **JWT** | *JSON Web Token*. Método seguro de autenticação. O servidor envia este token após o login e a app anexa-o nos headers de cada pedido subsequente. |
+| **BSSID** | Identificador único físico de um access point WiFi. Usado para localização indoor precisa. |
+| **ViewHolder** | Padrão usado no RecyclerView para evitar chamadas excessivas ao `findViewById()`, o que é custoso em termos de CPU. |
+
 
 ### Chamada à API (Retrofit)
 ```java
