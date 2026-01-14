@@ -41,10 +41,6 @@ public class Ads {
     @SerializedName("tags")
     private Map<String, String> tags;
 
-    // ✅ NOVO: Modo de entrega (centralizado/descentralizado)
-    @SerializedName("modoEntrega")
-    private String modoEntrega;
-
     @SerializedName("horaInicio")
     private String horaInicio;
 
@@ -198,6 +194,10 @@ public class Ads {
         return blacklist;
     }
     
+    public Map<String, String> getTags() {
+        return tags;
+    }
+    
     // Setters
     public void setId(int id) {
         this.id = id;
@@ -265,6 +265,10 @@ public class Ads {
     
     public void setBlacklist(List<Integer> blacklist) {
         this.blacklist = blacklist;
+    }
+    
+    public void setTags(Map<String, String> tags) {
+        this.tags = tags;
     }
     
     /**

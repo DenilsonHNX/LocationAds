@@ -116,7 +116,7 @@ public class PerfilAccount extends AppCompatActivity {
 
         ApiClient.getInstance(this)
                 .getApiService()
-                .getUserPerfil(userId,"Bearer " + token)
+                .getUserProfile(userId, "Bearer " + token)
                 .enqueue(new Callback<List<PerfilKeyValue>>() {
                     @Override
                     public void onResponse(Call<List<PerfilKeyValue>> call,

@@ -207,7 +207,8 @@ public class ProfileManager {
             return;
         }
 
-        apiService.getUserProfile(userId)
+        String token = TokenManager.getInstance(context).getToken();
+        apiService.getUserProfile(userId, "Bearer " + token)
                 .enqueue(new Callback<List<PerfilKeyValue>>() {
                     @Override
                     public void onResponse(@NonNull Call<List<PerfilKeyValue>> call,
@@ -358,5 +359,13 @@ public class ProfileManager {
             return currentProfile.getUsername();
         }
         return "";
+    }
+
+    /**
+     * Atualizar propriedade do perfil
+     * Utiliza addProperty como Upsert
+     */
+    public void updateProperty(String key, String value, ProfileCallback callback) {
+        addProperty(key, value, callback);
     }
 }

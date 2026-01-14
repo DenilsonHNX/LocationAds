@@ -34,6 +34,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
 import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
@@ -177,17 +178,16 @@ public class AddAds extends AppCompatActivity {
         Log.d(TAG, "🔑 Carregando perfil do usuário ID: " + userId);
 
         // Obter token
-        SharedPreferences prefs = getSharedPreferences("user_prefs", MODE_PRIVATE);
-        String token = prefs.getString("token", "");
+        String token = TokenManager.getInstance(this).getToken();
 
-        if (token.isEmpty()) {
+        if (token == null || token.isEmpty()) {
             Log.e(TAG, "❌ Token não encontrado");
             btnAdicionarTag.setEnabled(false);
             return;
         }
 
         // ✅ CORRIGIDO: userId primeiro, token depois
-        apiService.getUserPerfil(userId, "Bearer " + token)
+        apiService.getUserProfile(userId, "Bearer " + token)
                 .enqueue(new Callback<List<PerfilKeyValue>>() {
                     @Override
                     public void onResponse(Call<List<PerfilKeyValue>> call,
@@ -506,8 +506,9 @@ public class AddAds extends AppCompatActivity {
             Log.d(TAG, "  Tag: " + entry.getKey() + " = " + entry.getValue());
         }
 
-        // ✅ Passar objeto Ads
-        apiService.addAdAlternative(novoAnuncio).enqueue(new Callback<Ads>() {
+        // ✅ Passar objeto Ads com token
+        String token = TokenManager.getInstance(this).getToken();
+        apiService.createMessage("Bearer " + token, novoAnuncio).enqueue(new Callback<Ads>() {
             @Override
             public void onResponse(Call<Ads> call, Response<Ads> response) {
                 setLoadingState(false);
@@ -643,7 +644,8 @@ public class AddAds extends AppCompatActivity {
         Log.d(TAG, "Policy: " + policy);
         Log.d(TAG, "Restrições: " + (restricoes != null ? restricoes.toString() : "nenhuma"));
 
-        apiService.createMessage(novoAnuncio).enqueue(new Callback<Ads>() {
+        String token = TokenManager.getInstance(this).getToken();
+        apiService.createMessage("Bearer " + token, novoAnuncio).enqueue(new Callback<Ads>() {
             @Override
             public void onResponse(Call<Ads> call, Response<Ads> response) {
                 setLoadingState(false);

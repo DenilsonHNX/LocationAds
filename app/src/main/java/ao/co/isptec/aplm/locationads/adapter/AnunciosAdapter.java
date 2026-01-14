@@ -2,6 +2,7 @@ package ao.co.isptec.aplm.locationads.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import java.util.Set;
 
 import ao.co.isptec.aplm.locationads.R;
 import ao.co.isptec.aplm.locationads.ViewAds;
+import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
 import okhttp3.ResponseBody; // ✅ ESTE É O CORRETO!

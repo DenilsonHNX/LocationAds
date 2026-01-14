@@ -43,6 +43,10 @@ import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.models.UserProfile;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
+import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
+import ao.co.isptec.aplm.locationads.services.LocationTracker;
+import ao.co.isptec.aplm.locationads.service.NotificationManager;
 import ao.co.isptec.aplm.locationads.utils.MessageDeliveryManager;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,9 +54,6 @@ import retrofit2.Response;
 
 import com.google.gson.Gson;
 
-import ao.co.isptec.aplm.locationads.services.LocationTracker;
-import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
-import ao.co.isptec.aplm.locationads.utils.GpsUtils;
 import android.location.Location;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -83,8 +84,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     // Data
     private ApiService apiService;
-    private List<Ads> anunciosFiltrados;
+    private List<Ads> anunciosFiltrados = new ArrayList<>();
     private Map<String, String> perfilUsuario = new HashMap<>();
+
+    private MessageDeliveryManager deliveryManager;
+    private ProfileManager profileManager;
+    private LocationTracker locationTracker;
+    private Integer currentDetectedLocalId = null;
+    private int currentLocalId = -1;
+    private boolean isLoadingAds = false;
+    private int meuUserId = -1;
+    private UserProfile currentUserProfile;
 
     private int currentTab = 0;
 
@@ -516,19 +526,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d(TAG, "   Local ID: " + currentDetectedLocalId);
         Log.d(TAG, "========================================");
 
-        // Obter perfil do usuário
-        UserProfile userProfile = profileManager.getCurrentProfile();
-
-                    // Teste ----------
-
-        Log.d(TAG, "👤 Meu User ID: " + meuUserId);
-        Log.d(TAG, "📋 Perfil: " + userProfile.getProperties());
-
         // Buscar mensagens do local
         apiService.getMessagesByLocation(currentDetectedLocalId)
                 .enqueue(new retrofit2.Callback<List<Ads>>() {
                     @Override
-                    public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
+                    public void onResponse(@NonNull Call<List<Ads>> call, @NonNull Response<List<Ads>> response) {
                         isLoadingAds = false;
 
                         if (response.isSuccessful() && response.body() != null) {
@@ -564,64 +566,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 updateAdsUI();
                             });
                         }
-                    });
-
-
-
-                    // Buscar mensagens de cada local
-                    for (Local local : locais) {
-                        apiService.getMessagesByLocation(local.getId())
-                                .enqueue(new retrofit2.Callback<List<Ads>>() {
-                                    @Override
-                                    public void onResponse(Call<List<Ads>> call, Response<List<Ads>> response) {
-                                        if (response.isSuccessful() && response.body() != null) {
-                                            List<Ads> mensagensDoLocal = response.body();
-                                            anunciosFiltrados.addAll(mensagensDoLocal);
-                                            Log.d(TAG, "✅ Mensagens do local " + local.getNome() +
-                                                    " (" + local.getId() + "): " + mensagensDoLocal.size());
-                                        } else {
-                                            Log.w(TAG, "⚠️ Erro ao buscar mensagens do local " +
-                                                    local.getNome() + ": " + response.code());
-                                        }
-
-                                        locaisProcessados[0]++;
-
-                                        // Se processou todos os locais, atualizar UI
-                                        if (locaisProcessados[0] == totalLocais) {
-                                            Log.d(TAG, "✅ Total de anúncios carregados: " +
-                                                    anunciosFiltrados.size());
-                                            Log.d(TAG, "=========================================");
-
-                                            runOnUiThread(() -> {
-                                                updateAdsUI();
-                                                Toast.makeText(MainActivity.this,
-                                                        anunciosFiltrados.size() + " anúncios carregados",
-                                                        Toast.LENGTH_SHORT).show();
-                                            });
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<List<Ads>> call, Throwable t) {
-                                        Log.e(TAG, "❌ Erro ao buscar mensagens do local " +
-                                                local.getNome() + ": " + t.getMessage());
-
-                                        locaisProcessados[0]++;
-
-                                        // Se processou todos os locais (mesmo com erros), atualizar UI
-                                        if (locaisProcessados[0] == totalLocais) {
-                                            Log.d(TAG, "Total de anúncios carregados (com erros): " +
-                                                    anunciosFiltrados.size());
-                                            Log.d(TAG, "=========================================");
-
-                                            runOnUiThread(() -> updateAdsUI());
-                                        }
-                                    }
-                                });
                     }
 
                     @Override
-                    public void onFailure(Call<List<Ads>> call, Throwable t) {
+                    public void onFailure(@NonNull Call<List<Ads>> call, @NonNull Throwable t) {
                         isLoadingAds = false;
                         Log.e(TAG, "❌ Falha ao buscar mensagens", t);
 
@@ -928,7 +876,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onResume() {
         super.onResume();
-        // Recarregar anúncios quando voltar para a activity
+        // Carregar anúncios quando voltar para a activity
         loadAds();
         
         // Iniciar serviço de rastreamento de localização se tiver permissão
@@ -943,38 +891,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onPause();
         // O NotificationManager gerencia FCM e polling automaticamente
         // FCM continua em background, polling para quando app não está visível
+        
+        // Se quiser economizar bateria, pode parar o tracking aqui se não estiver no local
+        // Mas a lógica do professor pede rastreamento constante
+    }
+    
+    /**
+     * Alias para carregar anúncios (carrega ambos: do local e similares)
+     */
+    private void loadAds() {
+        loadAdsForCurrentLocal();
+        loadSimilarAds();
     }
     
     /**
      * Inicializa o sistema de notificações (FCM com fallback para polling)
      */
-    private void initializeNotifications() {
-        ao.co.isptec.aplm.locationads.service.NotificationManager
-                .getInstance(this).initialize();
-        Log.d(TAG, "✅ Sistema de notificações inicializado");
-    }
-    
-    /**
-     * Inicia o serviço de rastreamento de localização se tiver permissão
-     */
-    private void startLocationTrackingIfPermitted() {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            
-            if (!ao.co.isptec.aplm.locationads.service.LocationTrackingService.isRunning(this)) {
-                ao.co.isptec.aplm.locationads.service.LocationTrackingService.start(this);
-                Log.d(TAG, "✅ Serviço de rastreamento de localização iniciado");
-            }
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        // Não parar rastreamento - continua em background
-        // Se quiser economizar bateria, descomente a linha abaixo:
-        // if (locationTracker != null) locationTracker.stopTracking();
-    }
 
 
     private void requestCurrentLocation() {
@@ -1060,6 +992,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             locationTracker.stopTracking();
             Log.d(TAG, "🛑 Rastreamento parado (Activity destruída)");
         }
+    }
+
+    /**
+     * Inicia o rastreamento de localização se as permissões estiverem concedidas
+     */
+    private void startLocationTrackingIfPermitted() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (locationTracker != null) {
+                locationTracker.startTracking();
+            }
+        }
+    }
+
+    /**
+     * Inicializa o sistema de notificações (FCM + Fallback)
+     */
+    private void initializeNotifications() {
+        NotificationManager.getInstance(this).initialize();
     }
 
 }

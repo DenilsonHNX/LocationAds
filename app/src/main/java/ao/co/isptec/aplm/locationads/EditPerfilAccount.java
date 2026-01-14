@@ -112,7 +112,7 @@ public class EditPerfilAccount extends AppCompatActivity implements PerfilAdapte
 
         ApiClient.getInstance(this)
                 .getApiService()
-                .getUserPerfil(userId, "Bearer " + token)
+                .getUserProfile(userId, "Bearer " + token)
                 .enqueue(new Callback<List<PerfilKeyValue>>() {
                     @Override
                     public void onResponse(Call<List<PerfilKeyValue>> call,

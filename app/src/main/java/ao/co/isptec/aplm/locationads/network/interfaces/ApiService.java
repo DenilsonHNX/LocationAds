@@ -20,6 +20,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -175,7 +176,10 @@ public interface ApiService {
      * @return Ads criado com ID
      */
     @POST("messages")
-    Call<Ads> createMessage(@Body Ads ads);
+    Call<Ads> createMessage(
+            @Header("Authorization") String token,
+            @Body Ads ads
+    );
 
     /**
      * GET /messages
@@ -308,7 +312,10 @@ public interface ApiService {
      * @return Void
      */
     @DELETE("messages/{id}")
-    Call<Void> deleteMessage(@Path("id") int id);
+    Call<Void> deleteMessage(
+            @Path("id") int id,
+            @Header("Authorization") String token
+    );
 
     // Aliases para manter compatibilidade
     @GET("messages/whitelist")
@@ -371,7 +378,10 @@ public interface ApiService {
      * @return Lista de pares chave-valor do perfil
      */
     @GET("usuarios/{userId}/perfil")
-    Call<List<PerfilKeyValue>> getUserProfile(@Path("userId") int userId);
+    Call<List<PerfilKeyValue>> getUserProfile(
+            @Path("userId") int userId,
+            @Header("Authorization") String token
+    );
 
     /**
      * POST /usuarios/{userId}/perfil
