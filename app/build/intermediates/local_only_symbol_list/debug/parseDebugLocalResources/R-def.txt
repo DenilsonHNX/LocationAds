@@ -123,6 +123,7 @@ id btnGuardar
 id btnHome
 id btnLogOut
 id btnPublicar
+id btnRefreshAds
 id btnRemovePair
 id btnRemoverTag
 id btnSalvar
@@ -173,6 +174,7 @@ id inputConteudo
 id inputHoraFim
 id inputHoraInicio
 id inputIdadeMinima
+id inputNewValue
 id inputNome
 id inputRaio
 id inputTipo
@@ -180,6 +182,7 @@ id inputTitulo
 id inputValor
 id inputWifiIds
 id input_email
+id layoutEmptyProperties
 id layoutEmptyState
 id listaLocais
 id locActual
@@ -217,12 +220,14 @@ id recoveryTitle
 id recovery_btn
 id recyclerViewAnuncios
 id recyclerViewPerfil
+id recyclerViewProperties
 id registerCard
 id registerSection
 id registerSubtitle
 id registerTitle
 id spinnerLocais
 id spinnerPolicy
+id swipeRefreshAds
 id tabLayout
 id tabLocais
 id tabMapa
@@ -245,11 +250,11 @@ id toRegister_btn
 id toolbar
 id tvKey
 id tvValue
-id txtGuardados
 id txtNome
-id txtPublicados
+id txtPropertiesCount
+id txtPropertyKey
+id txtPropertyValue
 id txtTotalAnuncios
-id txtVisualizados
 id userInputLayout
 id user_input
 id wifiIdsInputLayout
@@ -266,11 +271,13 @@ layout activity_register
 layout activity_splash
 layout activity_view_ads
 layout dialog_add_property
+layout dialog_edit_property
 layout home_activity
 layout item_anuncio
 layout item_key_value
 layout item_local
 layout item_perfil_property
+layout item_property_readonly
 layout item_tag
 mipmap ic_launcher
 mipmap ic_launcher_foreground
@@ -391,6 +398,11 @@ string features_title
 string forgot_password
 string forgot_password_description
 string forgot_password_title
+string gcm_defaultSenderId
+string google_api_key
+string google_app_id
+string google_crash_reporting_api_key
+string google_storage_bucket
 string gps_icon
 string helper_date_format
 string helper_local_type
@@ -446,6 +458,7 @@ string password_requirements
 string phone
 string profile
 string profile_picture
+string project_id
 string publish_ad
 string published
 string recovery_email_sent

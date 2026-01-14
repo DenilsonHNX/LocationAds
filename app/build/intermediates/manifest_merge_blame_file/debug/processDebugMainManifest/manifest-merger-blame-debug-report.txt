@@ -9,313 +9,486 @@
 9        android:targetSdkVersion="36" />
 10
 11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-11-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:5:5-79
-11-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:5:22-76
+11-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:5:5-79
+11-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:5:22-76
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:6:5-67
-12-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:6:22-64
+12-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:6:5-67
+12-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:6:22-64
 13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-13-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:7:5-79
-13-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:7:22-76
+13-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:7:5-79
+13-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:7:22-76
 14    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-14-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:8:5-81
-14-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:8:22-78
+14-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:8:5-81
+14-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:8:22-78
 15    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-15-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:9:5-80
-15-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:9:22-77
+15-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:9:5-80
+15-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:9:22-77
 16    <uses-permission
-16-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:10:5-11:38
+16-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:10:5-11:38
 17        android:name="android.permission.READ_MEDIA_IMAGES"
-17-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:10:22-73
+17-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:10:22-73
 18        android:minSdkVersion="33" />
-18-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:11:9-35
-19    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-19-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:12:5-76
-19-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:12:22-73
-20    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-20-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:13:5-76
-20-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:13:22-73
-21    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
-21-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:14:5-78
-21-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:14:22-75
-22    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-22-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:15:5-81
-22-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:15:22-78
-23    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-23-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:16:5-77
-23-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:16:22-74
-24    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE" />
-24-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:17:5-94
-24-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:17:22-91
+18-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:11:9-35
+19
+20    <uses-feature
+20-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:22:5-24:33
+21        android:glEsVersion="0x00020000"
+21-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:23:8-40
+22        android:required="true" />
+22-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:24:8-31
+23
+24    <queries>
+24-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:27:5-30:15
 25
-26    <uses-feature
-26-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:20:5-90
-27        android:name="android.hardware.wifi.direct"
-27-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:20:19-62
-28        android:required="false" />
-28-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:20:63-87
-29    <uses-feature
-29-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:22:5-24:33
-30        android:glEsVersion="0x00020000"
-30-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:23:8-40
-31        android:required="true" />
-31-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:24:8-31
-32
-33    <queries>
-33-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:27:5-30:15
-34
-35        <!-- Needs to be explicitly declared on Android R+ -->
-36        <package android:name="com.google.android.apps.maps" />
-36-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:29:7-61
-36-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:29:16-59
-37    </queries>
-38
-39    <permission
-39-->[androidx.core:core:1.13.0] C:\Users\DELL\.gradle\caches\8.13\transforms\e22dd6e248c00a510dec0d7860dcc972\transformed\core-1.13.0\AndroidManifest.xml:22:5-24:47
-40        android:name="ao.co.isptec.aplm.locationads.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-40-->[androidx.core:core:1.13.0] C:\Users\DELL\.gradle\caches\8.13\transforms\e22dd6e248c00a510dec0d7860dcc972\transformed\core-1.13.0\AndroidManifest.xml:23:9-81
-41        android:protectionLevel="signature" />
-41-->[androidx.core:core:1.13.0] C:\Users\DELL\.gradle\caches\8.13\transforms\e22dd6e248c00a510dec0d7860dcc972\transformed\core-1.13.0\AndroidManifest.xml:24:9-44
-42
-43    <uses-permission android:name="ao.co.isptec.aplm.locationads.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-43-->[androidx.core:core:1.13.0] C:\Users\DELL\.gradle\caches\8.13\transforms\e22dd6e248c00a510dec0d7860dcc972\transformed\core-1.13.0\AndroidManifest.xml:26:5-97
-43-->[androidx.core:core:1.13.0] C:\Users\DELL\.gradle\caches\8.13\transforms\e22dd6e248c00a510dec0d7860dcc972\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
-44
-45    <application
-45-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:22:5-71:19
-46        android:name="ao.co.isptec.aplm.locationads.LocationAdsApp"
-46-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:24:9-39
-47        android:allowBackup="true"
-47-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:25:9-35
-48        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-48-->[androidx.core:core:1.13.0] C:\Users\DELL\.gradle\caches\8.13\transforms\e22dd6e248c00a510dec0d7860dcc972\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
-49        android:dataExtractionRules="@xml/data_extraction_rules"
-49-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:26:9-65
-50        android:debuggable="true"
-51        android:extractNativeLibs="false"
-52        android:fullBackupContent="@xml/backup_rules"
-52-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:27:9-54
-53        android:icon="@mipmap/ic_launcher"
-53-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:28:9-43
-54        android:label="@string/app_name"
-54-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:29:9-41
-55        android:networkSecurityConfig="@xml/network_security_config"
-55-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:23:9-69
-56        android:roundIcon="@mipmap/ic_launcher_round"
-56-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:30:9-54
-57        android:supportsRtl="true"
-57-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:31:9-35
-58        android:testOnly="true"
-59        android:theme="@style/AppTheme" >
-59-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:32:9-40
-60        <activity
-60-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:34:9-36:40
-61            android:name="ao.co.isptec.aplm.locationads.AddLocal"
-61-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:35:13-37
-62            android:exported="false" />
-62-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:36:13-37
-63        <activity
-63-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:38:9-46:20
-64            android:name="ao.co.isptec.aplm.locationads.SplashActivity"
-64-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:39:13-43
-65            android:exported="true"
-65-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:41:13-36
-66            android:theme="@style/SplashTheme" >
-66-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:40:13-47
-67            <intent-filter>
-67-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:42:13-45:29
-68                <action android:name="android.intent.action.MAIN" />
-68-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:43:17-69
-68-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:43:25-66
-69
-70                <category android:name="android.intent.category.LAUNCHER" />
-70-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:44:17-77
-70-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:44:27-74
-71            </intent-filter>
-72        </activity>
-73
-74        <meta-data
-74-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:48:9-50:71
-75            android:name="com.google.android.geo.API_KEY"
-75-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:49:13-58
-76            android:value="AIzaSyAqTh-pQJZZgGp-raNhdqgVsb8VV3rM-t4" />
-76-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:50:13-68
-77
-78        <service
-78-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:52:9-136
-79            android:name="ao.co.isptec.aplm.locationads.services.WifiDirectService"
-79-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:52:18-60
-80            android:exported="false"
-80-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:52:61-85
-81            android:foregroundServiceType="connectedDevice" />
-81-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:52:86-133
-82
-83        <receiver
-83-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:54:9-58:20
-84            android:name="ao.co.isptec.aplm.locationads.services.BootReceiver"
-84-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:54:19-56
-85            android:exported="true" >
-85-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:54:57-80
-86            <intent-filter>
-86-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:55:13-57:29
-87                <action android:name="android.intent.action.BOOT_COMPLETED" />
-87-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:56:17-79
-87-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:56:25-76
-88            </intent-filter>
-89        </receiver>
-90
+26        <!-- Needs to be explicitly declared on Android R+ -->
+27        <package android:name="com.google.android.apps.maps" />
+27-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:29:7-61
+27-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:29:16-59
+28    </queries>
+29
+30    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+30-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:23:5-77
+30-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:23:22-74
+31    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Required by older versions of Google Play services to create IID tokens -->
+31-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:24:5-68
+31-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:24:22-65
+32    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+32-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:26:5-82
+32-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:26:22-79
+33    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+33-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:25:5-79
+33-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:25:22-76
+34    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" />
+34-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:26:5-88
+34-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:26:22-85
+35    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" />
+35-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:27:5-82
+35-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:27:22-79
+36    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+36-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:26:5-110
+36-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:26:22-107
+37
+38    <permission
+38-->[androidx.core:core:1.13.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/31efd0c47458ee60a1b5ac6c8038fa07/transformed/core-1.13.0/AndroidManifest.xml:22:5-24:47
+39        android:name="ao.co.isptec.aplm.locationads.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+39-->[androidx.core:core:1.13.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/31efd0c47458ee60a1b5ac6c8038fa07/transformed/core-1.13.0/AndroidManifest.xml:23:9-81
+40        android:protectionLevel="signature" />
+40-->[androidx.core:core:1.13.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/31efd0c47458ee60a1b5ac6c8038fa07/transformed/core-1.13.0/AndroidManifest.xml:24:9-44
+41
+42    <uses-permission android:name="ao.co.isptec.aplm.locationads.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+42-->[androidx.core:core:1.13.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/31efd0c47458ee60a1b5ac6c8038fa07/transformed/core-1.13.0/AndroidManifest.xml:26:5-97
+42-->[androidx.core:core:1.13.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/31efd0c47458ee60a1b5ac6c8038fa07/transformed/core-1.13.0/AndroidManifest.xml:26:22-94
+43
+44    <application
+44-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:14:5-64:19
+45        android:name="ao.co.isptec.aplm.locationads.LocationAdsApp"
+45-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:16:9-39
+46        android:allowBackup="true"
+46-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:17:9-35
+47        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+47-->[androidx.core:core:1.13.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/31efd0c47458ee60a1b5ac6c8038fa07/transformed/core-1.13.0/AndroidManifest.xml:28:18-86
+48        android:dataExtractionRules="@xml/data_extraction_rules"
+48-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:18:9-65
+49        android:debuggable="true"
+50        android:extractNativeLibs="false"
+51        android:fullBackupContent="@xml/backup_rules"
+51-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:19:9-54
+52        android:icon="@mipmap/ic_launcher"
+52-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:20:9-43
+53        android:label="@string/app_name"
+53-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:21:9-41
+54        android:networkSecurityConfig="@xml/network_security_config"
+54-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:15:9-69
+55        android:roundIcon="@mipmap/ic_launcher_round"
+55-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:22:9-54
+56        android:supportsRtl="true"
+56-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:23:9-35
+57        android:theme="@style/AppTheme" >
+57-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:24:9-40
+58        <activity
+58-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:26:9-28:40
+59            android:name="ao.co.isptec.aplm.locationads.AddLocal"
+59-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:27:13-37
+60            android:exported="false" />
+60-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:28:13-37
+61        <activity
+61-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:30:9-38:20
+62            android:name="ao.co.isptec.aplm.locationads.SplashActivity"
+62-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:31:13-43
+63            android:exported="true"
+63-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:33:13-36
+64            android:theme="@style/SplashTheme" >
+64-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:32:13-47
+65            <intent-filter>
+65-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:34:13-37:29
+66                <action android:name="android.intent.action.MAIN" />
+66-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:35:17-69
+66-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:35:25-66
+67
+68                <category android:name="android.intent.category.LAUNCHER" />
+68-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:36:17-77
+68-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:36:27-74
+69            </intent-filter>
+70        </activity>
+71
+72        <meta-data
+72-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:40:9-42:71
+73            android:name="com.google.android.geo.API_KEY"
+73-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:41:13-58
+74            android:value="AIzaSyAqTh-pQJZZgGp-raNhdqgVsb8VV3rM-t4" />
+74-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:42:13-68
+75
+76        <activity
+76-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:44:9-70
+77            android:name="ao.co.isptec.aplm.locationads.ViewAds"
+77-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:44:19-42
+78            android:exported="false" />
+78-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:44:43-67
+79        <activity
+79-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:45:9-69
+80            android:name="ao.co.isptec.aplm.locationads.AddAds"
+80-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:45:19-41
+81            android:exported="false" />
+81-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:45:42-66
+82        <activity
+82-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:46:9-71
+83            android:name="ao.co.isptec.aplm.locationads.ListMenu"
+83-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:46:19-43
+84            android:exported="false" />
+84-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:46:44-68
+85        <activity
+85-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:47:9-71
+86            android:name="ao.co.isptec.aplm.locationads.AboutApp"
+86-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:47:19-43
+87            android:exported="false" />
+87-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:47:44-68
+88        <activity
+88-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:48:9-80
+89            android:name="ao.co.isptec.aplm.locationads.EditPerfilAccount"
+89-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:48:19-52
+90            android:exported="false" />
+90-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:48:53-77
 91        <activity
-91-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:60:9-70
-92            android:name="ao.co.isptec.aplm.locationads.ViewAds"
-92-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:60:19-42
+91-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:49:9-76
+92            android:name="ao.co.isptec.aplm.locationads.PerfilAccount"
+92-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:49:19-48
 93            android:exported="false" />
-93-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:60:43-67
+93-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:49:49-73
 94        <activity
-94-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:61:9-69
-95            android:name="ao.co.isptec.aplm.locationads.AddAds"
-95-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:61:19-41
+94-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:50:9-79
+95            android:name="ao.co.isptec.aplm.locationads.RegisterActivity"
+95-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:50:19-51
 96            android:exported="false" />
-96-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:61:42-66
+96-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:50:52-76
 97        <activity
-97-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:62:9-71
-98            android:name="ao.co.isptec.aplm.locationads.ListMenu"
-98-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:62:19-43
+97-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:51:9-79
+98            android:name="ao.co.isptec.aplm.locationads.RecoveryActivity"
+98-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:51:19-51
 99            android:exported="false" />
-99-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:62:44-68
+99-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:51:52-76
 100        <activity
-100-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:63:9-71
-101            android:name="ao.co.isptec.aplm.locationads.AboutApp"
-101-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:63:19-43
+100-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:52:9-77
+101            android:name="ao.co.isptec.aplm.locationads.LoginActivity"
+101-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:52:19-48
 102            android:exported="false" />
-102-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:63:44-68
+102-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:52:50-74
 103        <activity
-103-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:64:9-80
-104            android:name="ao.co.isptec.aplm.locationads.EditPerfilAccount"
-104-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:64:19-52
-105            android:exported="false" />
-105-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:64:53-77
-106        <activity
-106-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:65:9-76
-107            android:name="ao.co.isptec.aplm.locationads.PerfilAccount"
-107-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:65:19-48
-108            android:exported="false" />
-108-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:65:49-73
-109        <activity
-109-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:66:9-79
-110            android:name="ao.co.isptec.aplm.locationads.RegisterActivity"
-110-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:66:19-51
-111            android:exported="false" />
-111-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:66:52-76
-112        <activity
-112-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:67:9-79
-113            android:name="ao.co.isptec.aplm.locationads.RecoveryActivity"
-113-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:67:19-51
-114            android:exported="false" />
-114-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:67:52-76
-115        <activity
-115-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:68:9-77
-116            android:name="ao.co.isptec.aplm.locationads.LoginActivity"
-116-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:68:19-48
-117            android:exported="false" />
-117-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:68:50-74
-118        <activity
-118-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:69:9-118
-119            android:name="ao.co.isptec.aplm.locationads.MainActivity"
-119-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:69:19-47
-120            android:exported="false"
-120-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:69:91-115
-121            android:windowSoftInputMode="adjustResize" />
-121-->C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\AndroidManifest.xml:69:48-90
-122
-123        <!-- Needs to be explicitly declared on P+ -->
-124        <uses-library
-124-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:33:7-86
-125            android:name="org.apache.http.legacy"
-125-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:33:21-58
-126            android:required="false" />
-126-->[com.google.android.gms:play-services-maps:19.2.0] C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\AndroidManifest.xml:33:59-83
-127
-128        <activity
-128-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\DELL\.gradle\caches\8.13\transforms\a5ab17fff3321871cc007d035abe140e\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:9-173
-129            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-129-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\DELL\.gradle\caches\8.13\transforms\a5ab17fff3321871cc007d035abe140e\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:19-85
-130            android:exported="false"
-130-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\DELL\.gradle\caches\8.13\transforms\a5ab17fff3321871cc007d035abe140e\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:146-170
-131            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-131-->[com.google.android.gms:play-services-base:18.5.0] C:\Users\DELL\.gradle\caches\8.13\transforms\a5ab17fff3321871cc007d035abe140e\transformed\play-services-base-18.5.0\AndroidManifest.xml:5:86-145
-132
-133        <meta-data
-133-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\572e6e90752b0d9cf9c88ea55189a2ef\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:9-122
-134            android:name="com.google.android.gms.version"
-134-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\572e6e90752b0d9cf9c88ea55189a2ef\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:20-65
-135            android:value="@integer/google_play_services_version" />
-135-->[com.google.android.gms:play-services-basement:18.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\572e6e90752b0d9cf9c88ea55189a2ef\transformed\play-services-basement-18.4.0\AndroidManifest.xml:6:66-119
-136
-137        <provider
-137-->[androidx.emoji2:emoji2:1.3.0] C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-138            android:name="androidx.startup.InitializationProvider"
-138-->[androidx.emoji2:emoji2:1.3.0] C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-139            android:authorities="ao.co.isptec.aplm.locationads.androidx-startup"
-139-->[androidx.emoji2:emoji2:1.3.0] C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-140            android:exported="false" >
-140-->[androidx.emoji2:emoji2:1.3.0] C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-141            <meta-data
-141-->[androidx.emoji2:emoji2:1.3.0] C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-142                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-142-->[androidx.emoji2:emoji2:1.3.0] C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-143                android:value="androidx.startup" />
-143-->[androidx.emoji2:emoji2:1.3.0] C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-144            <meta-data
-144-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\DELL\.gradle\caches\8.13\transforms\95a53fd49f4e841b95a35aee25344004\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
-145                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-145-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\DELL\.gradle\caches\8.13\transforms\95a53fd49f4e841b95a35aee25344004\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
-146                android:value="androidx.startup" />
-146-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\DELL\.gradle\caches\8.13\transforms\95a53fd49f4e841b95a35aee25344004\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
-147            <meta-data
-147-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
-148                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-148-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
-149                android:value="androidx.startup" />
-149-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
-150        </provider>
-151
-152        <receiver
-152-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
-153            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-153-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
-154            android:directBootAware="false"
-154-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
-155            android:enabled="true"
-155-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
-156            android:exported="true"
-156-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
-157            android:permission="android.permission.DUMP" >
-157-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
-158            <intent-filter>
-158-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
-159                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-159-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
-159-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
-160            </intent-filter>
-161            <intent-filter>
-161-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
-162                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-162-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
-162-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
-163            </intent-filter>
-164            <intent-filter>
-164-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
-165                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-165-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
-165-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
-166            </intent-filter>
-167            <intent-filter>
-167-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
-168                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-168-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
-168-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
-169            </intent-filter>
-170        </receiver>
-171    </application>
-172
-173</manifest>
+103-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:53:9-118
+104            android:name="ao.co.isptec.aplm.locationads.MainActivity"
+104-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:53:19-47
+105            android:exported="false"
+105-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:53:91-115
+106            android:windowSoftInputMode="adjustResize" />
+106-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:53:48-90
+107
+108        <!-- Firebase Cloud Messaging Service -->
+109        <service
+109-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:56:9-62:19
+110            android:name="ao.co.isptec.aplm.locationads.service.FCMService"
+110-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:57:13-47
+111            android:exported="false" >
+111-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:58:13-37
+112            <intent-filter>
+112-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:59:13-61:29
+113                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+113-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:60:17-78
+113-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:60:25-75
+114            </intent-filter>
+115        </service>
+116
+117        <!-- Needs to be explicitly declared on P+ -->
+118        <uses-library
+118-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:33:7-86
+119            android:name="org.apache.http.legacy"
+119-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:33:21-58
+120            android:required="false" />
+120-->[com.google.android.gms:play-services-maps:19.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/AndroidManifest.xml:33:59-83
+121
+122        <receiver
+122-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:29:9-40:20
+123            android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver"
+123-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:30:13-78
+124            android:exported="true"
+124-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:31:13-36
+125            android:permission="com.google.android.c2dm.permission.SEND" >
+125-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:32:13-73
+126            <intent-filter>
+126-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:33:13-35:29
+127                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+127-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:34:17-81
+127-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:34:25-78
+128            </intent-filter>
+129
+130            <meta-data
+130-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:37:13-39:40
+131                android:name="com.google.android.gms.cloudmessaging.FINISHED_AFTER_HANDLED"
+131-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:38:17-92
+132                android:value="true" />
+132-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:39:17-37
+133        </receiver>
+134        <!--
+135             FirebaseMessagingService performs security checks at runtime,
+136             but set to not exported to explicitly avoid allowing another app to call it.
+137        -->
+138        <service
+138-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:46:9-53:19
+139            android:name="com.google.firebase.messaging.FirebaseMessagingService"
+139-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:47:13-82
+140            android:directBootAware="true"
+140-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:48:13-43
+141            android:exported="false" >
+141-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:49:13-37
+142            <intent-filter android:priority="-500" >
+142-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:59:13-61:29
+143                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+143-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:60:17-78
+143-->/home/joisson-miguel/Música/LocationAds/app/src/main/AndroidManifest.xml:60:25-75
+144            </intent-filter>
+145        </service>
+146        <service
+146-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:54:9-63:19
+147            android:name="com.google.firebase.components.ComponentDiscoveryService"
+147-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:55:13-84
+148            android:directBootAware="true"
+148-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:32:13-43
+149            android:exported="false" >
+149-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:56:13-37
+150            <meta-data
+150-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:57:13-59:85
+151                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingKtxRegistrar"
+151-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:58:17-122
+152                android:value="com.google.firebase.components.ComponentRegistrar" />
+152-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:59:17-82
+153            <meta-data
+153-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:60:13-62:85
+154                android:name="com.google.firebase.components:com.google.firebase.messaging.FirebaseMessagingRegistrar"
+154-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:61:17-119
+155                android:value="com.google.firebase.components.ComponentRegistrar" />
+155-->[com.google.firebase:firebase-messaging:23.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/AndroidManifest.xml:62:17-82
+156            <meta-data
+156-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:37:13-39:85
+157                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+157-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:38:17-139
+158                android:value="com.google.firebase.components.ComponentRegistrar" />
+158-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:39:17-82
+159            <meta-data
+159-->[com.google.firebase:firebase-installations:17.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e4a93d27467384c147c052b57f70776d/transformed/firebase-installations-17.2.0/AndroidManifest.xml:15:13-17:85
+160                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsKtxRegistrar"
+160-->[com.google.firebase:firebase-installations:17.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e4a93d27467384c147c052b57f70776d/transformed/firebase-installations-17.2.0/AndroidManifest.xml:16:17-130
+161                android:value="com.google.firebase.components.ComponentRegistrar" />
+161-->[com.google.firebase:firebase-installations:17.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e4a93d27467384c147c052b57f70776d/transformed/firebase-installations-17.2.0/AndroidManifest.xml:17:17-82
+162            <meta-data
+162-->[com.google.firebase:firebase-installations:17.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e4a93d27467384c147c052b57f70776d/transformed/firebase-installations-17.2.0/AndroidManifest.xml:18:13-20:85
+163                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+163-->[com.google.firebase:firebase-installations:17.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e4a93d27467384c147c052b57f70776d/transformed/firebase-installations-17.2.0/AndroidManifest.xml:19:17-127
+164                android:value="com.google.firebase.components.ComponentRegistrar" />
+164-->[com.google.firebase:firebase-installations:17.2.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/e4a93d27467384c147c052b57f70776d/transformed/firebase-installations-17.2.0/AndroidManifest.xml:20:17-82
+165            <meta-data
+165-->[com.google.firebase:firebase-common-ktx:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/ec3ea4f1e754b8b664f8abfc3d272f86/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:12:13-14:85
+166                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
+166-->[com.google.firebase:firebase-common-ktx:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/ec3ea4f1e754b8b664f8abfc3d272f86/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:13:17-116
+167                android:value="com.google.firebase.components.ComponentRegistrar" />
+167-->[com.google.firebase:firebase-common-ktx:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/ec3ea4f1e754b8b664f8abfc3d272f86/transformed/firebase-common-ktx-20.4.2/AndroidManifest.xml:14:17-82
+168            <meta-data
+168-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:35:13-37:85
+169                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+169-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:36:17-109
+170                android:value="com.google.firebase.components.ComponentRegistrar" />
+170-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:37:17-82
+171            <meta-data
+171-->[com.google.firebase:firebase-datatransport:18.1.7] /home/joisson-miguel/.gradle/caches/8.13/transforms/81834bcd29b1d7d8de2818193044c470/transformed/firebase-datatransport-18.1.7/AndroidManifest.xml:27:13-29:85
+172                android:name="com.google.firebase.components:com.google.firebase.datatransport.TransportRegistrar"
+172-->[com.google.firebase:firebase-datatransport:18.1.7] /home/joisson-miguel/.gradle/caches/8.13/transforms/81834bcd29b1d7d8de2818193044c470/transformed/firebase-datatransport-18.1.7/AndroidManifest.xml:28:17-115
+173                android:value="com.google.firebase.components.ComponentRegistrar" />
+173-->[com.google.firebase:firebase-datatransport:18.1.7] /home/joisson-miguel/.gradle/caches/8.13/transforms/81834bcd29b1d7d8de2818193044c470/transformed/firebase-datatransport-18.1.7/AndroidManifest.xml:29:17-82
+174        </service>
+175
+176        <activity
+176-->[com.google.android.gms:play-services-base:18.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/3f72a109bb1e65e521eb9ff22a9dbe8f/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:9-173
+177            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+177-->[com.google.android.gms:play-services-base:18.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/3f72a109bb1e65e521eb9ff22a9dbe8f/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:19-85
+178            android:exported="false"
+178-->[com.google.android.gms:play-services-base:18.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/3f72a109bb1e65e521eb9ff22a9dbe8f/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:146-170
+179            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+179-->[com.google.android.gms:play-services-base:18.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/3f72a109bb1e65e521eb9ff22a9dbe8f/transformed/play-services-base-18.5.0/AndroidManifest.xml:5:86-145
+180
+181        <property
+181-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:30:9-32:61
+182            android:name="android.adservices.AD_SERVICES_CONFIG"
+182-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:31:13-65
+183            android:resource="@xml/ga_ad_services_config" />
+183-->[com.google.android.gms:play-services-measurement-api:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/AndroidManifest.xml:32:13-58
+184
+185        <provider
+185-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:23:9-28:39
+186            android:name="com.google.firebase.provider.FirebaseInitProvider"
+186-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:24:13-77
+187            android:authorities="ao.co.isptec.aplm.locationads.firebaseinitprovider"
+187-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:25:13-72
+188            android:directBootAware="true"
+188-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:26:13-43
+189            android:exported="false"
+189-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:27:13-37
+190            android:initOrder="100" />
+190-->[com.google.firebase:firebase-common:20.4.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/AndroidManifest.xml:28:13-36
+191
+192        <receiver
+192-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:29:9-33:20
+193            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+193-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:30:13-85
+194            android:enabled="true"
+194-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:31:13-35
+195            android:exported="false" >
+195-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:32:13-37
+196        </receiver>
+197
+198        <service
+198-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:35:9-38:40
+199            android:name="com.google.android.gms.measurement.AppMeasurementService"
+199-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:36:13-84
+200            android:enabled="true"
+200-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:37:13-35
+201            android:exported="false" />
+201-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:38:13-37
+202        <service
+202-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:39:9-43:72
+203            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+203-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:40:13-87
+204            android:enabled="true"
+204-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:41:13-35
+205            android:exported="false"
+205-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:42:13-37
+206            android:permission="android.permission.BIND_JOB_SERVICE" />
+206-->[com.google.android.gms:play-services-measurement:21.5.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/b5d006d9aebd05d50f9b3edff0c02799/transformed/play-services-measurement-21.5.0/AndroidManifest.xml:43:13-69
+207
+208        <uses-library
+208-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] /home/joisson-miguel/.gradle/caches/8.13/transforms/c830780ebb63865c57a900e8f1897e36/transformed/ads-adservices-1.0.0-beta05/AndroidManifest.xml:23:9-25:40
+209            android:name="android.ext.adservices"
+209-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] /home/joisson-miguel/.gradle/caches/8.13/transforms/c830780ebb63865c57a900e8f1897e36/transformed/ads-adservices-1.0.0-beta05/AndroidManifest.xml:24:13-50
+210            android:required="false" />
+210-->[androidx.privacysandbox.ads:ads-adservices:1.0.0-beta05] /home/joisson-miguel/.gradle/caches/8.13/transforms/c830780ebb63865c57a900e8f1897e36/transformed/ads-adservices-1.0.0-beta05/AndroidManifest.xml:25:13-37
+211
+212        <provider
+212-->[androidx.emoji2:emoji2:1.3.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/AndroidManifest.xml:24:9-32:20
+213            android:name="androidx.startup.InitializationProvider"
+213-->[androidx.emoji2:emoji2:1.3.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/AndroidManifest.xml:25:13-67
+214            android:authorities="ao.co.isptec.aplm.locationads.androidx-startup"
+214-->[androidx.emoji2:emoji2:1.3.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/AndroidManifest.xml:26:13-68
+215            android:exported="false" >
+215-->[androidx.emoji2:emoji2:1.3.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/AndroidManifest.xml:27:13-37
+216            <meta-data
+216-->[androidx.emoji2:emoji2:1.3.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+217                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+217-->[androidx.emoji2:emoji2:1.3.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+218                android:value="androidx.startup" />
+218-->[androidx.emoji2:emoji2:1.3.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+219            <meta-data
+219-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/7466eb2274c9fcaa49ec42df1d2e0427/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:29:13-31:52
+220                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+220-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/7466eb2274c9fcaa49ec42df1d2e0427/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:30:17-78
+221                android:value="androidx.startup" />
+221-->[androidx.lifecycle:lifecycle-process:2.6.2] /home/joisson-miguel/.gradle/caches/8.13/transforms/7466eb2274c9fcaa49ec42df1d2e0427/transformed/lifecycle-process-2.6.2/AndroidManifest.xml:31:17-49
+222            <meta-data
+222-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:29:13-31:52
+223                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+223-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:30:17-85
+224                android:value="androidx.startup" />
+224-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:31:17-49
+225        </provider>
+226
+227        <meta-data
+227-->[com.google.android.gms:play-services-basement:18.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6a07c52b7ca6729ae6e9dc64cca423da/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:9-122
+228            android:name="com.google.android.gms.version"
+228-->[com.google.android.gms:play-services-basement:18.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6a07c52b7ca6729ae6e9dc64cca423da/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:20-65
+229            android:value="@integer/google_play_services_version" />
+229-->[com.google.android.gms:play-services-basement:18.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/6a07c52b7ca6729ae6e9dc64cca423da/transformed/play-services-basement-18.4.0/AndroidManifest.xml:6:66-119
+230
+231        <service
+231-->[com.google.android.datatransport:transport-backend-cct:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/ab4198ff32f0a0a1d0c5602b0ad95c4b/transformed/transport-backend-cct-3.1.8/AndroidManifest.xml:28:9-34:19
+232            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+232-->[com.google.android.datatransport:transport-backend-cct:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/ab4198ff32f0a0a1d0c5602b0ad95c4b/transformed/transport-backend-cct-3.1.8/AndroidManifest.xml:29:13-103
+233            android:exported="false" >
+233-->[com.google.android.datatransport:transport-backend-cct:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/ab4198ff32f0a0a1d0c5602b0ad95c4b/transformed/transport-backend-cct-3.1.8/AndroidManifest.xml:30:13-37
+234            <meta-data
+234-->[com.google.android.datatransport:transport-backend-cct:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/ab4198ff32f0a0a1d0c5602b0ad95c4b/transformed/transport-backend-cct-3.1.8/AndroidManifest.xml:31:13-33:39
+235                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+235-->[com.google.android.datatransport:transport-backend-cct:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/ab4198ff32f0a0a1d0c5602b0ad95c4b/transformed/transport-backend-cct-3.1.8/AndroidManifest.xml:32:17-94
+236                android:value="cct" />
+236-->[com.google.android.datatransport:transport-backend-cct:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/ab4198ff32f0a0a1d0c5602b0ad95c4b/transformed/transport-backend-cct-3.1.8/AndroidManifest.xml:33:17-36
+237        </service>
+238        <service
+238-->[com.google.android.datatransport:transport-runtime:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/2388044e4027be09789038846c7bf720/transformed/transport-runtime-3.1.8/AndroidManifest.xml:26:9-30:19
+239            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+239-->[com.google.android.datatransport:transport-runtime:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/2388044e4027be09789038846c7bf720/transformed/transport-runtime-3.1.8/AndroidManifest.xml:27:13-117
+240            android:exported="false"
+240-->[com.google.android.datatransport:transport-runtime:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/2388044e4027be09789038846c7bf720/transformed/transport-runtime-3.1.8/AndroidManifest.xml:28:13-37
+241            android:permission="android.permission.BIND_JOB_SERVICE" >
+241-->[com.google.android.datatransport:transport-runtime:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/2388044e4027be09789038846c7bf720/transformed/transport-runtime-3.1.8/AndroidManifest.xml:29:13-69
+242        </service>
+243
+244        <receiver
+244-->[com.google.android.datatransport:transport-runtime:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/2388044e4027be09789038846c7bf720/transformed/transport-runtime-3.1.8/AndroidManifest.xml:32:9-34:40
+245            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+245-->[com.google.android.datatransport:transport-runtime:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/2388044e4027be09789038846c7bf720/transformed/transport-runtime-3.1.8/AndroidManifest.xml:33:13-132
+246            android:exported="false" />
+246-->[com.google.android.datatransport:transport-runtime:3.1.8] /home/joisson-miguel/.gradle/caches/8.13/transforms/2388044e4027be09789038846c7bf720/transformed/transport-runtime-3.1.8/AndroidManifest.xml:34:13-37
+247        <receiver
+247-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:34:9-52:20
+248            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+248-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:35:13-76
+249            android:directBootAware="false"
+249-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:36:13-44
+250            android:enabled="true"
+250-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:37:13-35
+251            android:exported="true"
+251-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:38:13-36
+252            android:permission="android.permission.DUMP" >
+252-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:39:13-57
+253            <intent-filter>
+253-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:40:13-42:29
+254                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+254-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:17-91
+254-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:41:25-88
+255            </intent-filter>
+256            <intent-filter>
+256-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:43:13-45:29
+257                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+257-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:17-85
+257-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:44:25-82
+258            </intent-filter>
+259            <intent-filter>
+259-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:46:13-48:29
+260                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+260-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:17-88
+260-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:47:25-85
+261            </intent-filter>
+262            <intent-filter>
+262-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:49:13-51:29
+263                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+263-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:17-95
+263-->[androidx.profileinstaller:profileinstaller:1.4.0] /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/AndroidManifest.xml:50:25-92
+264            </intent-filter>
+265        </receiver>
+266    </application>
+267
+268</manifest>

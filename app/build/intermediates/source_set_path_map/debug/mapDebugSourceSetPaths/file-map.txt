@@ -1,41 +1,48 @@
-ao.co.isptec.aplm.locationads.app-material-1.13.0-0 C:\Users\DELL\.gradle\caches\8.13\transforms\02ddf3f4bb9ca687bc1d0c2c5cb05368\transformed\material-1.13.0\res
-ao.co.isptec.aplm.locationads.app-lifecycle-livedata-2.6.2-1 C:\Users\DELL\.gradle\caches\8.13\transforms\06f7919fe60f122665a5f22616af4014\transformed\lifecycle-livedata-2.6.2\res
-ao.co.isptec.aplm.locationads.app-annotation-experimental-1.4.1-2 C:\Users\DELL\.gradle\caches\8.13\transforms\1366144cfd845a7ef4d5c2e9bf687e07\transformed\annotation-experimental-1.4.1\res
-ao.co.isptec.aplm.locationads.app-graphics-shapes-release-3 C:\Users\DELL\.gradle\caches\8.13\transforms\14d99ae06fc5df166c1b5f9e14a4da38\transformed\graphics-shapes-release\res
-ao.co.isptec.aplm.locationads.app-lifecycle-runtime-2.6.2-4 C:\Users\DELL\.gradle\caches\8.13\transforms\1c70cde77cdb320ef01a95e12d7b3eff\transformed\lifecycle-runtime-2.6.2\res
-ao.co.isptec.aplm.locationads.app-constraintlayout-2.2.1-5 C:\Users\DELL\.gradle\caches\8.13\transforms\25fdb7c1de8ca2c3635a448f3d0b2a42\transformed\constraintlayout-2.2.1\res
-ao.co.isptec.aplm.locationads.app-appcompat-1.7.1-6 C:\Users\DELL\.gradle\caches\8.13\transforms\27ea37c2700cf20e06526fce1283243f\transformed\appcompat-1.7.1\res
-ao.co.isptec.aplm.locationads.app-fragment-1.5.4-7 C:\Users\DELL\.gradle\caches\8.13\transforms\2a94936e12b4c9098b8bd84a1f6c3278\transformed\fragment-1.5.4\res
-ao.co.isptec.aplm.locationads.app-recyclerview-1.2.1-8 C:\Users\DELL\.gradle\caches\8.13\transforms\2dc25f76835ba6926cdbbbca465a5220\transformed\recyclerview-1.2.1\res
-ao.co.isptec.aplm.locationads.app-dynamicanimation-1.1.0-9 C:\Users\DELL\.gradle\caches\8.13\transforms\395a8d63e880f62edce8d99436faa955\transformed\dynamicanimation-1.1.0\res
-ao.co.isptec.aplm.locationads.app-lifecycle-viewmodel-savedstate-2.6.2-10 C:\Users\DELL\.gradle\caches\8.13\transforms\3cf8f163af5cff1f54a734f658ae1131\transformed\lifecycle-viewmodel-savedstate-2.6.2\res
-ao.co.isptec.aplm.locationads.app-viewpager2-1.0.0-11 C:\Users\DELL\.gradle\caches\8.13\transforms\4280400523730667d44725e5025b2854\transformed\viewpager2-1.0.0\res
-ao.co.isptec.aplm.locationads.app-startup-runtime-1.1.1-12 C:\Users\DELL\.gradle\caches\8.13\transforms\43725d2e3dc778cfc551e59898879e7f\transformed\startup-runtime-1.1.1\res
-ao.co.isptec.aplm.locationads.app-play-services-basement-18.4.0-13 C:\Users\DELL\.gradle\caches\8.13\transforms\572e6e90752b0d9cf9c88ea55189a2ef\transformed\play-services-basement-18.4.0\res
-ao.co.isptec.aplm.locationads.app-play-services-maps-19.2.0-14 C:\Users\DELL\.gradle\caches\8.13\transforms\6015fb4e6549f323225f1ead2487f772\transformed\play-services-maps-19.2.0\res
-ao.co.isptec.aplm.locationads.app-coordinatorlayout-1.1.0-15 C:\Users\DELL\.gradle\caches\8.13\transforms\7245262a9521a54f67ada0c474297a50\transformed\coordinatorlayout-1.1.0\res
-ao.co.isptec.aplm.locationads.app-cardview-1.0.0-16 C:\Users\DELL\.gradle\caches\8.13\transforms\769316188d733dc961d1794724341fc8\transformed\cardview-1.0.0\res
-ao.co.isptec.aplm.locationads.app-transition-1.5.0-17 C:\Users\DELL\.gradle\caches\8.13\transforms\785f48e5b14d0b06bd31e428232f1682\transformed\transition-1.5.0\res
-ao.co.isptec.aplm.locationads.app-profileinstaller-1.4.0-18 C:\Users\DELL\.gradle\caches\8.13\transforms\8376609c3bd94dda5e80aead6d23222e\transformed\profileinstaller-1.4.0\res
-ao.co.isptec.aplm.locationads.app-emoji2-views-helper-1.3.0-19 C:\Users\DELL\.gradle\caches\8.13\transforms\8ad074092334f497b71b5790b18399b4\transformed\emoji2-views-helper-1.3.0\res
-ao.co.isptec.aplm.locationads.app-core-runtime-2.2.0-20 C:\Users\DELL\.gradle\caches\8.13\transforms\8dd905d307310d5c962770ba5eee2056\transformed\core-runtime-2.2.0\res
-ao.co.isptec.aplm.locationads.app-lifecycle-process-2.6.2-21 C:\Users\DELL\.gradle\caches\8.13\transforms\95a53fd49f4e841b95a35aee25344004\transformed\lifecycle-process-2.6.2\res
-ao.co.isptec.aplm.locationads.app-appcompat-resources-1.7.1-22 C:\Users\DELL\.gradle\caches\8.13\transforms\9a7247009cd972f866749dca3325b2ab\transformed\appcompat-resources-1.7.1\res
-ao.co.isptec.aplm.locationads.app-lifecycle-viewmodel-2.6.2-23 C:\Users\DELL\.gradle\caches\8.13\transforms\9d0d366b967ec7e24bf9dc066cfd4688\transformed\lifecycle-viewmodel-2.6.2\res
-ao.co.isptec.aplm.locationads.app-savedstate-1.2.1-24 C:\Users\DELL\.gradle\caches\8.13\transforms\a0e0be462e5da1e962cb64861205ec48\transformed\savedstate-1.2.1\res
-ao.co.isptec.aplm.locationads.app-core-viewtree-1.0.0-25 C:\Users\DELL\.gradle\caches\8.13\transforms\a3c5147f7f18492f326a983c0f7f423d\transformed\core-viewtree-1.0.0\res
-ao.co.isptec.aplm.locationads.app-play-services-base-18.5.0-26 C:\Users\DELL\.gradle\caches\8.13\transforms\a5ab17fff3321871cc007d035abe140e\transformed\play-services-base-18.5.0\res
-ao.co.isptec.aplm.locationads.app-lifecycle-livedata-core-2.6.2-27 C:\Users\DELL\.gradle\caches\8.13\transforms\af304bbbf6510c23c8cfd29d2ea0be35\transformed\lifecycle-livedata-core-2.6.2\res
-ao.co.isptec.aplm.locationads.app-drawerlayout-1.1.1-28 C:\Users\DELL\.gradle\caches\8.13\transforms\afe3d41fb3a6f0bef0b7b1b1da54d52d\transformed\drawerlayout-1.1.1\res
-ao.co.isptec.aplm.locationads.app-emoji2-1.3.0-29 C:\Users\DELL\.gradle\caches\8.13\transforms\bb4af8c90d3cf4c94c7f523287922277\transformed\emoji2-1.3.0\res
-ao.co.isptec.aplm.locationads.app-core-ktx-1.13.0-30 C:\Users\DELL\.gradle\caches\8.13\transforms\cd371e7322ba0dbd9dd0174baadf2d28\transformed\core-ktx-1.13.0\res
-ao.co.isptec.aplm.locationads.app-activity-1.11.0-31 C:\Users\DELL\.gradle\caches\8.13\transforms\d00fa922739816203982e1ba1356c047\transformed\activity-1.11.0\res
-ao.co.isptec.aplm.locationads.app-core-1.13.0-32 C:\Users\DELL\.gradle\caches\8.13\transforms\e22dd6e248c00a510dec0d7860dcc972\transformed\core-1.13.0\res
-ao.co.isptec.aplm.locationads.app-pngs-33 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\build\generated\res\pngs\debug
-ao.co.isptec.aplm.locationads.app-resValues-34 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\build\generated\res\resValues\debug
-ao.co.isptec.aplm.locationads.app-updated_navigation_xml-35 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\build\generated\updated_navigation_xml\debug
-ao.co.isptec.aplm.locationads.app-packageDebugResources-36 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
-ao.co.isptec.aplm.locationads.app-packageDebugResources-37 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
-ao.co.isptec.aplm.locationads.app-debug-38 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\build\intermediates\merged_res\debug\mergeDebugResources
-ao.co.isptec.aplm.locationads.app-debug-39 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\debug\res
-ao.co.isptec.aplm.locationads.app-main-40 C:\Users\DELL\Documents\LocationAds v8 esta listar apenas o whitelist na pag home\LocationAds v7 1 addAds recebendo bem chave-valor\LocationAds\app\src\main\res
+ao.co.isptec.aplm.locationads.app-viewpager2-1.0.0-0 /home/joisson-miguel/.gradle/caches/8.13/transforms/0edff98c41a4c8635ebb78251ee35090/transformed/viewpager2-1.0.0/res
+ao.co.isptec.aplm.locationads.app-core-1.13.0-1 /home/joisson-miguel/.gradle/caches/8.13/transforms/31efd0c47458ee60a1b5ac6c8038fa07/transformed/core-1.13.0/res
+ao.co.isptec.aplm.locationads.app-core-viewtree-1.0.0-2 /home/joisson-miguel/.gradle/caches/8.13/transforms/3efda771bc59cafbd822f4b30d4586de/transformed/core-viewtree-1.0.0/res
+ao.co.isptec.aplm.locationads.app-play-services-base-18.5.0-3 /home/joisson-miguel/.gradle/caches/8.13/transforms/3f72a109bb1e65e521eb9ff22a9dbe8f/transformed/play-services-base-18.5.0/res
+ao.co.isptec.aplm.locationads.app-transition-1.5.0-4 /home/joisson-miguel/.gradle/caches/8.13/transforms/4110af1d7c3929b6e87ab2292be1d313/transformed/transition-1.5.0/res
+ao.co.isptec.aplm.locationads.app-appcompat-resources-1.7.1-5 /home/joisson-miguel/.gradle/caches/8.13/transforms/496355f9809ac46f7b04b94cc9a33808/transformed/appcompat-resources-1.7.1/res
+ao.co.isptec.aplm.locationads.app-savedstate-1.2.1-6 /home/joisson-miguel/.gradle/caches/8.13/transforms/4ab0c78924f505fe5a7060faa6029907/transformed/savedstate-1.2.1/res
+ao.co.isptec.aplm.locationads.app-lifecycle-viewmodel-2.6.2-7 /home/joisson-miguel/.gradle/caches/8.13/transforms/4cf2dab8d1745598e73c0e8b25235874/transformed/lifecycle-viewmodel-2.6.2/res
+ao.co.isptec.aplm.locationads.app-graphics-shapes-release-8 /home/joisson-miguel/.gradle/caches/8.13/transforms/4fce0d1d989f9ddb1f641e0c57db7bb6/transformed/graphics-shapes-release/res
+ao.co.isptec.aplm.locationads.app-fragment-1.5.4-9 /home/joisson-miguel/.gradle/caches/8.13/transforms/68f5c9ca16c361848ddff41253830b23/transformed/fragment-1.5.4/res
+ao.co.isptec.aplm.locationads.app-drawerlayout-1.1.1-10 /home/joisson-miguel/.gradle/caches/8.13/transforms/69d0a602c2658442bed842e000728af7/transformed/drawerlayout-1.1.1/res
+ao.co.isptec.aplm.locationads.app-play-services-basement-18.4.0-11 /home/joisson-miguel/.gradle/caches/8.13/transforms/6a07c52b7ca6729ae6e9dc64cca423da/transformed/play-services-basement-18.4.0/res
+ao.co.isptec.aplm.locationads.app-core-ktx-1.13.0-12 /home/joisson-miguel/.gradle/caches/8.13/transforms/6adbaa08445c38bf808bde71c6110f43/transformed/core-ktx-1.13.0/res
+ao.co.isptec.aplm.locationads.app-play-services-measurement-api-21.5.0-13 /home/joisson-miguel/.gradle/caches/8.13/transforms/6da4a95da6345c64365bbae03442f324/transformed/play-services-measurement-api-21.5.0/res
+ao.co.isptec.aplm.locationads.app-dynamicanimation-1.1.0-14 /home/joisson-miguel/.gradle/caches/8.13/transforms/6e6f7e91e8f2468e41bf6195852afb24/transformed/dynamicanimation-1.1.0/res
+ao.co.isptec.aplm.locationads.app-emoji2-1.3.0-15 /home/joisson-miguel/.gradle/caches/8.13/transforms/720dc0bdcc595b7e8303bdbc197e45f6/transformed/emoji2-1.3.0/res
+ao.co.isptec.aplm.locationads.app-lifecycle-viewmodel-savedstate-2.6.2-16 /home/joisson-miguel/.gradle/caches/8.13/transforms/72619fe3d6a59c34904d05aed4cbcf90/transformed/lifecycle-viewmodel-savedstate-2.6.2/res
+ao.co.isptec.aplm.locationads.app-recyclerview-1.2.1-17 /home/joisson-miguel/.gradle/caches/8.13/transforms/7299db1d69a46b0dea1d03bc9be8031d/transformed/recyclerview-1.2.1/res
+ao.co.isptec.aplm.locationads.app-lifecycle-process-2.6.2-18 /home/joisson-miguel/.gradle/caches/8.13/transforms/7466eb2274c9fcaa49ec42df1d2e0427/transformed/lifecycle-process-2.6.2/res
+ao.co.isptec.aplm.locationads.app-activity-1.11.0-19 /home/joisson-miguel/.gradle/caches/8.13/transforms/8c3679f3ddc76b24860cdad5b9b8438a/transformed/activity-1.11.0/res
+ao.co.isptec.aplm.locationads.app-lifecycle-livedata-2.6.2-20 /home/joisson-miguel/.gradle/caches/8.13/transforms/9005fe4206104c17de9894d36f0da936/transformed/lifecycle-livedata-2.6.2/res
+ao.co.isptec.aplm.locationads.app-emoji2-views-helper-1.3.0-21 /home/joisson-miguel/.gradle/caches/8.13/transforms/a714858e22ccb282902a4647b47de407/transformed/emoji2-views-helper-1.3.0/res
+ao.co.isptec.aplm.locationads.app-startup-runtime-1.1.1-22 /home/joisson-miguel/.gradle/caches/8.13/transforms/ae12c300ce0d6bf259741a2348646322/transformed/startup-runtime-1.1.1/res
+ao.co.isptec.aplm.locationads.app-firebase-common-20.4.2-23 /home/joisson-miguel/.gradle/caches/8.13/transforms/b9ea9ad3f71e197156caead9ca245fa1/transformed/firebase-common-20.4.2/res
+ao.co.isptec.aplm.locationads.app-material-1.13.0-24 /home/joisson-miguel/.gradle/caches/8.13/transforms/bc5c9539bd6cda39f6a80db3d3e902a6/transformed/material-1.13.0/res
+ao.co.isptec.aplm.locationads.app-constraintlayout-2.2.1-25 /home/joisson-miguel/.gradle/caches/8.13/transforms/c4178b25adc48aed4cdd064b509f3857/transformed/constraintlayout-2.2.1/res
+ao.co.isptec.aplm.locationads.app-ads-adservices-1.0.0-beta05-26 /home/joisson-miguel/.gradle/caches/8.13/transforms/c830780ebb63865c57a900e8f1897e36/transformed/ads-adservices-1.0.0-beta05/res
+ao.co.isptec.aplm.locationads.app-annotation-experimental-1.4.1-27 /home/joisson-miguel/.gradle/caches/8.13/transforms/dbbbb9557cc07c9196b762766a2937a1/transformed/annotation-experimental-1.4.1/res
+ao.co.isptec.aplm.locationads.app-lifecycle-livedata-core-2.6.2-28 /home/joisson-miguel/.gradle/caches/8.13/transforms/e1c6ba12e81f70b0b0b07f916e2f3fde/transformed/lifecycle-livedata-core-2.6.2/res
+ao.co.isptec.aplm.locationads.app-cardview-1.0.0-29 /home/joisson-miguel/.gradle/caches/8.13/transforms/e3d1bb3e37087584f7e9c9eebc366b75/transformed/cardview-1.0.0/res
+ao.co.isptec.aplm.locationads.app-play-services-maps-19.2.0-30 /home/joisson-miguel/.gradle/caches/8.13/transforms/e3e3381e6122fee0a99557c3b9b24f45/transformed/play-services-maps-19.2.0/res
+ao.co.isptec.aplm.locationads.app-core-runtime-2.2.0-31 /home/joisson-miguel/.gradle/caches/8.13/transforms/e4e9e6148bd2887abe4cc5006864327d/transformed/core-runtime-2.2.0/res
+ao.co.isptec.aplm.locationads.app-lifecycle-runtime-2.6.2-32 /home/joisson-miguel/.gradle/caches/8.13/transforms/eb754b7841f3f507065edb99f359a368/transformed/lifecycle-runtime-2.6.2/res
+ao.co.isptec.aplm.locationads.app-appcompat-1.7.1-33 /home/joisson-miguel/.gradle/caches/8.13/transforms/f108ecb577e3db942db484415fd9ab5f/transformed/appcompat-1.7.1/res
+ao.co.isptec.aplm.locationads.app-coordinatorlayout-1.1.0-34 /home/joisson-miguel/.gradle/caches/8.13/transforms/f4a1f3db86ecff96680d5bd9b912f1a8/transformed/coordinatorlayout-1.1.0/res
+ao.co.isptec.aplm.locationads.app-ads-adservices-java-1.0.0-beta05-35 /home/joisson-miguel/.gradle/caches/8.13/transforms/fb667723a5247bf4443eea24260f026e/transformed/ads-adservices-java-1.0.0-beta05/res
+ao.co.isptec.aplm.locationads.app-swiperefreshlayout-1.1.0-36 /home/joisson-miguel/.gradle/caches/8.13/transforms/fbf2922af39cf0063ddb43c04e3ef6f1/transformed/swiperefreshlayout-1.1.0/res
+ao.co.isptec.aplm.locationads.app-profileinstaller-1.4.0-37 /home/joisson-miguel/.gradle/caches/8.13/transforms/fe7cccffc761408a1e4b610a1e769d9b/transformed/profileinstaller-1.4.0/res
+ao.co.isptec.aplm.locationads.app-firebase-messaging-23.4.0-38 /home/joisson-miguel/.gradle/caches/8.13/transforms/ff26998a0883834f27c255c19a3342f7/transformed/firebase-messaging-23.4.0/res
+ao.co.isptec.aplm.locationads.app-pngs-39 /home/joisson-miguel/Música/LocationAds/app/build/generated/res/pngs/debug
+ao.co.isptec.aplm.locationads.app-res-40 /home/joisson-miguel/Música/LocationAds/app/build/generated/res/processDebugGoogleServices
+ao.co.isptec.aplm.locationads.app-resValues-41 /home/joisson-miguel/Música/LocationAds/app/build/generated/res/resValues/debug
+ao.co.isptec.aplm.locationads.app-updated_navigation_xml-42 /home/joisson-miguel/Música/LocationAds/app/build/generated/updated_navigation_xml/debug
+ao.co.isptec.aplm.locationads.app-packageDebugResources-43 /home/joisson-miguel/Música/LocationAds/app/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+ao.co.isptec.aplm.locationads.app-packageDebugResources-44 /home/joisson-miguel/Música/LocationAds/app/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+ao.co.isptec.aplm.locationads.app-debug-45 /home/joisson-miguel/Música/LocationAds/app/build/intermediates/merged_res/debug/mergeDebugResources
+ao.co.isptec.aplm.locationads.app-debug-46 /home/joisson-miguel/Música/LocationAds/app/src/debug/res
+ao.co.isptec.aplm.locationads.app-main-47 /home/joisson-miguel/Música/LocationAds/app/src/main/res

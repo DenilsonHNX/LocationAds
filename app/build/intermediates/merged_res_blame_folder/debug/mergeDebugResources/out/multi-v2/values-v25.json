@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ao.co.isptec.aplm.locationads.app-mergeDebugResources-35:/values-v25/values-v25.xml",
+            "outputFile": "ao.co.isptec.aplm.locationads.app-mergeDebugResources-42:/values-v25/values-v25.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.13\\transforms\\27ea37c2700cf20e06526fce1283243f\\transformed\\appcompat-1.7.1\\res\\values-v25\\values-v25.xml",
+                    "source": "/home/joisson-miguel/.gradle/caches/8.13/transforms/f108ecb577e3db942db484415fd9ab5f/transformed/appcompat-1.7.1/res/values-v25/values-v25.xml",
                     "from": {
                         "startLines": "2,3,4,6",
                         "startColumns": "4,4,4,4",

@@ -98,6 +98,18 @@ public interface ApiService {
     @DELETE("https://backend-aplm-1.onrender.com/messages/{id}/save")
     Call<ResponseBody> unsaveMessage(@Path("id") int id);
 
+    // ==================== DELETAR ANÚNCIO ====================
+
+    /**
+     * Deletar anúncio (apenas o criador pode deletar)
+     * DELETE /messages/{id}
+     */
+    @DELETE("https://backend-aplm-1.onrender.com/messages/{id}")
+    Call<Void> deleteMessage(
+            @Path("id") int id,
+            @Header("Authorization") String token
+    );
+
     // ==================== PERFIL (CORRIGIDO) ====================
 
     /**

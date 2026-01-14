@@ -46,6 +46,24 @@
                     android:src="@drawable/ic_arrow_back"
                     app:tint="@color/colorPrimary" />
 
+                <!-- Espaçamento flexível -->
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <!-- Botão de Delete (visível apenas para o criador) -->
+                <ImageButton
+                    android:id="@+id/btnDelete"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_circle_white"
+                    android:contentDescription="Eliminar anúncio"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_delete"
+                    android:visibility="gone"
+                    app:tint="#E53935" />
+
             </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

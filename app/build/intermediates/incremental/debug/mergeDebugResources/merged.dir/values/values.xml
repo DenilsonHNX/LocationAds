@@ -2605,6 +2605,7 @@
     <string name="fab_transformation_scrim_behavior" translatable="false">com.google.android.material.transformation.FabTransformationScrimBehavior</string>
     <string name="fab_transformation_sheet_behavior" translatable="false">com.google.android.material.transformation.FabTransformationSheetBehavior</string>
     <string name="favorite">Favorito</string>
+    <string name="fcm_fallback_notification_channel_label">Miscellaneous</string>
     <string name="feature_history">Histórico de visualizações</string>
     <string name="feature_icon">Ícone de funcionalidade</string>
     <string name="feature_location_ads">Anúncios baseados na sua localização</string>
@@ -2613,6 +2614,11 @@
     <string name="forgot_password">Esqueceu a senha?</string>
     <string name="forgot_password_description">Insira seu e-mail no campo abaixo para receber o código de recuperação e alterar sua senha</string>
     <string name="forgot_password_title">Esqueceu a senha?</string>
+    <string name="gcm_defaultSenderId" translatable="false">487904422876</string>
+    <string name="google_api_key" translatable="false">AIzaSyCgYGoV8yOZcmXUSlLPHhoty2hxTNYbVAY</string>
+    <string name="google_app_id" translatable="false">1:487904422876:android:faea3d0d42ea4cb5cbfd19</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCgYGoV8yOZcmXUSlLPHhoty2hxTNYbVAY</string>
+    <string name="google_storage_bucket" translatable="false">anunciosloc-98420.firebasestorage.app</string>
     <string name="gps_icon">Ícone de GPS</string>
     <string name="helper_date_format">Formato: DD/MM/AAAA HH:MM</string>
     <string name="helper_local_type">Ex: Restaurante, Loja, Parque</string>
@@ -2795,6 +2801,7 @@
     <string name="phone">Telefone</string>
     <string name="profile">Perfil</string>
     <string name="profile_picture">Foto de perfil</string>
+    <string name="project_id" translatable="false">anunciosloc-98420</string>
     <string name="publish_ad">Publicar Anúncio</string>
     <string name="published">Publicados</string>
     <string name="recovery_email_sent">E-mail de recuperação enviado com sucesso!</string>
@@ -14884,6 +14891,10 @@
   </declare-styleable>
     <declare-styleable name="StateSet">
         <attr format="reference" name="defaultState"/>
+    </declare-styleable>
+    <declare-styleable name="SwipeRefreshLayout">
+        
+        <attr format="color" name="swipeRefreshLayoutProgressSpinnerBackgroundColor"/>
     </declare-styleable>
     <declare-styleable name="SwitchCompat">
         

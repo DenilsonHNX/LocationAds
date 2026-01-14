@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "ao.co.isptec.aplm.locationads.app-mergeDebugResources-35:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
+            "outputFile": "ao.co.isptec.aplm.locationads.app-mergeDebugResources-42:/values-h320dp-port-v13/values-h320dp-port-v13.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\DELL\\.gradle\\caches\\8.13\\transforms\\02ddf3f4bb9ca687bc1d0c2c5cb05368\\transformed\\material-1.13.0\\res\\values-h320dp-port-v13\\values-h320dp-port-v13.xml",
+                    "source": "/home/joisson-miguel/.gradle/caches/8.13/transforms/bc5c9539bd6cda39f6a80db3d3e902a6/transformed/material-1.13.0/res/values-h320dp-port-v13/values-h320dp-port-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

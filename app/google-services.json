@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "487904422876",
+    "project_id": "anunciosloc-98420",
+    "storage_bucket": "anunciosloc-98420.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487904422876:android:faea3d0d42ea4cb5cbfd19",
+        "android_client_info": {
+          "package_name": "ao.co.isptec.aplm.locationads"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgYGoV8yOZcmXUSlLPHhoty2hxTNYbVAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

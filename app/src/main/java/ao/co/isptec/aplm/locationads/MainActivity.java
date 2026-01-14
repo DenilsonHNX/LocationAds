@@ -5,10 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,6 +58,7 @@ import retrofit2.Response;
 import com.google.gson.Gson;
 
 import ao.co.isptec.aplm.locationads.services.LocationTracker;
+import ao.co.isptec.aplm.locationads.service.NotificationManager;
 import ao.co.isptec.aplm.locationads.network.singleton.ProfileManager;
 import ao.co.isptec.aplm.locationads.utils.GpsUtils;
 import android.location.Location;
@@ -90,6 +98,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ProfileManager profileManager;
     private Integer currentDetectedLocalId = null;
     private boolean isLoadingAds = false;
+
+    // ✅ Sistema de Auto-Refresh
+    private static final long AUTO_REFRESH_INTERVAL = 30000; // 30 segundos
+    private Handler autoRefreshHandler;
+    private Runnable autoRefreshRunnable;
+    private ImageButton btnRefreshAds;
+    private SwipeRefreshLayout swipeRefreshAds;
+    private boolean isAutoRefreshEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,6 +281,128 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         tabLayout = findViewById(R.id.tabLayout);
         emptyStateText = findViewById(R.id.emptyStateText);
         emptyStateCard = findViewById(R.id.emptyStateCard);
+        
+        // ✅ Botão de Refresh e SwipeRefresh
+        btnRefreshAds = findViewById(R.id.btnRefreshAds);
+        swipeRefreshAds = findViewById(R.id.swipeRefreshAds);
+        
+        // Configurar SwipeRefresh
+        if (swipeRefreshAds != null) {
+            swipeRefreshAds.setColorSchemeResources(
+                R.color.colorPrimary,
+                R.color.colorAccent
+            );
+            swipeRefreshAds.setOnRefreshListener(this::refreshAds);
+        }
+        
+        // Configurar botão de refresh
+        if (btnRefreshAds != null) {
+            btnRefreshAds.setOnClickListener(v -> refreshAdsWithAnimation());
+        }
+        
+        // Inicializar sistema de auto-refresh
+        setupAutoRefresh();
+    }
+
+    /**
+     * ✅ Configura o sistema de auto-refresh (a cada 30 segundos)
+     */
+    private void setupAutoRefresh() {
+        autoRefreshHandler = new Handler(Looper.getMainLooper());
+        autoRefreshRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (isAutoRefreshEnabled) {
+                    Log.d(TAG, "🔄 Auto-refresh: Atualizando anúncios...");
+                    refreshAdsSilently();
+                    
+                    // Agendar próximo refresh
+                    autoRefreshHandler.postDelayed(this, AUTO_REFRESH_INTERVAL);
+                }
+            }
+        };
+    }
+
+    /**
+     * ✅ Inicia o auto-refresh
+     */
+    private void startAutoRefresh() {
+        if (autoRefreshHandler != null && isAutoRefreshEnabled) {
+            autoRefreshHandler.removeCallbacks(autoRefreshRunnable);
+            autoRefreshHandler.postDelayed(autoRefreshRunnable, AUTO_REFRESH_INTERVAL);
+            Log.d(TAG, "⏰ Auto-refresh iniciado (intervalo: " + (AUTO_REFRESH_INTERVAL / 1000) + "s)");
+        }
+    }
+
+    /**
+     * ✅ Para o auto-refresh
+     */
+    private void stopAutoRefresh() {
+        if (autoRefreshHandler != null) {
+            autoRefreshHandler.removeCallbacks(autoRefreshRunnable);
+            Log.d(TAG, "⏹️ Auto-refresh parado");
+        }
+    }
+
+    /**
+     * ✅ Atualiza anúncios com animação de rotação no botão
+     */
+    private void refreshAdsWithAnimation() {
+        if (btnRefreshAds != null) {
+            // Animação de rotação
+            RotateAnimation rotate = new RotateAnimation(
+                    0, 360,
+                    Animation.RELATIVE_TO_SELF, 0.5f,
+                    Animation.RELATIVE_TO_SELF, 0.5f
+            );
+            rotate.setDuration(500);
+            rotate.setRepeatCount(0);
+            btnRefreshAds.startAnimation(rotate);
+        }
+        
+        refreshAds();
+        Toast.makeText(this, "🔄 Atualizando anúncios...", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * ✅ Atualiza anúncios (chamado por SwipeRefresh e botão)
+     */
+    private void refreshAds() {
+        Log.d(TAG, "🔄 Refresh manual de anúncios");
+        
+        // Resetar flag de loading
+        isLoadingAds = false;
+        
+        // Recarregar anúncios baseado no contexto atual
+        if (currentDetectedLocalId != null) {
+            // Se está em um local, carrega anúncios do local
+            loadAdsForCurrentLocal();
+        } else {
+            // Se não está em local, carrega anúncios similares
+            loadSimilarAds();
+        }
+        
+        // Parar o indicador de refresh após 2 segundos
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            if (swipeRefreshAds != null) {
+                swipeRefreshAds.setRefreshing(false);
+            }
+        }, 2000);
+    }
+
+    /**
+     * ✅ Atualiza anúncios silenciosamente (sem feedback visual)
+     */
+    private void refreshAdsSilently() {
+        // Resetar flag de loading
+        isLoadingAds = false;
+        
+        // Recarregar baseado no contexto
+        if (currentDetectedLocalId != null) {
+            loadAdsForCurrentLocal();
+        } else {
+            loadSimilarAds();
+        }
     }
 
     /**
@@ -863,11 +1001,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             // Forçar atualização imediata
             locationTracker.forceUpdate();
         }
+        
+        // Inicializar sistema de notificações (polling)
+        initializeNotifications();
+        
+        // ✅ Iniciar auto-refresh de anúncios
+        startAutoRefresh();
+    }
+    
+    /**
+     * Inicializa o sistema de notificações com polling
+     */
+    private void initializeNotifications() {
+        try {
+            NotificationManager.getInstance(this).initialize();
+            Log.d(TAG, "🔔 Sistema de notificações inicializado");
+        } catch (Exception e) {
+            Log.e(TAG, "❌ Erro ao inicializar notificações: " + e.getMessage());
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        // ✅ Parar auto-refresh quando a Activity não está visível
+        stopAutoRefresh();
+        
         // Não parar rastreamento - continua em background
         // Se quiser economizar bateria, descomente a linha abaixo:
         // if (locationTracker != null) locationTracker.stopTracking();

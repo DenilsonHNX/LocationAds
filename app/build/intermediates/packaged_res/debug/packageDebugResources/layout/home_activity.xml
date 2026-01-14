@@ -232,17 +232,36 @@
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
+                <!-- Botão de Atualizar -->
+                <ImageButton
+                    android:id="@+id/btnRefreshAds"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Atualizar anúncios"
+                    android:src="@drawable/ic_refresh"
+                    app:tint="@color/colorPrimary" />
+
             </LinearLayout>
 
-            <!-- RecyclerView de Anúncios Próximos -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewAnuncios"
+            <!-- SwipeRefreshLayout para puxar e atualizar -->
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshAds"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:clipToPadding="false"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_anuncio" />
+                android:layout_height="wrap_content">
+
+                <!-- RecyclerView de Anúncios Próximos -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewAnuncios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true"
+                    android:clipToPadding="false"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_anuncio" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <!-- Mensagem quando não há anúncios -->
             <com.google.android.material.card.MaterialCardView

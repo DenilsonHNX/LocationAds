@@ -1251,6 +1251,7 @@ attr suffixText
 attr suffixTextAppearance
 attr suffixTextColor
 attr suggestionRowLayout
+attr swipeRefreshLayoutProgressSpinnerBackgroundColor
 attr switchMinWidth
 attr switchPadding
 attr switchStyle
@@ -3942,6 +3943,7 @@ id btnGuardar
 id btnHome
 id btnLogOut
 id btnPublicar
+id btnRefreshAds
 id btnRemovePair
 id btnRemoverTag
 id btnSalvar
@@ -4126,6 +4128,7 @@ id inputConteudo
 id inputHoraFim
 id inputHoraInicio
 id inputIdadeMinima
+id inputNewValue
 id inputNome
 id inputRaio
 id inputTipo
@@ -4141,6 +4144,7 @@ id jumpToEnd
 id jumpToStart
 id labeled
 id layout
+id layoutEmptyProperties
 id layoutEmptyState
 id left
 id leftToRight
@@ -4310,6 +4314,7 @@ id recovery_btn
 id rectangles
 id recyclerViewAnuncios
 id recyclerViewPerfil
+id recyclerViewProperties
 id registerCard
 id registerSection
 id registerSubtitle
@@ -4388,6 +4393,7 @@ id stretch
 id submenuarrow
 id submit_area
 id supportScrollUp
+id swipeRefreshAds
 id tabLayout
 id tabLocais
 id tabMapa
@@ -4461,11 +4467,11 @@ id transition_transform
 id triangle
 id tvKey
 id tvValue
-id txtGuardados
 id txtNome
-id txtPublicados
+id txtPropertiesCount
+id txtPropertyKey
+id txtPropertyValue
 id txtTotalAnuncios
-id txtVisualizados
 id unchecked
 id uniform
 id unlabeled
@@ -4642,6 +4648,7 @@ layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
 layout dialog_add_property
+layout dialog_edit_property
 layout home_activity
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
@@ -4649,6 +4656,7 @@ layout item_anuncio
 layout item_key_value
 layout item_local
 layout item_perfil_property
+layout item_property_readonly
 layout item_tag
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
@@ -4717,6 +4725,7 @@ mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
+raw firebase_common_keep
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -4893,6 +4902,7 @@ string exposed_dropdown_menu_content_description
 string fab_transformation_scrim_behavior
 string fab_transformation_sheet_behavior
 string favorite
+string fcm_fallback_notification_channel_label
 string feature_history
 string feature_icon
 string feature_location_ads
@@ -4901,6 +4911,11 @@ string features_title
 string forgot_password
 string forgot_password_description
 string forgot_password_title
+string gcm_defaultSenderId
+string google_api_key
+string google_app_id
+string google_crash_reporting_api_key
+string google_storage_bucket
 string gps_icon
 string helper_date_format
 string helper_local_type
@@ -5071,6 +5086,7 @@ string path_password_strike_through
 string phone
 string profile
 string profile_picture
+string project_id
 string publish_ad
 string published
 string recovery_email_sent
@@ -6482,6 +6498,7 @@ styleable StateListDrawable android_dither android_visible android_variablePaddi
 styleable StateListDrawableItem android_drawable
 styleable StateListSizeChange widthChange
 styleable StateSet defaultState
+styleable SwipeRefreshLayout swipeRefreshLayoutProgressSpinnerBackgroundColor
 styleable SwitchCompat android_textOn android_textOff android_thumb showText splitTrack switchMinWidth switchPadding switchTextAppearance thumbTextPadding thumbTint thumbTintMode track trackTint trackTintMode
 styleable SwitchMaterial useMaterialThemeColors
 styleable TabItem android_icon android_layout android_text
@@ -6504,6 +6521,7 @@ styleable ViewTransition android_id SharedValue SharedValueId clearsTag duration
 styleable include constraintSet
 xml backup_rules
 xml data_extraction_rules
+xml ga_ad_services_config
 xml m3_button_group_child_size_change
 xml m3_split_button_inner_corner_size_state_list
 xml m3expressive_button_shape_state_list

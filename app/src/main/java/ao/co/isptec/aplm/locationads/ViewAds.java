@@ -1,8 +1,10 @@
 package ao.co.isptec.aplm.locationads;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import ao.co.isptec.aplm.locationads.network.interfaces.ApiService;
 import ao.co.isptec.aplm.locationads.network.models.Ads;
 import ao.co.isptec.aplm.locationads.network.models.Local;
 import ao.co.isptec.aplm.locationads.network.singleton.ApiClient;
+import ao.co.isptec.aplm.locationads.network.singleton.TokenManager;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,6 +38,7 @@ public class ViewAds extends AppCompatActivity {
 
     // Views obrigatórias
     private ImageButton btnVoltar;
+    private ImageButton btnDelete;  // Botão de deletar
     private TextView adTitle;
     private TextView adLocation;
     private TextView adsDescription;
@@ -48,6 +52,8 @@ public class ViewAds extends AppCompatActivity {
     // Data
     private Ads currentAd;
     private boolean isSaved = false;
+    private boolean isOwner = false;  // É o criador do anúncio?
+    private int currentUserId = -1;   // ID do usuário logado
     private ApiService apiService;
     private String autorNome = null; // ✅ Nome do autor
 
@@ -64,6 +70,10 @@ public class ViewAds extends AppCompatActivity {
             // Inicializar API
             apiService = ApiClient.getInstance(this).getApiService();
             Log.d(TAG, "✅ ApiService inicializado");
+
+            // Obter userId do usuário logado
+            currentUserId = TokenManager.getInstance(this).getUserIdFromToken();
+            Log.d(TAG, "👤 UserId atual: " + currentUserId);
 
             // Inicializar views
             initViews();
@@ -88,6 +98,7 @@ public class ViewAds extends AppCompatActivity {
     private void initViews() {
         try {
             btnVoltar = findViewById(R.id.btnVoltar);
+            btnDelete = findViewById(R.id.btnDelete); // Pode não existir no layout
             adTitle = findViewById(R.id.adTitle);
             adLocation = findViewById(R.id.adLocation);
             adsDescription = findViewById(R.id.adsDescription);
@@ -97,6 +108,11 @@ public class ViewAds extends AppCompatActivity {
             btnContact = findViewById(R.id.btnContact);
             fabFavorite = findViewById(R.id.fabFavorite);
             collapsingToolbar = findViewById(R.id.collapsingToolbar);
+
+            // Esconder botão de delete inicialmente
+            if (btnDelete != null) {
+                btnDelete.setVisibility(View.GONE);
+            }
 
             Log.d(TAG, "✅ Views obrigatórias encontradas");
 
@@ -115,6 +131,11 @@ public class ViewAds extends AppCompatActivity {
         btnShare.setOnClickListener(v -> shareAd());
         btnContact.setOnClickListener(v -> showContactInfo());
         fabFavorite.setOnClickListener(v -> toggleSave());
+        
+        // Listener para deletar anúncio
+        if (btnDelete != null) {
+            btnDelete.setOnClickListener(v -> confirmDelete());
+        }
     }
 
     private void loadAdData() {
@@ -231,6 +252,9 @@ public class ViewAds extends AppCompatActivity {
             // ✅ AUTOR - Buscar NOME do autor (temporariamente mostra ID enquanto carrega)
             adAuthor.setText("Carregando autor...");
             loadAutorName();
+
+            // Verificar se é o criador do anúncio para mostrar botão de delete
+            checkIfOwner();
 
             // Botão salvar
             updateSaveButton();
@@ -439,5 +463,102 @@ public class ViewAds extends AppCompatActivity {
         String autorInfo = autorNome != null ? autorNome : ("Usuário " + currentAd.getAutorId());
         Toast.makeText(this, "Entrando em contato com " + autorInfo,
                 Toast.LENGTH_SHORT).show();
+    }
+
+    // ============================================================
+    // FUNCIONALIDADE DE DELETE DO ANÚNCIO
+    // ============================================================
+
+    /**
+     * Verifica se o usuário atual é o criador do anúncio
+     */
+    private void checkIfOwner() {
+        if (currentAd != null && currentUserId > 0) {
+            isOwner = (currentAd.getAutorId() == currentUserId);
+            Log.d(TAG, "🔐 É o criador? " + isOwner + 
+                       " (autorId=" + currentAd.getAutorId() + 
+                       ", userId=" + currentUserId + ")");
+            
+            if (isOwner && btnDelete != null) {
+                btnDelete.setVisibility(View.VISIBLE);
+                Log.d(TAG, "🗑️ Botão de delete visível");
+            }
+        }
+    }
+
+    /**
+     * Mostra diálogo de confirmação antes de deletar
+     */
+    private void confirmDelete() {
+        if (currentAd == null || currentAd.getId() == null) {
+            Toast.makeText(this, "Erro: Anúncio inválido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle("Eliminar Anúncio")
+                .setMessage("Tem certeza que deseja eliminar este anúncio?\n\n\"" + 
+                           currentAd.getTitulo() + "\"\n\nEsta ação não pode ser desfeita.")
+                .setPositiveButton("Eliminar", (dialog, which) -> {
+                    deleteAd();
+                })
+                .setNegativeButton("Cancelar", null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    /**
+     * Executa a deleção do anúncio via API
+     */
+    private void deleteAd() {
+        if (currentAd == null || currentAd.getId() == null) return;
+
+        int adId = currentAd.getId();
+        String token = TokenManager.getInstance(this).getToken();
+
+        Log.d(TAG, "🗑️ Deletando anúncio ID: " + adId);
+
+        // Desabilitar botão enquanto processa
+        if (btnDelete != null) {
+            btnDelete.setEnabled(false);
+        }
+
+        apiService.deleteMessage(adId, "Bearer " + token).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "✅ Anúncio deletado com sucesso!");
+                    Toast.makeText(ViewAds.this, "Anúncio eliminado com sucesso!", 
+                                   Toast.LENGTH_SHORT).show();
+                    
+                    // Fechar activity e sinalizar que houve mudança
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    Log.e(TAG, "❌ Erro ao deletar: " + response.code());
+                    String errorMsg = "Erro ao eliminar";
+                    if (response.code() == 403) {
+                        errorMsg = "Você não tem permissão para eliminar este anúncio";
+                    } else if (response.code() == 404) {
+                        errorMsg = "Anúncio não encontrado";
+                    }
+                    Toast.makeText(ViewAds.this, errorMsg, Toast.LENGTH_SHORT).show();
+                    
+                    if (btnDelete != null) {
+                        btnDelete.setEnabled(true);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e(TAG, "❌ Falha ao deletar", t);
+                Toast.makeText(ViewAds.this, "Erro de conexão", Toast.LENGTH_SHORT).show();
+                
+                if (btnDelete != null) {
+                    btnDelete.setEnabled(true);
+                }
+            }
+        });
     }
 }
